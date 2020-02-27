@@ -1,0 +1,106 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10000MB
+      max-request-size: 10000MB
+
+mvc:
+  enabled: false
+  static-path: classpath:/static/
+  index: index.html
+
+freemarker:
+  enabled: false
+  cache: true
+  update-delay: 0
+  template-path: classpath:/templates/
+  prefix:
+  suffix: .ftl
+
+jdbc:
+  enabled: false
+  driver-class: com.mysql.cj.jdbc.Driver
+  druid:
+    enabled: false
+    context-path: /druid/*
+    username: admin
+    password: admin
+  init-sql:
+    enabled: false
+    file-name-prefix: V
+    file-name-separator: __
+    file-name-suffix: .sql
+    table-name: init_sql_version
+  master:
+    enabled: false
+    url: jdbc:mysql://127.0.0.1:3306/test1?useUnicode=true&characterEncoding=utf-8
+    username:
+    password:
+    flyway-locations:
+  db-list:
+    db1:
+      enabled: false
+      url: jdbc:mysql://127.0.0.1:3306/test2?useUnicode=true&characterEncoding=utf-8
+      username:
+      password:
+      flyway-locations:
+
+mybatis:
+  enabled: false
+  type-aliases-package: com.project.demo.mybatis.*.model
+  mapper-locations: classpath*:mapper/**/*Mapper.xml
+
+jpa:
+  enabled: false
+  dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  show-sql: true
+  base-package: com.project.demo.jpa
+
+redis:
+  enabled: false
+  default-expire: 7200
+  standalone:
+    enabled: false
+    host: 0.0.0.0
+    port: 6379
+    password:
+    database:
+  sentinel:
+    enabled: false
+    master:
+    nodes: 0.0.0.0:6379,0.0.0.1:6379
+    password:
+    database:
+  cluster:
+    enabled: false
+    nodes: 0.0.0.0:6379,0.0.0.1:6379
+    password:
+    max-redirects: 0
+
+pay:
+  enabled: false
+  notify-domain: http://vwkit.com
+  db: master
+  alipay:
+    enabled: false
+    test: false
+    app-id:
+    sign-type:
+    return-url: http://vwkit.com/returnUrl
+    private-key:
+    public-key:
+  wepay:
+    enabled: false
+    app-id:
+    mch-id:
+    mch-key:
+    key-path:
+    secret:
+    sub-app-id:
+    sub-mch-id:
