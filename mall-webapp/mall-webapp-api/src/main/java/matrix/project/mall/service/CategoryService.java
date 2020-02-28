@@ -14,5 +14,5 @@ public interface CategoryService extends IService<Category> {
 
     List<CategoryDto> queryByShopId(String shopId);
 
-    CategoryDto queryByCategoryId(String categoryId);
+    CategoryDto queryByCategoryId(String categoryId, boolean isTree);
 }

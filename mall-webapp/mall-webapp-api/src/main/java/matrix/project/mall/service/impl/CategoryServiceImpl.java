@@ -11,6 +11,7 @@ import matrix.project.mall.mapper.CategoryMapper;
 import matrix.project.mall.service.CategoryService;
 import matrix.project.mall.service.ShopService;
 import matrix.project.mall.utils.ListUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -65,13 +66,18 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     }
 
     @Override
-    public CategoryDto queryByCategoryId(String categoryId) {
+    public CategoryDto queryByCategoryId(String categoryId, boolean isTree) {
         QueryWrapper<Category> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("STATUS", Constant.ENABLED)
                 .eq("CATEGORY_ID", categoryId);
         Category category = getOne(queryWrapper, false);
         Assert.state(category != null, "分类未找到");
         assert category != null;
+        if (!isTree) {
+            CategoryDto result = new CategoryDto();
+            BeanUtils.copyProperties(category, result);
+            return result;
+        }
         return findRecursionTreeByCategoryId(queryByShopId(category.getShopId()), categoryId);
     }
 
