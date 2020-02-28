@@ -1,6 +1,7 @@
 package matrix.project.mall.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import matrix.project.mall.entity.Category;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -8,5 +9,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2020-02-28
  */
 @Mapper
-public interface Category extends BaseMapper<Category> {
+public interface CategoryMapper extends BaseMapper<Category> {
 }

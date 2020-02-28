@@ -26,6 +26,8 @@ public class Shop implements Serializable {
 
     private Integer shopStar;
 
+    private Integer isDefault;
+
     private Date createTime;
 
     private Date updateTime;
