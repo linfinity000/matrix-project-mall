@@ -10,46 +10,33 @@ spring:
       max-file-size: 10000MB
       max-request-size: 10000MB
 
-mvc:
-  enabled: false
-  static-path: classpath:/static/
-  index: index.html
-
-freemarker:
-  enabled: false
-  cache: true
-  update-delay: 0
-  template-path: classpath:/templates/
-  prefix:
-  suffix: .ftl
-
 jdbc:
-  enabled: false
+  enabled: true
   driver-class: com.mysql.cj.jdbc.Driver
   druid:
-    enabled: false
+    enabled: true
     context-path: /druid/*
     username: admin
     password: admin
   init-sql:
-    enabled: false
+    enabled: true
     file-name-prefix: V
     file-name-separator: __
     file-name-suffix: .sql
     table-name: init_sql_version
   master:
-    enabled: false
-    url: jdbc:mysql://127.0.0.1:3306/test1?useUnicode=true&characterEncoding=utf-8
-    username:
-    password:
-    flyway-locations:
+    enabled: true
+    url: jdbc:mysql://128.0.1.3:3306/new-mall?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: 123456
+    init-sql-locations: classpath:db/master
   db-list:
     db1:
       enabled: false
       url: jdbc:mysql://127.0.0.1:3306/test2?useUnicode=true&characterEncoding=utf-8
       username:
       password:
-      flyway-locations:
+      init-sql-locations:
 
 mybatis:
   enabled: false
@@ -63,25 +50,14 @@ jpa:
   base-package: com.project.demo.jpa
 
 redis:
-  enabled: false
+  enabled: true
   default-expire: 7200
   standalone:
-    enabled: false
-    host: 0.0.0.0
+    enabled: true
+    host: 128.0.1.3
     port: 6379
-    password:
-    database:
-  sentinel:
-    enabled: false
-    master:
-    nodes: 0.0.0.0:6379,0.0.0.1:6379
-    password:
-    database:
-  cluster:
-    enabled: false
-    nodes: 0.0.0.0:6379,0.0.0.1:6379
-    password:
-    max-redirects: 0
+    password: 123456
+    database: 1
 
 pay:
   enabled: false
