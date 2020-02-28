@@ -2,17 +2,72 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <groupId>com.vwkit</groupId>
-        <artifactId>matrix-module-parent</artifactId>
-        <version>1.0.0</version>
-    </parent>
     <modelVersion>4.0.0</modelVersion>
+    <groupId>com.vwkit</groupId>
     <artifactId>matrix-project-mall</artifactId>
     <packaging>pom</packaging>
+    <version>1.0.0</version>
     <modules>
+        <module>mall-common</module>
         <module>mall-webapp</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.8</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.vwkit</groupId>
+            <artifactId>matrix-module-based-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.vwkit</groupId>
+            <artifactId>matrix-module-freemarker-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.vwkit</groupId>
+            <artifactId>matrix-module-jdbc-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.vwkit</groupId>
+            <artifactId>matrix-module-mybatis-starter</artifactId>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.vwkit</groupId>-->
+<!--            <artifactId>matrix-module-jpa-starter</artifactId>-->
+<!--        </dependency>-->
+        <dependency>
+            <groupId>com.vwkit</groupId>
+            <artifactId>matrix-module-redis-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.vwkit</groupId>
+            <artifactId>matrix-module-pay-starter</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <pluginRepositories>
         <pluginRepository>

@@ -1,5 +1,6 @@
 package matrix.project.mall.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -12,6 +13,7 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
+@TableName("user")
 public class User implements Serializable {
 
     private String userId;
