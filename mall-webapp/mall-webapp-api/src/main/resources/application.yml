@@ -39,15 +39,9 @@ jdbc:
       init-sql-locations:
 
 mybatis:
-  enabled: false
-  type-aliases-package: com.project.demo.mybatis.*.model
+  enabled: true
+  type-aliases-package: matrix.project.mall.mapper
   mapper-locations: classpath*:mapper/**/*Mapper.xml
-
-jpa:
-  enabled: false
-  dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-  show-sql: true
-  base-package: com.project.demo.jpa
 
 redis:
   enabled: true
