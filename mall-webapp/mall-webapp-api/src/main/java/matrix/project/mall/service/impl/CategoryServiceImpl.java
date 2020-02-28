@@ -83,9 +83,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
             if (category.getCategoryId().equals(categoryId)) {
                 return category;
             }
-            if (!CollectionUtils.isEmpty(category.getChildren())) {
-                findRecursionTreeByCategoryId(category.getChildren(), categoryId);
-            }
+            findRecursionTreeByCategoryId(category.getChildren(), categoryId);
         }
         return null;
     }
