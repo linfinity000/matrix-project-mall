@@ -10,5 +10,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>mall-webapp-api</artifactId>
+    <packaging>war</packaging>
 
 </project>
