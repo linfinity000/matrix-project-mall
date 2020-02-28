@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -14,19 +15,21 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
-@TableName("user")
-public class User implements Serializable {
+@TableName("goods")
+public class Goods implements Serializable {
 
     @TableId
-    private String userId;
+    private String goodsId;
 
-    private String username;
+    private String atomsGoodsId;
 
-    private String nickname;
+    private BigDecimal originPrice;
 
-    private String mobile;
+    private BigDecimal salePrice;
 
-    private String password;
+    private Integer stock;
+
+    private String imageUrl;
 
     private Date createTime;
 

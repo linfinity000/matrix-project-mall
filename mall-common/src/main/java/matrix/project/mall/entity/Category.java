@@ -1,5 +1,6 @@
 package matrix.project.mall.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -14,6 +15,7 @@ import java.util.Date;
 @Accessors(chain = true)
 public class Category implements Serializable {
 
+    @TableId
     private String categoryId;
 
     private String categoryName;

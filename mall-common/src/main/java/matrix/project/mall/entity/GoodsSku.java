@@ -14,19 +14,17 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
-@TableName("user")
-public class User implements Serializable {
+@TableName("goods_sku")
+public class GoodsSku implements Serializable {
 
     @TableId
-    private String userId;
+    private String id;
 
-    private String username;
+    private String goodsId;
 
-    private String nickname;
+    private String atomsGoodsSkuLabelId;
 
-    private String mobile;
-
-    private String password;
+    private String skuValue;
 
     private Date createTime;
 
