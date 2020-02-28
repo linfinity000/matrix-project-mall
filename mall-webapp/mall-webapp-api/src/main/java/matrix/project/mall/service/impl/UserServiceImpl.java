@@ -56,6 +56,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
+    public void changePwd(String username, String originPassword, String newPassword) {
+        User user = queryByUsername(username);
+        Assert.state(user != null, "用户不存在");
+        assert user != null;
+        Assert.state(user.getStatus().equals(Constant.ENABLED), "用户被禁用");
+        Assert.state(user.getPassword().equals(MD5.get32(originPassword)), "密码错误");
+        user.setPassword(MD5.get32(newPassword))
+                .setUpdateTime(new Date());
+        updateById(user);
+    }
+
+    @Override
     public String login(LoginUserVo loginUserVo) {
         Assert.state(!StringUtils.isEmpty(loginUserVo.getUsername()), "用户名不允许为空");
         Assert.state(!StringUtils.isEmpty(loginUserVo.getPassword()), "密码不允许为空");

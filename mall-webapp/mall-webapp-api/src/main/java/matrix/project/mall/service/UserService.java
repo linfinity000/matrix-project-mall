@@ -13,6 +13,8 @@ public interface UserService extends IService<User> {
 
     String registerUser(UserVo userVo);
 
+    void changePwd(String username, String originPassword, String newPassword);
+
     String login(LoginUserVo loginUserVo);
 
     void refreshAccessToken(String accessToken);

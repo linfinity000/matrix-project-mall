@@ -1,15 +1,20 @@
 package matrix.project.mall.aspect;
 
 import matrix.module.common.exception.GlobalControllerException;
+import matrix.module.common.helper.Assert;
 import matrix.project.mall.annotation.NotNeedUserVerify;
-import matrix.project.mall.service.UserService;
+import matrix.project.mall.service.AdminUserService;
+import matrix.project.mall.utils.LoginUtil;
+import matrix.project.mall.utils.RequestUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.StringUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 
 /**
@@ -21,7 +26,7 @@ import java.lang.reflect.Method;
 public class LoginAspect {
 
     @Autowired
-    private UserService userService;
+    private AdminUserService adminUserService;
 
     @Around("execution(* matrix.project.mall.controller..*(..))")
     public Object loginAround(ProceedingJoinPoint joinPoint) {
@@ -34,7 +39,11 @@ public class LoginAspect {
                 }
             }
             if (notNeedUserVerify == null) {
-                //todo
+                HttpServletRequest request = RequestUtil.getRequest();
+                String accessToken = request.getHeader("Access-Token");
+                Assert.state(!StringUtils.isEmpty(accessToken), "Access-Token 不合法");
+                adminUserService.refreshAccessToken(accessToken);
+                LoginUtil.setAdminUser(adminUserService.getUser(accessToken));
             }
             return joinPoint.proceed(joinPoint.getArgs());
         } catch (Throwable e) {

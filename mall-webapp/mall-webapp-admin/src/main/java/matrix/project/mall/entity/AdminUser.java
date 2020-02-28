@@ -26,6 +26,8 @@ public class AdminUser implements Serializable {
 
     private Integer isDefault;
 
+    private String shopId;
+
     private Date createTime;
 
     private Date updateTime;
