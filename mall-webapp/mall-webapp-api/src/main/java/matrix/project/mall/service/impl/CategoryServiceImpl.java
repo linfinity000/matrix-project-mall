@@ -2,6 +2,7 @@ package matrix.project.mall.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import matrix.module.common.helper.Assert;
 import matrix.module.common.utils.TreeUtil;
 import matrix.project.mall.constants.Constant;
 import matrix.project.mall.dto.CategoryDto;
@@ -16,7 +17,9 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author wangcheng
@@ -62,11 +65,29 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     }
 
     @Override
-    public Category queryByCategoryId(String categoryId) {
+    public CategoryDto queryByCategoryId(String categoryId) {
         QueryWrapper<Category> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("STATUS", Constant.ENABLED)
                 .eq("CATEGORY_ID", categoryId);
-        return getOne(queryWrapper, false);
+        Category category = getOne(queryWrapper, false);
+        Assert.state(category != null, "分类未找到");
+        assert category != null;
+        return findRecursionTreeByCategoryId(queryByShopId(category.getShopId()), categoryId);
+    }
+
+    private CategoryDto findRecursionTreeByCategoryId(List<CategoryDto> treeCategories, String categoryId) {
+        if (CollectionUtils.isEmpty(treeCategories)) {
+            return null;
+        }
+        for (CategoryDto category: treeCategories) {
+            if (category.getCategoryId().equals(categoryId)) {
+                return category;
+            }
+            if (!CollectionUtils.isEmpty(category.getChildren())) {
+                findRecursionTreeByCategoryId(category.getChildren(), categoryId);
+            }
+        }
+        return null;
     }
 
 }
