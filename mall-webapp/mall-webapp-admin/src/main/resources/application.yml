@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8081
   servlet:
     context-path: /
 
@@ -13,6 +13,11 @@ spring:
 jdbc:
   enabled: true
   driver-class: com.mysql.cj.jdbc.Driver
+  druid:
+    enabled: true
+    context-path: /druid/*
+    username: admin
+    password: admin
   init-sql:
     enabled: true
     file-name-prefix: V
@@ -24,7 +29,13 @@ jdbc:
     url: jdbc:mysql://128.0.1.3:3306/new-mall?useUnicode=true&characterEncoding=utf-8
     username: root
     password: 123456
-    init-sql-locations: classpath:db/master
+  db-list:
+    admin:
+      enabled: true
+      url: jdbc:mysql://128.0.1.3:3306/new-mall-admin?useUnicode=true&characterEncoding=utf-8
+      username: root
+      password: 123456
+      init-sql-locations: classpath:db/admin
 
 mybatis:
   enabled: true
@@ -39,7 +50,7 @@ redis:
     host: 128.0.1.3
     port: 6379
     password: 123456
-    database: 1
+    database: 2
 
 pay:
   enabled: false
