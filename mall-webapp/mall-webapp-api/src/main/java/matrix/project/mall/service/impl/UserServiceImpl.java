@@ -67,7 +67,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
         String accessToken = RandomUtil.getUUID();
         String key = "login:" + accessToken;
-        valueOperations.set(key, user.getUserId(), Constant.CLIENT_EXPIRE_TIME, TimeUnit.MINUTES);
+        valueOperations.set(key, user.getUserId(), Constant.LOGIN_EXPIRE_TIME, TimeUnit.MINUTES);
         return accessToken;
     }
 
@@ -77,7 +77,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String key = "login:" + accessToken;
         String value = valueOperations.get(key);
         Assert.state(!StringUtils.isEmpty(value), "Access-Token 已过期请重新获取");
-        valueOperations.set(key, value, Constant.CLIENT_EXPIRE_TIME, TimeUnit.MINUTES);
+        valueOperations.set(key, value, Constant.LOGIN_EXPIRE_TIME, TimeUnit.MINUTES);
     }
 
     @Override

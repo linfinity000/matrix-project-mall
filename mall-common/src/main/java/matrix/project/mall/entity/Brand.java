@@ -1,6 +1,5 @@
 package matrix.project.mall.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -13,18 +12,17 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
-@TableName("shop")
-public class Shop implements Serializable {
+public class Brand implements Serializable {
+
+    private String brandId;
+
+    private String brandName;
+
+    private String brandLogo;
+
+    private String brandLink;
 
     private String shopId;
-
-    private String shopName;
-
-    private String shopLogo;
-
-    private String shopDesc;
-
-    private Integer shopStar;
 
     private Date createTime;
 

@@ -8,6 +8,8 @@ public class Constant {
 
     public static final Long CLIENT_EXPIRE_TIME = 60L; //分钟
 
+    public static final Long LOGIN_EXPIRE_TIME = 60L; //分钟
+
     public static final Integer ENABLED = 1;
 
     public static final Integer DISABLED = 0;
