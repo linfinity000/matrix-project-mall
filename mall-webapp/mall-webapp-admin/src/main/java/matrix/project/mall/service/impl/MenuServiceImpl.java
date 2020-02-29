@@ -6,12 +6,12 @@ import matrix.module.common.helper.Assert;
 import matrix.module.common.utils.RandomUtil;
 import matrix.module.common.utils.TreeUtil;
 import matrix.project.mall.constants.Constant;
-import matrix.project.mall.dto.MenuListDto;
+import matrix.project.mall.dto.MenuDto;
 import matrix.project.mall.entity.AdminUser;
-import matrix.project.mall.entity.MenuList;
+import matrix.project.mall.entity.Menu;
 import matrix.project.mall.enums.GrantEnum;
-import matrix.project.mall.mapper.MenuListMapper;
-import matrix.project.mall.service.MenuListService;
+import matrix.project.mall.mapper.MenuMapper;
+import matrix.project.mall.service.MenuService;
 import matrix.project.mall.utils.ListUtil;
 import matrix.project.mall.utils.LoginUtil;
 import matrix.project.mall.vo.MenuVo;
@@ -28,25 +28,25 @@ import java.util.List;
  * @date 2020-02-29
  */
 @Service
-public class MenuListServiceImpl extends ServiceImpl<MenuListMapper, MenuList> implements MenuListService {
+public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements MenuService {
 
     @Override
-    public List<MenuListDto> queryTree() {
+    public List<MenuDto> queryTree() {
         AdminUser adminUser = LoginUtil.getAdminUser();
-        QueryWrapper<MenuList> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<Menu> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("STATUS", Constant.ENABLED);
         if (!StringUtils.isEmpty(adminUser.getShopId())) {
             queryWrapper.eq("TYPE", GrantEnum.Operation.name());
         }
         queryWrapper.orderByAsc("ORDER_BY", "CREATE_TIME");
-        List<MenuList> menuLists = list(queryWrapper);
-        if (CollectionUtils.isEmpty(menuLists)) {
+        List<Menu> menus = list(queryWrapper);
+        if (CollectionUtils.isEmpty(menus)) {
             return new ArrayList<>();
         }
-        List<MenuListDto> result = ListUtil.copyList(menuLists, MenuListDto.class);
-        TreeUtil.toTree(result, new TreeUtil.Comparator<MenuListDto>() {
+        List<MenuDto> result = ListUtil.copyList(menus, MenuDto.class);
+        TreeUtil.toTree(result, new TreeUtil.Comparator<MenuDto>() {
             @Override
-            public boolean isParentWithChild(MenuListDto pre, MenuListDto after) {
+            public boolean isParentWithChild(MenuDto pre, MenuDto after) {
                 if (pre.getMenuId().equals(after.getParentId())) {
                     return true;
                 }
@@ -54,7 +54,7 @@ public class MenuListServiceImpl extends ServiceImpl<MenuListMapper, MenuList> i
             }
 
             @Override
-            public boolean isTop(MenuListDto menuListDto) {
+            public boolean isTop(MenuDto menuListDto) {
                 String parentId = menuListDto.getParentId();
                 if (!StringUtils.isEmpty(parentId) && parentId.equals("0")) {
                     return true;
@@ -68,47 +68,47 @@ public class MenuListServiceImpl extends ServiceImpl<MenuListMapper, MenuList> i
     @Override
     public boolean saveTree(MenuVo menuVo) {
         Assert.state(!StringUtils.isEmpty(menuVo.getMenuName()), "菜单名不允许为空");
-        MenuList menuList = null;
+        Menu menu = null;
         if (!StringUtils.isEmpty(menuVo.getMenuId())) {
-            menuList = queryById(menuVo.getMenuId());
-            Assert.state(menuList != null, "菜单未找到");
+            menu = queryById(menuVo.getMenuId());
+            Assert.state(menu != null, "菜单未找到");
         } else {
-            menuList = new MenuList()
+            menu = new Menu()
                     .setMenuId(StringUtils.isEmpty(menuVo.getMenuId()) ? RandomUtil.getUUID() : menuVo.getMenuId())
                     .setParentId(StringUtils.isEmpty(menuVo.getParentId()) ? "0" : menuVo.getParentId())
                     .setIsDefault(0)
                     .setStatus(Constant.ENABLED)
                     .setCreateTime(new Date());
         }
-        assert menuList != null;
-        if (menuList.getIsDefault().equals(0)) {
-            menuList.setMenuName(menuVo.getMenuName())
+        assert menu != null;
+        if (menu.getIsDefault().equals(0)) {
+            menu.setMenuName(menuVo.getMenuName())
                     .setUrl(menuVo.getUrl());
         }
-        menuList.setOrderBy(menuVo.getOrderBy())
+        menu.setOrderBy(menuVo.getOrderBy())
                 .setUpdateTime(new Date());
         if (!StringUtils.isEmpty(menuVo.getMenuId())) {
-            updateById(menuList);
+            updateById(menu);
         } else {
-            save(menuList);
+            save(menu);
         }
         return true;
     }
 
     @Override
     public boolean removeTree(String menuId) {
-        MenuList menuList = queryById(menuId);
-        Assert.state(menuList != null, "未找到菜单");
-        assert menuList != null;
-        Assert.state(menuList.getIsDefault().equals(0), "默认菜单不允许删除");
-        menuList.setStatus(Constant.DELETED);
-        updateById(menuList);
+        Menu menu = queryById(menuId);
+        Assert.state(menu != null, "未找到菜单");
+        assert menu != null;
+        Assert.state(menu.getIsDefault().equals(0), "默认菜单不允许删除");
+        menu.setStatus(Constant.DELETED);
+        updateById(menu);
         return true;
     }
 
     @Override
-    public MenuList queryById(String menuId) {
-        QueryWrapper<MenuList> queryWrapper = new QueryWrapper<>();
+    public Menu queryById(String menuId) {
+        QueryWrapper<Menu> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("MENU_ID", menuId)
                 .eq("STATUS", Constant.ENABLED);
         return getOne(queryWrapper, false);

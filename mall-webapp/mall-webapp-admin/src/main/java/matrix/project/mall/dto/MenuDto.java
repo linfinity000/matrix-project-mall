@@ -10,7 +10,7 @@ import matrix.module.common.utils.TreeUtil;
  */
 @Data
 @Accessors(chain = true)
-public class MenuListDto extends TreeUtil.Tree<MenuListDto> {
+public class MenuDto extends TreeUtil.Tree<MenuDto> {
 
     private String menuId;
 

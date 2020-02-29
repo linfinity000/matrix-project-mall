@@ -14,8 +14,8 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
-@TableName("menu_list")
-public class MenuList implements Serializable {
+@TableName("menu")
+public class Menu implements Serializable {
 
     @TableId
     private String menuId;

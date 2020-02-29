@@ -44,7 +44,7 @@ export let data = {
                 url: null,
                 orderBy: 0,
             };
-            this.get('/menu-list/menuTree', function (res) {
+            this.get('/menu/menuTree', function (res) {
                 this.menuList.splice(0);
                 this.menuList = res.body;
                 this.recursiveMenuTree(res.body);
@@ -96,7 +96,7 @@ export let data = {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.get('/menu-list/removeTree?menuId=' + data.menuId, function (res) {
+                this.get('/menu/removeTree?menuId=' + data.menuId, function (res) {
                     this.showMessage('success', '删除成功!');
                     this.loadTree();
                 });
@@ -105,7 +105,7 @@ export let data = {
         save() {
             this.$refs.ruleForm.validate((valid) => {
                 if (valid) {
-                    this.post(this.ruleForm, '/menu-list/saveTree', function (res) {
+                    this.post(this.ruleForm, '/menu/saveTree', function (res) {
                         this.showMessage('success', '保存成功!');
                         this.loadTree();
                     });

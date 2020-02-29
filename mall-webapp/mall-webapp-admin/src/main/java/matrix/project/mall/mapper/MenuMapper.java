@@ -2,7 +2,7 @@ package matrix.project.mall.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import matrix.module.jdbc.annotation.TargetDataSource;
-import matrix.project.mall.entity.MenuList;
+import matrix.project.mall.entity.Menu;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -11,5 +11,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 @TargetDataSource("admin")
-public interface MenuListMapper extends BaseMapper<MenuList> {
+public interface MenuMapper extends BaseMapper<Menu> {
 }

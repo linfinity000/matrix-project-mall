@@ -11,7 +11,7 @@ export let data = {
         }
     },
     created() {
-        this.get('/menu-list/menuTree', function (res) {
+        this.get('/menu/menuTree', function (res) {
             this.menuList.splice(0);
             this.menuIdDict = {};
             this.menuUrlDict = {};
