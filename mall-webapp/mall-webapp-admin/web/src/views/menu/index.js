@@ -3,6 +3,7 @@ export let data = {
         return {
             treeFilterText: '',
             menuList: [],
+            isReadOnly: false,
             showRuleForm: false,
             ruleForm: {
                 menuId: null,
@@ -55,6 +56,9 @@ export let data = {
         },
         nodeClick(data) {
             this.showRuleForm = true;
+            if (data.isDefault === 1) {
+                this.isReadOnly = true;
+            }
             this.ruleForm = {
                 menuId: data.menuId,
                 parentId: data.parentId,
@@ -65,9 +69,21 @@ export let data = {
         },
         append(data) {
             this.showRuleForm = true;
+            this.isReadOnly = false;
             this.ruleForm = {
                 menuId: null,
                 parentId: data.menuId,
+                menuName: null,
+                url: null,
+                orderBy: 0
+            }
+        },
+        appendRoot() {
+            this.showRuleForm = true;
+            this.isReadOnly = false;
+            this.ruleForm = {
+                menuId: null,
+                parentId: 0,
                 menuName: null,
                 url: null,
                 orderBy: 0

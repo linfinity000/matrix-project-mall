@@ -5,8 +5,8 @@
             <el-main>
                 <el-row>
                     <el-col :span="24">
-                        <el-button size="small" type="primary">刷新</el-button>
-                        <el-button size="small" type="primary">新增根节点</el-button>
+                        <el-button @click="loadTree" size="small" type="primary">刷新</el-button>
+                        <el-button @click="appendRoot" size="small" type="primary">新增根节点</el-button>
                     </el-col>
                 </el-row>
                 <el-row style="margin-top: 10px;">
@@ -29,10 +29,10 @@
                     <el-col :span="5" style="margin-left: 20px;" v-if="showRuleForm">
                         <el-form :model="ruleForm" :rules="rules" label-width="100px" ref="ruleForm">
                             <el-form-item label="菜单名称" prop="menuName">
-                                <el-input size="small" v-model="ruleForm.menuName"></el-input>
+                                <el-input :disabled="isReadOnly" size="small" v-model="ruleForm.menuName"></el-input>
                             </el-form-item>
                             <el-form-item label="菜单hash值" prop="url">
-                                <el-input size="small" v-model="ruleForm.url"></el-input>
+                                <el-input :disabled="isReadOnly" size="small" v-model="ruleForm.url"></el-input>
                             </el-form-item>
                             <el-form-item label="排序">
                                 <el-slider size="small" v-model="ruleForm.orderBy"></el-slider>
