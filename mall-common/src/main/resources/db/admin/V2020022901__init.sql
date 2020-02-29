@@ -22,3 +22,5 @@ INSERT INTO menu_list (MENU_ID, MENU_NAME, IS_DEFAULT, URL, PARENT_ID, TYPE, ORD
 VALUES ('4', '运营人员管理', 1, 'OperationUser', '3', 'Admin', '1', NOW(), NOW(), 1);
 INSERT INTO menu_list (MENU_ID, MENU_NAME, IS_DEFAULT, URL, PARENT_ID, TYPE, ORDER_BY, CREATE_TIME, UPDATE_TIME, STATUS)
 VALUES ('5', '用户管理', 1, 'User', '3', 'Admin', '1', NOW(), NOW(), 1);
+INSERT INTO menu_list (MENU_ID, MENU_NAME, IS_DEFAULT, URL, PARENT_ID, TYPE, ORDER_BY, CREATE_TIME, UPDATE_TIME, STATUS)
+VALUES ('6', '店铺管理', 1, 'Shop', '0', 'Admin', '9998', NOW(), NOW(), 1);
