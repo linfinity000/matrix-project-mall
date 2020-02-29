@@ -15,4 +15,4 @@ CREATE TABLE menu_list
 INSERT INTO menu_list (MENU_ID, MENU_NAME, IS_DEFAULT, URL, PARENT_ID, TYPE, ORDER_BY, CREATE_TIME, UPDATE_TIME, STATUS)
 VALUES ('1', '系统设置', 1, '', '0', 'Admin', '1000', NOW(), NOW(), 1);
 INSERT INTO menu_list (MENU_ID, MENU_NAME, IS_DEFAULT, URL, PARENT_ID, TYPE, ORDER_BY, CREATE_TIME, UPDATE_TIME, STATUS)
-VALUES ('2', '菜单管理', 1, 'menu', '1', 'Admin', '1', NOW(), NOW(), 1);
+VALUES ('2', '菜单管理', 1, 'Menu', '1', 'Admin', '1', NOW(), NOW(), 1);
