@@ -10,6 +10,11 @@ spring:
       max-file-size: 10000MB
       max-request-size: 10000MB
 
+mvc:
+  enabled: true
+  static-path: classpath:/static/
+  index: html/index.html
+
 jdbc:
   enabled: true
   driver-class: com.mysql.cj.jdbc.Driver

@@ -3,12 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "dev": "vue-cli-service serve --mode development",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
   },
   "dependencies": {
     "core-js": "^3.6.4",
+    "element-ui": "^2.13.0",
     "vue": "^2.6.11",
+    "vue-quill-editor": "^3.0.6",
+    "vue-resource": "^1.5.1",
     "vue-router": "^3.1.5"
   },
   "devDependencies": {
