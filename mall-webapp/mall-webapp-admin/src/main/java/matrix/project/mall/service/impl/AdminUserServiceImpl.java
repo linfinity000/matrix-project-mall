@@ -6,9 +6,12 @@ import matrix.module.common.helper.Assert;
 import matrix.module.common.helper.encrypt.MD5;
 import matrix.module.common.utils.RandomUtil;
 import matrix.project.mall.constants.Constant;
+import matrix.project.mall.dto.AdminUserDto;
 import matrix.project.mall.entity.AdminUser;
 import matrix.project.mall.mapper.AdminUserMapper;
 import matrix.project.mall.service.AdminUserService;
+import matrix.project.mall.utils.ListUtil;
+import matrix.project.mall.vo.AdminUserVo;
 import matrix.project.mall.vo.LoginUserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -84,8 +88,62 @@ public class AdminUserServiceImpl extends ServiceImpl<AdminUserMapper, AdminUser
     @Override
     public AdminUser queryByUserId(String userId) {
         QueryWrapper<AdminUser> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("STATUS", Constant.ENABLED)
+        queryWrapper.ne("STATUS", Constant.DELETED)
                 .eq("USER_ID", userId);
         return getOne(queryWrapper, false);
+    }
+
+    @Override
+    public List<AdminUserDto> listUser() {
+        QueryWrapper<AdminUser> queryWrapper = new QueryWrapper<>();
+        queryWrapper.ne("STATUS", Constant.DELETED)
+                .orderByDesc("UPDATE_TIME");
+        List<AdminUser> list = list(queryWrapper);
+        return ListUtil.copyList(list, AdminUserDto.class);
+    }
+
+    @Override
+    public boolean saveUser(AdminUserVo adminUserVo) {
+        Assert.state(adminUserVo.getStatus() != null, "状态不允许为空");
+        AdminUser adminUser = null;
+        if (!StringUtils.isEmpty(adminUserVo.getUserId())) {
+            adminUser = queryByUserId(adminUserVo.getUserId());
+            Assert.state(adminUser != null, "用户未找到");
+        } else {
+            Assert.state(!StringUtils.isEmpty(adminUserVo.getUsername()), "用户名不允许为空");
+            Assert.state(!StringUtils.isEmpty(adminUserVo.getPassword()), "密码不允许为空");
+            Assert.state(queryByUsername(adminUserVo.getUsername()) == null, "用户已存在");
+            adminUser = new AdminUser()
+                    .setUserId(RandomUtil.getUUID())
+                    .setIsDefault(0)
+                    .setUsername(adminUserVo.getUsername())
+                    .setCreateTime(new Date());
+        }
+        assert adminUser != null;
+        if (adminUser.getIsDefault().equals(0)) {
+            adminUser.setShopId(adminUserVo.getShopId())
+                    .setStatus(adminUserVo.getStatus());
+        }
+        if (!StringUtils.isEmpty(adminUserVo.getPassword())) {
+            adminUser.setPassword(MD5.get32(adminUserVo.getPassword()));
+        }
+        adminUser.setUpdateTime(new Date());
+        if (!StringUtils.isEmpty(adminUserVo.getUserId())) {
+            updateById(adminUser);
+        } else {
+            save(adminUser);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean removeUser(String userId) {
+        AdminUser adminUser = queryByUserId(userId);
+        Assert.state(adminUser != null, "未找到用户");
+        assert adminUser != null;
+        Assert.state(adminUser.getIsDefault().equals(0), "默认用户不允许删除");
+        adminUser.setStatus(Constant.DELETED);
+        updateById(adminUser);
+        return true;
     }
 }

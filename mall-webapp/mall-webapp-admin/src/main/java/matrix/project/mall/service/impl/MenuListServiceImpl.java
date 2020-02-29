@@ -68,9 +68,10 @@ public class MenuListServiceImpl extends ServiceImpl<MenuListMapper, MenuList> i
     @Override
     public boolean saveTree(MenuVo menuVo) {
         Assert.state(!StringUtils.isEmpty(menuVo.getMenuName()), "菜单名不允许为空");
-        MenuList menuList;
+        MenuList menuList = null;
         if (!StringUtils.isEmpty(menuVo.getMenuId())) {
             menuList = queryById(menuVo.getMenuId());
+            Assert.state(menuList != null, "菜单未找到");
         } else {
             menuList = new MenuList()
                     .setMenuId(StringUtils.isEmpty(menuVo.getMenuId()) ? RandomUtil.getUUID() : menuVo.getMenuId())
@@ -79,7 +80,8 @@ public class MenuListServiceImpl extends ServiceImpl<MenuListMapper, MenuList> i
                     .setStatus(Constant.ENABLED)
                     .setCreateTime(new Date());
         }
-        if (menuList.getIsDefault() != 1) {
+        assert menuList != null;
+        if (menuList.getIsDefault().equals(0)) {
             menuList.setMenuName(menuVo.getMenuName())
                     .setUrl(menuVo.getUrl());
         }
@@ -98,7 +100,7 @@ public class MenuListServiceImpl extends ServiceImpl<MenuListMapper, MenuList> i
         MenuList menuList = queryById(menuId);
         Assert.state(menuList != null, "未找到菜单");
         assert menuList != null;
-        Assert.state(menuList.getIsDefault() != 1, "默认菜单不允许删除");
+        Assert.state(menuList.getIsDefault().equals(0), "默认菜单不允许删除");
         menuList.setStatus(Constant.DELETED);
         updateById(menuList);
         return true;

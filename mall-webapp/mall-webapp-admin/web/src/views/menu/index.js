@@ -102,9 +102,13 @@ export let data = {
             });
         },
         save() {
-            this.post(this.ruleForm, '/menu-list/saveTree', function (res) {
-                this.showMessage('success', '保存成功!');
-                this.loadTree();
+            this.$refs.ruleForm.validate((valid) => {
+                if (valid) {
+                    this.post(this.ruleForm, '/menu-list/saveTree', function (res) {
+                        this.showMessage('success', '保存成功!');
+                        this.loadTree();
+                    });
+                }
             });
         }
     },

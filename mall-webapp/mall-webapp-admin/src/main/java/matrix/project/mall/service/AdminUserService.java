@@ -1,8 +1,12 @@
 package matrix.project.mall.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import matrix.project.mall.dto.AdminUserDto;
 import matrix.project.mall.entity.AdminUser;
+import matrix.project.mall.vo.AdminUserVo;
 import matrix.project.mall.vo.LoginUserVo;
+
+import java.util.List;
 
 /**
  * @author wangcheng
@@ -21,4 +25,10 @@ public interface AdminUserService extends IService<AdminUser> {
     AdminUser queryByUsername(String username);
 
     AdminUser queryByUserId(String userId);
+
+    List<AdminUserDto> listUser();
+
+    boolean saveUser(AdminUserVo adminUserVo);
+
+    boolean removeUser(String userId);
 }
