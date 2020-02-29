@@ -1,6 +1,7 @@
 <template>
     <div class="top-menu">
-        <el-menu :default-active="activeIndex" @select="handleSelect" mode="horizontal">
+        <el-menu :default-active="activeIndex" @select="handleSelect" active-text-color="#409eff"
+                 mode="horizontal" text-color="#000">
             <div :index="item.menuId" :key="item.menuId" class="outDiv" v-for="item in menuList">
                 <el-menu-item :index="item.menuId" v-if="item.children == null || item.children.length <= 0">
                     {{item.menuName}}

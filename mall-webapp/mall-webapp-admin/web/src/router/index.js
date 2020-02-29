@@ -21,6 +21,10 @@ const routes = [{
     path: '/OperationUser',
     name: 'OperationUser',
     component: () => import('../views/operation-user/index.vue')
+}, {
+    path: '/User',
+    name: 'User',
+    component: () => import('../views/user/index.vue')
 }]
 
 const router = new VueRouter({

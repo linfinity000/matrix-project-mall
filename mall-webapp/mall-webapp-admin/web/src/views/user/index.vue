@@ -41,7 +41,8 @@
                                     <el-table-column type="selection" width="55"></el-table-column>
                                     <el-table-column label="用户ID" prop="userId" width="250"></el-table-column>
                                     <el-table-column label="用户名" prop="username" width="180"></el-table-column>
-                                    <el-table-column label="用户类型" prop="userGrantRemark" width="180"></el-table-column>
+                                    <el-table-column label="手机号" prop="mobile" width="180"></el-table-column>
+                                    <el-table-column label="昵称" prop="nickname" width="180"></el-table-column>
                                     <el-table-column label="创建时间" prop="createTime"></el-table-column>
                                     <el-table-column label="更新时间" prop="updateTime"></el-table-column>
                                     <el-table-column label="状态" prop="statusRemark"></el-table-column>
@@ -63,12 +64,16 @@
                                         <el-input :disabled="ruleForm.userId != null" size="small"
                                                   v-model="ruleForm.username"></el-input>
                                     </el-form-item>
+                                    <el-form-item label="手机号" prop="mobile">
+                                        <el-input :disabled="ruleForm.userId != null" size="small"
+                                                  v-model="ruleForm.mobile"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="昵称" prop="nickname">
+                                        <el-input size="small" v-model="ruleForm.nickname"></el-input>
+                                    </el-form-item>
                                     <el-form-item :prop="ruleForm.userId == null ? 'password' : 'noPassword'"
                                                   label="密码">
                                         <el-input size="small" type="password" v-model="ruleForm.password"></el-input>
-                                    </el-form-item>
-                                    <el-form-item label="所属店铺" v-if="ruleForm.isDefault !== 1">
-                                        <el-input size="small" v-model="ruleForm.shopId"></el-input>
                                     </el-form-item>
                                     <el-form-item label="状态" prop="status">
                                         <el-select :disabled="ruleForm.isDefault === 1" placeholder="请选择" size="small"
@@ -85,7 +90,6 @@
                         </el-row>
                     </el-tab-pane>
                 </el-tabs>
-
             </el-main>
         </el-container>
     </div>
