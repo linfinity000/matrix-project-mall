@@ -56,6 +56,7 @@ export let data = {
         },
         nodeClick(data) {
             this.showRuleForm = true;
+            this.isReadOnly = false;
             if (data.isDefault === 1) {
                 this.isReadOnly = true;
             }

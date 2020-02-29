@@ -36,6 +36,10 @@ export let data = {
         handleSelect(index) {
             let url = this.menuUrlDict[index];
             if (url != null && url.length > 0) {
+                if (url.startsWith('http://') || url.startsWith('https://')) {
+                    window.open(url);
+                    return;
+                }
                 window.location.href = '#/' + url;
             }
         }
