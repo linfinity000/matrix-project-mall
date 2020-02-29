@@ -3,6 +3,23 @@ export let data = {
         return {
             treeFilterText: '',
             menuList: [],
+            showRuleForm: false,
+            ruleForm: {
+                menuId: null,
+                parentId: null,
+                menuName: null,
+                url: null,
+                orderBy: 0,
+            },
+            rules: {
+                menuName: [
+                    {required: true, message: '请输入菜单名称', trigger: 'blur'},
+                    {min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur'}
+                ],
+                url: [
+                    {min: 1, max: 200, message: '长度在 1 到 200 个字符', trigger: 'blur'}
+                ]
+            }
         }
     },
     created() {
@@ -18,6 +35,14 @@ export let data = {
             });
         },
         loadTree() {
+            this.showRuleForm = false;
+            this.ruleForm = {
+                menuId: null,
+                parentId: null,
+                menuName: null,
+                url: null,
+                orderBy: 0,
+            };
             this.get('/menu-list/menuTree', function (res) {
                 this.menuList.splice(0);
                 this.menuList = res.body;
@@ -27,6 +52,44 @@ export let data = {
         filterNode(value, data) {
             if (!value) return true;
             return data.menuName.indexOf(value) !== -1;
+        },
+        nodeClick(data) {
+            this.showRuleForm = true;
+            this.ruleForm = {
+                menuId: data.menuId,
+                parentId: data.parentId,
+                menuName: data.menuName,
+                url: data.url,
+                orderBy: data.orderBy
+            }
+        },
+        append(data) {
+            this.showRuleForm = true;
+            this.ruleForm = {
+                menuId: null,
+                parentId: data.menuId,
+                menuName: null,
+                url: null,
+                orderBy: 0
+            }
+        },
+        remove(data) {
+            this.$confirm('确认删除么？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                this.get('/menu-list/removeTree?menuId=' + data.menuId, function (res) {
+                    this.showMessage('success', '删除成功!');
+                    this.loadTree();
+                });
+            });
+        },
+        save() {
+            this.post(this.ruleForm, '/menu-list/saveTree', function (res) {
+                this.showMessage('success', '保存成功!');
+                this.loadTree();
+            });
         }
     },
     watch: {

@@ -44,19 +44,20 @@ public class LoginAspect {
                 }
             }
             if (notNeedUserVerify == null) {
-                HttpServletRequest request = RequestUtil.getRequest();
-                String accessToken = request.getHeader("Access-Token");
-                Assert.state(!StringUtils.isEmpty(accessToken), "Access-Token 不合法");
-                adminUserService.refreshAccessToken(accessToken);
-                LoginUtil.setAdminUser(adminUserService.getUser(accessToken));
+                try {
+                    HttpServletRequest request = RequestUtil.getRequest();
+                    String accessToken = request.getHeader("Access-Token");
+                    Assert.state(!StringUtils.isEmpty(accessToken), "Access-Token 不合法");
+                    adminUserService.refreshAccessToken(accessToken);
+                    LoginUtil.setAdminUser(adminUserService.getUser(accessToken));
+                } catch (Exception e) {
+                    logger.error(e);
+                    return Result.fail(e.getMessage()).setResultCode(-1000);
+                }
             }
             return joinPoint.proceed(joinPoint.getArgs());
         } catch (Throwable e) {
-            if (notNeedUserVerify != null) {
-                throw new GlobalControllerException(e);
-            }
-            logger.error(e);
-            return Result.fail(e.getMessage()).setResultCode(-1000);
+            throw new GlobalControllerException(e);
         }
     }
 }

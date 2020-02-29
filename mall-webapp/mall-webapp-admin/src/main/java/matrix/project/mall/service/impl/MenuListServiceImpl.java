@@ -2,6 +2,8 @@ package matrix.project.mall.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import matrix.module.common.helper.Assert;
+import matrix.module.common.utils.RandomUtil;
 import matrix.module.common.utils.TreeUtil;
 import matrix.project.mall.constants.Constant;
 import matrix.project.mall.dto.MenuListDto;
@@ -12,11 +14,13 @@ import matrix.project.mall.mapper.MenuListMapper;
 import matrix.project.mall.service.MenuListService;
 import matrix.project.mall.utils.ListUtil;
 import matrix.project.mall.utils.LoginUtil;
+import matrix.project.mall.vo.MenuVo;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,6 +38,7 @@ public class MenuListServiceImpl extends ServiceImpl<MenuListMapper, MenuList> i
         if (!StringUtils.isEmpty(adminUser.getShopId())) {
             queryWrapper.eq("TYPE", GrantEnum.Operation.name());
         }
+        queryWrapper.orderByAsc("ORDER_BY");
         List<MenuList> menuLists = list(queryWrapper);
         if (CollectionUtils.isEmpty(menuLists)) {
             return new ArrayList<>();
@@ -58,6 +63,53 @@ public class MenuListServiceImpl extends ServiceImpl<MenuListMapper, MenuList> i
             }
         });
         return result;
+    }
+
+    @Override
+    public boolean saveTree(MenuVo menuVo) {
+        Assert.state(!StringUtils.isEmpty(menuVo.getMenuName()), "菜单名不允许为空");
+        MenuList menuList;
+        if (!StringUtils.isEmpty(menuVo.getMenuId())) {
+            menuList = queryById(menuVo.getMenuId());
+        } else {
+            menuList = new MenuList()
+                    .setMenuId(StringUtils.isEmpty(menuVo.getMenuId()) ? RandomUtil.getUUID() : menuVo.getMenuId())
+                    .setParentId(StringUtils.isEmpty(menuVo.getParentId()) ? "0" : menuVo.getParentId())
+                    .setIsDefault(0)
+                    .setStatus(Constant.ENABLED)
+                    .setCreateTime(new Date());
+        }
+        if (menuList.getIsDefault() != 1) {
+            menuList.setMenuName(menuVo.getMenuName())
+                    .setUrl(menuVo.getUrl());
+        }
+        menuList.setOrderBy(menuVo.getOrderBy())
+                .setUpdateTime(new Date());
+        if (!StringUtils.isEmpty(menuVo.getMenuId())) {
+            updateById(menuList);
+        } else {
+            save(menuList);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean removeTree(String menuId) {
+        MenuList menuList = queryById(menuId);
+        Assert.state(menuList != null, "未找到菜单");
+        assert menuList != null;
+        Assert.state(menuList.getIsDefault() != 1, "默认菜单不允许删除");
+        menuList.setStatus(Constant.DELETED);
+        updateById(menuList);
+        return true;
+    }
+
+    @Override
+    public MenuList queryById(String menuId) {
+        QueryWrapper<MenuList> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("MENU_ID", menuId)
+                .eq("STATUS", Constant.ENABLED);
+        return getOne(queryWrapper, false);
     }
 
 }

@@ -1,8 +1,9 @@
-package matrix.project.mall.dto;
+package matrix.project.mall.vo;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
-import matrix.module.common.utils.TreeUtil;
+
+import java.io.Serializable;
 
 /**
  * @author wangcheng
@@ -10,17 +11,15 @@ import matrix.module.common.utils.TreeUtil;
  */
 @Data
 @Accessors(chain = true)
-public class MenuListDto extends TreeUtil.Tree<MenuListDto> {
+public class MenuVo implements Serializable {
 
     private String menuId;
 
     private String menuName;
 
-    private String url;
-
     private String parentId;
 
-    private Integer isDefault;
+    private String url;
 
     private Integer orderBy;
 }
