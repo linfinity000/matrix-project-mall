@@ -6,6 +6,23 @@
                 <el-tabs type="card" v-model="activeName">
                     <el-tab-pane label="列表" name="list">
                         <el-row>
+                            <el-form label-position='center' label-width="80px">
+                                <el-col :span="3">
+                                    <el-form-item label="用户名">
+                                        <el-input clearable size="small" v-model="queryForm.username"></el-input>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span="3">
+                                    <el-form-item label="状态">
+                                        <el-select clearable placeholder="请选择" size="small" v-model="queryForm.status">
+                                            <el-option :key="item.id" :label="item.name" :value="item.id"
+                                                       v-for="item in statusOptions"></el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                </el-col>
+                            </el-form>
+                        </el-row>
+                        <el-row>
                             <el-col :span="24">
                                 <el-button @click="loadTable" size="small" type="primary">刷新</el-button>
                                 <el-button @click="append" size="small" type="primary">新增</el-button>
@@ -29,6 +46,12 @@
                                     <el-table-column label="更新时间" prop="updateTime"></el-table-column>
                                     <el-table-column label="状态" prop="statusRemark"></el-table-column>
                                 </el-table>
+                                <el-pagination :page-count="queryForm.pageSize"
+                                               :page-sizes="[20, 50, 100]" :total="userCount"
+                                               @current-change="handleCurrentChange"
+                                               @size-change="handleSizeChange" background
+                                               layout="total, prev, pager, next, sizes"
+                                               style="text-align: right;margin-top: 20px;"></el-pagination>
                             </el-col>
                         </el-row>
                     </el-tab-pane>

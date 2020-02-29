@@ -5,6 +5,7 @@ import matrix.project.mall.annotation.NotNeedUserVerify;
 import matrix.project.mall.service.AdminUserService;
 import matrix.project.mall.vo.AdminUserVo;
 import matrix.project.mall.vo.LoginUserVo;
+import matrix.project.mall.vo.QueryAdminUserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,9 +26,14 @@ public class AdminUserController {
         return Result.success(adminUserService.login(loginUserVo));
     }
 
-    @GetMapping("/listUser")
-    public Result listUser() {
-        return Result.success(adminUserService.listUser());
+    @PostMapping("/countUser")
+    public Result countUser(@RequestBody QueryAdminUserVo queryAdminUserVo) {
+        return Result.success(adminUserService.countUser(queryAdminUserVo));
+    }
+
+    @PostMapping("/listUser")
+    public Result listUser(@RequestBody QueryAdminUserVo queryAdminUserVo) {
+        return Result.success(adminUserService.listUser(queryAdminUserVo));
     }
 
     @PostMapping("/saveUser")

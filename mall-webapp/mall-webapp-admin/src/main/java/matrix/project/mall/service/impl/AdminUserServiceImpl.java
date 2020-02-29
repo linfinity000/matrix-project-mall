@@ -1,6 +1,8 @@
 package matrix.project.mall.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import matrix.module.common.helper.Assert;
 import matrix.module.common.helper.encrypt.MD5;
@@ -13,6 +15,7 @@ import matrix.project.mall.service.AdminUserService;
 import matrix.project.mall.utils.ListUtil;
 import matrix.project.mall.vo.AdminUserVo;
 import matrix.project.mall.vo.LoginUserVo;
+import matrix.project.mall.vo.QueryAdminUserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -94,11 +97,33 @@ public class AdminUserServiceImpl extends ServiceImpl<AdminUserMapper, AdminUser
     }
 
     @Override
-    public List<AdminUserDto> listUser() {
+    public Integer countUser(QueryAdminUserVo queryAdminUserVo) {
         QueryWrapper<AdminUser> queryWrapper = new QueryWrapper<>();
-        queryWrapper.ne("STATUS", Constant.DELETED)
-                .orderByDesc("UPDATE_TIME");
-        List<AdminUser> list = list(queryWrapper);
+        if (!StringUtils.isEmpty(queryAdminUserVo.getUsername())) {
+            queryWrapper.eq("USERNAME", queryAdminUserVo.getUsername());
+        }
+        if (queryAdminUserVo.getStatus() != null) {
+            queryWrapper.eq("STATUS", queryAdminUserVo.getStatus());
+        } else {
+            queryWrapper.ne("STATUS", Constant.DELETED);
+        }
+        return count(queryWrapper);
+    }
+
+    @Override
+    public List<AdminUserDto> listUser(QueryAdminUserVo queryAdminUserVo) {
+        QueryWrapper<AdminUser> queryWrapper = new QueryWrapper<>();
+        if (!StringUtils.isEmpty(queryAdminUserVo.getUsername())) {
+            queryWrapper.eq("USERNAME", queryAdminUserVo.getUsername());
+        }
+        if (queryAdminUserVo.getStatus() != null) {
+            queryWrapper.eq("STATUS", queryAdminUserVo.getStatus());
+        } else {
+            queryWrapper.ne("STATUS", Constant.DELETED);
+        }
+        queryWrapper.orderByDesc("UPDATE_TIME");
+        IPage<AdminUser> page = new Page<>(queryAdminUserVo.getPage(), queryAdminUserVo.getPageSize());
+        List<AdminUser> list = page(page, queryWrapper).getRecords();
         return ListUtil.copyList(list, AdminUserDto.class);
     }
 

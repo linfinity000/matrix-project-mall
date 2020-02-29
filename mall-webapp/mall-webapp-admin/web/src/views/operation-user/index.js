@@ -3,8 +3,15 @@ export let data = {
         return {
             activeName: 'list',
             userList: [],
+            userCount: 0,
             selection: [],
             showDetail: false,
+            queryForm: {
+                username: '',
+                status: null,
+                page: 1,
+                pageSize: 20
+            },
             ruleForm: {},
             rules: {
                 username: [
@@ -35,13 +42,16 @@ export let data = {
         loadTable() {
             this.activeName = 'list';
             this.showDetail = false;
-            this.get('/admin-user/listUser', function (res) {
+            this.post(this.queryForm, '/admin-user/listUser', function (res) {
                 this.userList.splice(0);
                 res.body.forEach(item => {
                     item['userGrantRemark'] = item.shopId != null && item.shopId.length > 0 ? '运营用户' : '管理员用户';
                     item['statusRemark'] = item.status === 1 ? '启用' : '停用';
                     this.userList.push(item);
                 });
+            });
+            this.post(this.queryForm, '/admin-user/countUser', function (res) {
+                this.userCount = res.body;
             });
         },
         append() {
@@ -105,6 +115,14 @@ export let data = {
         },
         handleSelectionChange(val) {
             this.selection = val;
+        },
+        handleSizeChange(val) {
+            this.queryForm.pageSize = val;
+            this.loadTable();
+        },
+        handleCurrentChange(val) {
+            this.queryForm.page = val;
+            this.loadTable();
         }
     }
 }

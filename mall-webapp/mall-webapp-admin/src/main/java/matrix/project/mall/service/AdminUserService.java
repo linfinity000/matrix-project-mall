@@ -5,6 +5,7 @@ import matrix.project.mall.dto.AdminUserDto;
 import matrix.project.mall.entity.AdminUser;
 import matrix.project.mall.vo.AdminUserVo;
 import matrix.project.mall.vo.LoginUserVo;
+import matrix.project.mall.vo.QueryAdminUserVo;
 
 import java.util.List;
 
@@ -26,7 +27,9 @@ public interface AdminUserService extends IService<AdminUser> {
 
     AdminUser queryByUserId(String userId);
 
-    List<AdminUserDto> listUser();
+    Integer countUser(QueryAdminUserVo queryAdminUserVo);
+
+    List<AdminUserDto> listUser(QueryAdminUserVo queryAdminUserVo);
 
     boolean saveUser(AdminUserVo adminUserVo);
 
