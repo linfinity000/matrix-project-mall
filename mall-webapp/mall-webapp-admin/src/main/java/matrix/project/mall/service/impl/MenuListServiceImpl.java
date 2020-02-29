@@ -38,7 +38,7 @@ public class MenuListServiceImpl extends ServiceImpl<MenuListMapper, MenuList> i
         if (!StringUtils.isEmpty(adminUser.getShopId())) {
             queryWrapper.eq("TYPE", GrantEnum.Operation.name());
         }
-        queryWrapper.orderByAsc("ORDER_BY");
+        queryWrapper.orderByAsc("ORDER_BY", "CREATE_TIME");
         List<MenuList> menuLists = list(queryWrapper);
         if (CollectionUtils.isEmpty(menuLists)) {
             return new ArrayList<>();
