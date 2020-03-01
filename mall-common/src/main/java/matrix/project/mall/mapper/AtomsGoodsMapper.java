@@ -19,4 +19,5 @@ public interface AtomsGoodsMapper extends BaseMapper<AtomsGoods> {
 
     List<AtomsGoodsDto> listAtomsGoods(IPage<AtomsGoods> page, @Param("item") QueryAtomsGoodsVo queryAtomsGoodsVo, @Param("shopId") String shopId);
 
+    AtomsGoodsDto getAtomsGoods(@Param("atomsGoodsId") String atomsGoodsId, @Param("shopId") String shopId);
 }

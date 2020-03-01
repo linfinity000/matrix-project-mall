@@ -43,4 +43,6 @@ VALUES ('50', '分类管理', 1, 'Category', '5', 'Operation', '1', NOW(), NOW()
 INSERT INTO menu (MENU_ID, MENU_NAME, IS_DEFAULT, URL, PARENT_ID, TYPE, ORDER_BY, CREATE_TIME, UPDATE_TIME, STATUS)
 VALUES ('51', '品牌管理', 1, 'Brand', '5', 'Operation', '2', NOW(), NOW(), 1);
 INSERT INTO menu (MENU_ID, MENU_NAME, IS_DEFAULT, URL, PARENT_ID, TYPE, ORDER_BY, CREATE_TIME, UPDATE_TIME, STATUS)
-VALUES ('52', '商品信息维护', 1, 'Goods', '5', 'Operation', '3', NOW(), NOW(), 1);
+VALUES ('52', '原子商品维护', 1, 'AtomsGoods', '5', 'Operation', '3', NOW(), NOW(), 1);
+INSERT INTO menu (MENU_ID, MENU_NAME, IS_DEFAULT, URL, PARENT_ID, TYPE, ORDER_BY, CREATE_TIME, UPDATE_TIME, STATUS)
+VALUES ('53', '商品维护', 1, 'Goods', '5', 'Operation', '3', NOW(), NOW(), 1);

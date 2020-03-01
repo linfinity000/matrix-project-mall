@@ -55,9 +55,9 @@ export let data = {
         },
         uploadImagesChange(fileList) {
             if (fileList != null && fileList.length >= 1) {
-                this.ruleForm.shopLogo = fileList[0].url;
+                this.ruleForm.atomsGoodsImage = fileList[0].url;
             } else {
-                this.ruleForm.shopLogo = null;
+                this.ruleForm.atomsGoodsImage = null;
             }
         },
         append() {
@@ -83,29 +83,23 @@ export let data = {
                 this.$refs.ruleForm.resetFields();
             } catch (e) {
             }
-            this.ruleForm = {
-                shopId: this.selection[0].shopId,
-                shopName: this.selection[0].shopName,
-                shopLogo: this.selection[0].shopLogo,
-                shopDesc: this.selection[0].shopDesc,
-                isDefault: this.selection[0].isDefault,
-                shopStar: this.selection[0].shopStar,
-                status: this.selection[0].status,
-            };
             this.upload.images.splice(0);
-            if (this.ruleForm.shopLogo != null && this.ruleForm.shopLogo.length > 0) {
-                this.upload.images.push({
-                    name: this.ruleForm.shopLogo.substring(this.ruleForm.shopLogo.lastIndexOf('/') + 1, this.ruleForm.shopLogo.length),
-                    url: this.ruleForm.shopLogo
-                });
-            }
-            this.showDetail = true;
-            this.activeName = 'detail';
+            this.get('/atoms-goods/getAtomsGoods?atomsGoodsId=' + this.selection[0].atomsGoodsId, function (res) {
+                this.ruleForm = res.body;
+                if (this.ruleForm.atomsGoodsImage != null && this.ruleForm.atomsGoodsImage.length > 0) {
+                    this.upload.images.push({
+                        name: this.ruleForm.atomsGoodsImage.substring(this.ruleForm.atomsGoodsImage.lastIndexOf('/') + 1, this.ruleForm.atomsGoodsImage.length),
+                        url: this.ruleForm.atomsGoodsImage
+                    });
+                }
+                this.showDetail = true;
+                this.activeName = 'detail';
+            });
         },
         save() {
             this.$refs.ruleForm.validate((valid) => {
                 if (valid) {
-                    this.post(this.ruleForm, '/shop/saveShop', function (res) {
+                    this.post(this.ruleForm, '/atoms-goods/saveAtomsGoods', function (res) {
                         this.showMessage("success", "保存成功");
                         this.loadTable();
                     });
@@ -113,17 +107,12 @@ export let data = {
             });
         },
         remove() {
-            let shop = this.selection[0];
-            if (shop.isDefault === 1) {
-                this.showMessage('error', '默认店铺不允许删除');
-                return;
-            }
             this.$confirm('确认删除么？', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.get('/shop/removeShop?shopId=' + shop.shopId, function (res) {
+                this.get('/atoms-goods/removeAtomsGoods?shopId=' + this.selection[0].atomsGoodsId, function (res) {
                     this.showMessage('success', '删除成功!');
                     this.loadTable();
                 });

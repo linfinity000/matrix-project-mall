@@ -4,9 +4,12 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import matrix.module.based.serializer.DateTimeSerializer;
+import matrix.project.mall.entity.AtomsGoodsAttrLabel;
+import matrix.project.mall.entity.AtomsGoodsSkuLabel;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author wangcheng
@@ -45,4 +48,8 @@ public class AtomsGoodsDto implements Serializable {
     private Date updateTime;
 
     private Integer status;
+
+    private List<AtomsGoodsSkuLabel> skuList;
+
+    private List<AtomsGoodsAttrLabel> attrList;
 }

@@ -24,6 +24,8 @@ public interface AtomsGoodsService extends IService<AtomsGoods> {
 
     List<AtomsGoodsDto> listAtomsGoods(QueryAtomsGoodsVo queryAtomsGoodsVo);
 
+    AtomsGoodsDto getAtomsGoods(String atomsGoodsId);
+
     boolean saveAtomsGoods(AtomsGoodsVo atomsGoodsVo);
 
     boolean removeAtomsGoods(String atomsGoodsId);

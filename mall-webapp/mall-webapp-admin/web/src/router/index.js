@@ -48,9 +48,9 @@ const routes = [{
     name: 'Brand',
     component: () => import('../views/brand/index.vue')
 }, {
-    path: '/Goods',
-    name: 'Goods',
-    component: () => import('../views/goods/index.vue')
+    path: '/AtomsGoods',
+    name: 'AtomsGoods',
+    component: () => import('../views/atoms-goods/index.vue')
 }]
 
 const router = new VueRouter({

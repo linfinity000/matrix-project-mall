@@ -39,10 +39,9 @@
                                 <el-table :data="atomsGoodsList" @selection-change="handleSelectionChange" border
                                           style="width: 100%;margin-top: 5px;">
                                     <el-table-column type="selection" width="55"></el-table-column>
-                                    <el-table-column label="商品ID" prop="atomsGoodsId"></el-table-column>
-                                    <el-table-column label="商品名称" prop="atomsGoodsName"></el-table-column>
-                                    <el-table-column label="商品卖点" prop="salePoints"></el-table-column>
-                                    <el-table-column label="商品图片">
+                                    <el-table-column label="原子商品ID" prop="atomsGoodsId"></el-table-column>
+                                    <el-table-column label="原子商品名称" prop="atomsGoodsName"></el-table-column>
+                                    <el-table-column label="原子商品图片">
                                         <template slot-scope="scope">
                                             <img :src="scope.row.atomsGoodsImage"
                                                  height="100"
@@ -50,6 +49,7 @@
                                                  width="100"/>
                                         </template>
                                     </el-table-column>
+                                    <el-table-column label="商品卖点" prop="salePoints"></el-table-column>
                                     <el-table-column label="品牌名称" prop="brandName"></el-table-column>
                                     <el-table-column label="分类名称" prop="categoryName"></el-table-column>
                                     <el-table-column label="店铺名称" prop="shopName"></el-table-column>
@@ -69,26 +69,24 @@
                     <el-tab-pane label="详情" name="detail" v-if="showDetail">
                         <el-row>
                             <el-col :span="5">
-                                <el-form :model="ruleForm" :rules="rules" label-width="100px" ref="ruleForm">
-                                    <el-form-item label="店铺名称" prop="shopName">
-                                        <el-input size="small" v-model="ruleForm.shopName"></el-input>
+                                <el-form :model="ruleForm" :rules="rules" label-width="120px" ref="ruleForm">
+                                    <el-form-item label="原子商品名称" prop="atomsGoodsName">
+                                        <el-input size="small" v-model="ruleForm.atomsGoodsName"></el-input>
                                     </el-form-item>
-                                    <el-form-item label="店铺Logo">
+                                    <el-form-item label="商品卖点">
+                                        <el-input size="small" v-model="ruleForm.salePoints"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="原子商品图片">
                                         <file-upload :change="uploadImagesChange" :fileList="upload.images" :limit="1"
                                                      :tip="upload.tip"
                                                      list-type="picture"
                                                      style="width: 350px;" type="Image"></file-upload>
                                     </el-form-item>
-                                    <el-form-item label="店铺描述">
-                                        <rich-editor style="width: 800px;" v-model="ruleForm.shopDesc"></rich-editor>
-                                    </el-form-item>
-                                    <el-form-item label="店铺星级" prop="shopStar">
-                                        <el-rate :colors="['#99A9BF', '#F7BA2A', '#FF9900']" style="margin-top: 10px;"
-                                                 v-model="ruleForm.shopStar"></el-rate>
+                                    <el-form-item label="商品描述">
+                                        <rich-editor style="width: 800px;" v-model="ruleForm.description"></rich-editor>
                                     </el-form-item>
                                     <el-form-item label="状态" prop="status">
-                                        <el-select :disabled="ruleForm.isDefault === 1" placeholder="请选择" size="small"
-                                                   v-model="ruleForm.status">
+                                        <el-select placeholder="请选择" size="small" v-model="ruleForm.status">
                                             <el-option :key="item.id" :label="item.name" :value="item.id"
                                                        v-for="item in statusOptions"></el-option>
                                         </el-select>

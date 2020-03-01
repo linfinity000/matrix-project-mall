@@ -28,6 +28,11 @@ public class AtomsGoodsController {
         return Result.success(atomsGoodsService.listAtomsGoods(queryAtomsGoodsVo));
     }
 
+    @GetMapping("/getAtomsGoods")
+    public Result getAtomsGoods(@RequestParam String atomsGoodsId) {
+        return Result.success(atomsGoodsService.getAtomsGoods(atomsGoodsId));
+    }
+
     @PostMapping("/saveAtomsGoods")
     public Result saveAtomsGoods(@RequestBody AtomsGoodsVo atomsGoodsVo) {
         return Result.success(atomsGoodsService.saveAtomsGoods(atomsGoodsVo));

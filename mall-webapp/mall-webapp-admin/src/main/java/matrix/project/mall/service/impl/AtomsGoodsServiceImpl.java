@@ -4,11 +4,14 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import matrix.module.common.helper.Assert;
 import matrix.project.mall.constants.Constant;
 import matrix.project.mall.dto.AtomsGoodsDto;
 import matrix.project.mall.entity.AtomsGoods;
 import matrix.project.mall.mapper.AtomsGoodsMapper;
+import matrix.project.mall.service.AtomsGoodsAttrLabelService;
 import matrix.project.mall.service.AtomsGoodsService;
+import matrix.project.mall.service.AtomsGoodsSkuLabelService;
 import matrix.project.mall.service.ShopService;
 import matrix.project.mall.vo.AtomsGoodsVo;
 import matrix.project.mall.vo.QueryAtomsGoodsVo;
@@ -27,6 +30,12 @@ public class AtomsGoodsServiceImpl extends ServiceImpl<AtomsGoodsMapper, AtomsGo
 
     @Autowired
     private ShopService shopService;
+
+    @Autowired
+    private AtomsGoodsSkuLabelService atomsGoodsSkuLabelService;
+
+    @Autowired
+    private AtomsGoodsAttrLabelService atomsGoodsAttrLabelService;
 
     @Override
     public Integer countByShopId(String shopId) {
@@ -69,12 +78,18 @@ public class AtomsGoodsServiceImpl extends ServiceImpl<AtomsGoodsMapper, AtomsGo
 
     @Override
     public List<AtomsGoodsDto> listAtomsGoods(QueryAtomsGoodsVo queryAtomsGoodsVo) {
-        QueryWrapper<AtomsGoods> queryWrapper = new QueryWrapper<>();
-        if (!StringUtils.isEmpty(queryAtomsGoodsVo.getAtomsGoodsName())) {
-            queryWrapper.like("ATOMS_GOODS_NAME", "%" + queryAtomsGoodsVo.getAtomsGoodsName() + "%");
-        }
         IPage<AtomsGoods> page = new Page<>(queryAtomsGoodsVo.getPage(), queryAtomsGoodsVo.getPageSize());
         return getBaseMapper().listAtomsGoods(page, queryAtomsGoodsVo, shopService.getShop().getShopId());
+    }
+
+    @Override
+    public AtomsGoodsDto getAtomsGoods(String atomsGoodsId) {
+        AtomsGoodsDto atomsGoodsDto = getBaseMapper().getAtomsGoods(atomsGoodsId, shopService.getShop().getShopId());
+        Assert.state(atomsGoodsDto != null, "原子商品不存在");
+        assert atomsGoodsDto != null;
+        atomsGoodsDto.setSkuList(atomsGoodsSkuLabelService.queryByAtomsGoodsId(atomsGoodsId));
+        atomsGoodsDto.setAttrList(atomsGoodsAttrLabelService.queryByAtomsGoodsId(atomsGoodsId));
+        return atomsGoodsDto;
     }
 
     @Override
