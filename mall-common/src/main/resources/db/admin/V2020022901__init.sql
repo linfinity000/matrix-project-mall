@@ -24,7 +24,7 @@ VALUES ('20', '运营人员列表', 1, 'OperationUser', '2', 'Admin', '1', NOW()
 INSERT INTO menu (MENU_ID, MENU_NAME, IS_DEFAULT, URL, PARENT_ID, TYPE, ORDER_BY, CREATE_TIME, UPDATE_TIME, STATUS)
 VALUES ('21', '用户列表', 1, 'User', '2', 'Admin', '2', NOW(), NOW(), 1);
 INSERT INTO menu (MENU_ID, MENU_NAME, IS_DEFAULT, URL, PARENT_ID, TYPE, ORDER_BY, CREATE_TIME, UPDATE_TIME, STATUS)
-VALUES ('22', '当前用户信息管理', 1, 'UserInfo', '2', 'Operation', '3', NOW(), NOW(), 1);
+VALUES ('22', '当前用户信息管理', 1, 'OperationUserInfo', '2', 'Operation', '3', NOW(), NOW(), 1);
 
 INSERT INTO menu (MENU_ID, MENU_NAME, IS_DEFAULT, URL, PARENT_ID, TYPE, ORDER_BY, CREATE_TIME, UPDATE_TIME, STATUS)
 VALUES ('3', '店铺管理', 1, '', '0', 'Operation', '9998', NOW(), NOW(), 1);

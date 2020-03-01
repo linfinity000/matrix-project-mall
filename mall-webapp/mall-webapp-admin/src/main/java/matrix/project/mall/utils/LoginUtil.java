@@ -1,6 +1,6 @@
 package matrix.project.mall.utils;
 
-import matrix.project.mall.entity.AdminUser;
+import matrix.project.mall.dto.AdminUserDto;
 
 /**
  * @author wangcheng
@@ -8,13 +8,13 @@ import matrix.project.mall.entity.AdminUser;
  */
 public class LoginUtil {
 
-    private static final ThreadLocal<AdminUser> ADMIN_USER = new ThreadLocal<>();
+    private static final ThreadLocal<AdminUserDto> ADMIN_USER = new ThreadLocal<>();
 
-    public static AdminUser getAdminUser() {
+    public static AdminUserDto getAdminUser() {
         return ADMIN_USER.get();
     }
 
-    public static void setAdminUser(AdminUser user) {
+    public static void setAdminUser(AdminUserDto user) {
         ADMIN_USER.set(user);
     }
 }

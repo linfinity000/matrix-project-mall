@@ -4,6 +4,7 @@ import matrix.module.common.bean.Result;
 import matrix.module.common.exception.GlobalControllerException;
 import matrix.module.common.helper.Assert;
 import matrix.project.mall.annotation.NotNeedUserVerify;
+import matrix.project.mall.dto.AdminUserDto;
 import matrix.project.mall.service.AdminUserService;
 import matrix.project.mall.utils.LoginUtil;
 import matrix.project.mall.utils.RequestUtil;
@@ -13,6 +14,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
@@ -49,7 +51,9 @@ public class LoginAspect {
                     String accessToken = request.getHeader("Access-Token");
                     Assert.state(!StringUtils.isEmpty(accessToken), "Access-Token 不合法");
                     adminUserService.refreshAccessToken(accessToken);
-                    LoginUtil.setAdminUser(adminUserService.getUser(accessToken));
+                    AdminUserDto adminUserDto = new AdminUserDto();
+                    BeanUtils.copyProperties(adminUserService.getUser(accessToken), adminUserDto);
+                    LoginUtil.setAdminUser(adminUserDto);
                 } catch (Exception e) {
                     logger.error(e);
                     return Result.fail(e.getMessage()).setResultCode(-1000);

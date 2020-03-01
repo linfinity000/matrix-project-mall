@@ -68,7 +68,10 @@
                                         <el-input size="small" type="password" v-model="ruleForm.password"></el-input>
                                     </el-form-item>
                                     <el-form-item label="所属店铺" v-if="ruleForm.isDefault !== 1">
-                                        <el-input size="small" v-model="ruleForm.shopId"></el-input>
+                                        <el-select clearable placeholder="请选择" size="small" v-model="ruleForm.shopId">
+                                            <el-option :key="item.shopId" :label="item.shopName" :value="item.shopId"
+                                                       v-for="item in shopOptions"></el-option>
+                                        </el-select>
                                     </el-form-item>
                                     <el-form-item label="状态" prop="status">
                                         <el-select :disabled="ruleForm.isDefault === 1" placeholder="请选择" size="small"

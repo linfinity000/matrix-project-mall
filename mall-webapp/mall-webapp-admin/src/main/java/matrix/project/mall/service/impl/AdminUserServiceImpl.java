@@ -13,6 +13,7 @@ import matrix.project.mall.entity.AdminUser;
 import matrix.project.mall.mapper.AdminUserMapper;
 import matrix.project.mall.service.AdminUserService;
 import matrix.project.mall.utils.ListUtil;
+import matrix.project.mall.utils.LoginUtil;
 import matrix.project.mall.vo.AdminUserVo;
 import matrix.project.mall.vo.LoginUserVo;
 import matrix.project.mall.vo.QueryAdminUserVo;
@@ -130,11 +131,13 @@ public class AdminUserServiceImpl extends ServiceImpl<AdminUserMapper, AdminUser
     @Override
     public boolean saveUser(AdminUserVo adminUserVo) {
         Assert.state(adminUserVo.getStatus() != null, "状态不允许为空");
+        boolean isAdmin = StringUtils.isEmpty(LoginUtil.getAdminUser().getShopId());
         AdminUser adminUser = null;
         if (!StringUtils.isEmpty(adminUserVo.getUserId())) {
             adminUser = queryByUserId(adminUserVo.getUserId());
             Assert.state(adminUser != null, "用户未找到");
         } else {
+            Assert.state(isAdmin, "普通用户不能新建用户");
             Assert.state(!StringUtils.isEmpty(adminUserVo.getUsername()), "用户名不允许为空");
             Assert.state(!StringUtils.isEmpty(adminUserVo.getPassword()), "密码不允许为空");
             Assert.state(queryByUsername(adminUserVo.getUsername()) == null, "用户已存在");
@@ -145,7 +148,7 @@ public class AdminUserServiceImpl extends ServiceImpl<AdminUserMapper, AdminUser
                     .setCreateTime(new Date());
         }
         assert adminUser != null;
-        if (adminUser.getIsDefault().equals(0)) {
+        if (adminUser.getIsDefault().equals(0) && isAdmin) {
             adminUser.setShopId(adminUserVo.getShopId())
                     .setStatus(adminUserVo.getStatus());
         }

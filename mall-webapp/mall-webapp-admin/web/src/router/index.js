@@ -22,6 +22,10 @@ const routes = [{
     name: 'OperationUser',
     component: () => import('../views/operation-user/index.vue')
 }, {
+    path: '/OperationUserInfo',
+    name: 'OperationUserInfo',
+    component: () => import('../views/operation-user-info/index.vue')
+}, {
     path: '/User',
     name: 'User',
     component: () => import('../views/user/index.vue')

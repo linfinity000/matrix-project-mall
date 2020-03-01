@@ -32,13 +32,25 @@ export let data = {
             }, {
                 id: 0,
                 name: '停用'
-            }]
+            }],
+            shopOptions: []
         }
     },
     created() {
         this.loadTable();
     },
     methods: {
+        loadShop() {
+            this.shopOptions.splice(0);
+            this.get('/shop/listValidShop', function (res) {
+                res.body.forEach(item => {
+                    this.shopOptions.push({
+                        shopId: item.shopId,
+                        shopName: item.shopName
+                    });
+                })
+            });
+        },
         loadTable() {
             this.activeName = 'list';
             this.showDetail = false;
@@ -67,6 +79,7 @@ export let data = {
                 shopId: null,
                 status: null,
             };
+            this.loadShop();
             this.showDetail = true;
             this.activeName = 'detail';
         },
@@ -83,6 +96,7 @@ export let data = {
                 shopId: this.selection[0].shopId,
                 status: this.selection[0].status,
             };
+            this.loadShop();
             this.showDetail = true;
             this.activeName = 'detail';
         },

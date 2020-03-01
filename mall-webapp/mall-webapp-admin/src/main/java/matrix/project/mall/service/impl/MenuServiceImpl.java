@@ -6,8 +6,8 @@ import matrix.module.common.helper.Assert;
 import matrix.module.common.utils.RandomUtil;
 import matrix.module.common.utils.TreeUtil;
 import matrix.project.mall.constants.Constant;
+import matrix.project.mall.dto.AdminUserDto;
 import matrix.project.mall.dto.MenuDto;
-import matrix.project.mall.entity.AdminUser;
 import matrix.project.mall.entity.Menu;
 import matrix.project.mall.enums.GrantEnum;
 import matrix.project.mall.mapper.MenuMapper;
@@ -32,7 +32,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
     @Override
     public List<MenuDto> queryTree() {
-        AdminUser adminUser = LoginUtil.getAdminUser();
+        AdminUserDto adminUser = LoginUtil.getAdminUser();
         QueryWrapper<Menu> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("STATUS", Constant.ENABLED);
         if (!StringUtils.isEmpty(adminUser.getShopId())) {

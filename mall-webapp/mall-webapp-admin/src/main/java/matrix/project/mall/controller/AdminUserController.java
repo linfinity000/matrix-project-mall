@@ -3,6 +3,7 @@ package matrix.project.mall.controller;
 import matrix.module.common.bean.Result;
 import matrix.project.mall.annotation.NotNeedUserVerify;
 import matrix.project.mall.service.AdminUserService;
+import matrix.project.mall.utils.LoginUtil;
 import matrix.project.mall.vo.AdminUserVo;
 import matrix.project.mall.vo.LoginUserVo;
 import matrix.project.mall.vo.QueryAdminUserVo;
@@ -34,6 +35,11 @@ public class AdminUserController {
     @PostMapping("/listUser")
     public Result listUser(@RequestBody QueryAdminUserVo queryAdminUserVo) {
         return Result.success(adminUserService.listUser(queryAdminUserVo));
+    }
+
+    @GetMapping("/getUser")
+    public Result getUser() {
+        return Result.success(LoginUtil.getAdminUser());
     }
 
     @PostMapping("/saveUser")

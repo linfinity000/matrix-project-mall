@@ -4,7 +4,7 @@ CREATE TABLE admin_user
     USERNAME    VARCHAR(32)  NOT NULL COMMENT '用户名',
     PASSWORD    VARCHAR(255) NOT NULL COMMENT '密码',
     IS_DEFAULT  INT(1)       NOT NULL DEFAULT 0 COMMENT '默认ADMIN(不允许删除)',
-    SHOP_ID     VARCHAR(255) COMMENT '店铺ID(以逗号分隔,为空时管理员账号)',
+    SHOP_ID     VARCHAR(255) COMMENT '店铺ID(为空时管理员账号)',
     CREATE_TIME DATETIME     NOT NULL COMMENT '创建时间',
     UPDATE_TIME DATETIME     NOT NULL COMMENT '更新时间',
     STATUS      INT(1)       NOT NULL COMMENT '状态(1:启用,0:禁用,-1:删除)',
