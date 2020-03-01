@@ -9,4 +9,5 @@ import matrix.project.mall.entity.Brand;
  */
 public interface BrandService extends IService<Brand> {
 
+    Integer countByShopId(String shopId);
 }

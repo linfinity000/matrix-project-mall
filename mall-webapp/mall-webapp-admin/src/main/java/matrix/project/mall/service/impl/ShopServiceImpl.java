@@ -10,6 +10,9 @@ import matrix.project.mall.constants.Constant;
 import matrix.project.mall.dto.AdminUserDto;
 import matrix.project.mall.entity.Shop;
 import matrix.project.mall.mapper.ShopMapper;
+import matrix.project.mall.service.AtomsGoodsService;
+import matrix.project.mall.service.BrandService;
+import matrix.project.mall.service.CategoryService;
 import matrix.project.mall.service.ShopService;
 import matrix.project.mall.utils.LoginUtil;
 import matrix.project.mall.vo.QueryShopVo;
@@ -32,6 +35,15 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements Sh
 
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
+
+    @Autowired
+    private AtomsGoodsService atomsGoodsService;
+
+    @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
+    private BrandService brandService;
 
     @Override
     public Shop getShop() {
@@ -163,6 +175,9 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements Sh
         Assert.state(shop != null, "未找到店铺");
         assert shop != null;
         Assert.state(shop.getIsDefault().equals(0), "默认店铺不允许删除");
+        Assert.state(atomsGoodsService.countByShopId(shopId) <= 0, "店铺下存在未删除商品");
+        Assert.state(categoryService.countByShopId(shopId) <= 0, "店铺下存在未删除的分类");
+        Assert.state(brandService.countByShopId(shopId) <= 0, "店铺下存在未删除的品牌");
         shop.setStatus(Constant.DELETED);
         updateById(shop);
         return true;

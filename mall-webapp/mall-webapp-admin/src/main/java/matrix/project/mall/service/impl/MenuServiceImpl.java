@@ -74,7 +74,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
             Assert.state(menu != null, "菜单未找到");
         } else {
             menu = new Menu()
-                    .setMenuId(StringUtils.isEmpty(menuVo.getMenuId()) ? RandomUtil.getUUID() : menuVo.getMenuId())
+                    .setMenuId(RandomUtil.getUUID())
                     .setParentId(StringUtils.isEmpty(menuVo.getParentId()) ? "0" : menuVo.getParentId())
                     .setIsDefault(0)
                     .setStatus(Constant.ENABLED)

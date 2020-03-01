@@ -39,6 +39,10 @@ const routes = [{
     path: '/ShopInfo',
     name: 'ShopInfo',
     component: () => import('../views/shop-info/index.vue')
+}, {
+    path: '/Category',
+    name: 'Category',
+    component: () => import('../views/category/index.vue')
 }]
 
 const router = new VueRouter({
