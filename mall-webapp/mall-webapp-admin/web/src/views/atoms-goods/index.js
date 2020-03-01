@@ -214,7 +214,7 @@ export let data = {
                     attrName: this.attrInputValue
                 });
             }
-            this.skuInputValue = '';
+            this.attrInputValue = '';
         },
         delAttrLabel(attrName) {
             let index = -1;
