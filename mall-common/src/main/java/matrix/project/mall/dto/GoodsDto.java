@@ -8,6 +8,7 @@ import matrix.module.based.serializer.DateTimeSerializer;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author wangcheng
@@ -22,6 +23,8 @@ public class GoodsDto implements Serializable {
     private String atomsGoodsId;
 
     private String atomsGoodsName;
+
+    private String skuInfo;
 
     private BigDecimal originPrice;
 
@@ -39,4 +42,29 @@ public class GoodsDto implements Serializable {
 
     private Integer status;
 
+    private List<GoodsSkuDto> goodsSkuList;
+
+    private List<GoodsAttrDto> goodsAttrList;
+
+    @Data
+    @Accessors(chain = true)
+    public static class GoodsSkuDto implements Serializable {
+
+        private String id;
+
+        private String skuName;
+
+        private String skuValue;
+    }
+
+    @Data
+    @Accessors(chain = true)
+    public static class GoodsAttrDto implements Serializable {
+
+        private String id;
+
+        private String attrName;
+
+        private String attrValue;
+    }
 }

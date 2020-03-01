@@ -26,6 +26,8 @@ public class AtomsGoodsSkuLabel implements Serializable {
 
     private String skuName;
 
+    private Integer orderBy;
+
     @JsonSerialize(using = DateTimeSerializer.class)
     private Date createTime;
 

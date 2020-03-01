@@ -22,12 +22,9 @@
         LEFT JOIN category c on c.CATEGORY_ID = ag.CATEGORY_ID
         LEFT JOIN shop s on s.SHOP_ID = ag.SHOP_ID
         <where>
-            ag.SHOP_ID = #{shopId}
+            ag.SHOP_ID = #{shopId} and ag.STATUS != -1
             <if test="item.status != null">
                 and ag.STATUS = #{item.status}
-            </if>
-            <if test="item.status == null">
-                and ag.STATUS != -1
             </if>
             <if test="item.atomsGoodsName != null and item.atomsGoodsName != ''">
                 and ag.ATOMS_GOODS_NAME like CONCAT('%', #{item.atomsGoodsName}, '%')

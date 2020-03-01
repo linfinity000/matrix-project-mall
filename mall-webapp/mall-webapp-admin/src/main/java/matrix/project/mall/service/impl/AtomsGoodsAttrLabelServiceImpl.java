@@ -36,14 +36,16 @@ public class AtomsGoodsAttrLabelServiceImpl extends ServiceImpl<AtomsGoodsAttrLa
         }
         List<AtomsGoodsAttrLabel> labels = new ArrayList<>();
         Date time = new Date();
-        attrList.forEach(attrLabel -> labels.add(new AtomsGoodsAttrLabel()
-                .setId(RandomUtil.getUUID())
-                .setAtomsGoodsId(atomsGoodsId)
-                .setAttrName(attrLabel.getAttrName())
-                .setCreateTime(time)
-                .setUpdateTime(time)
-                .setStatus(Constant.ENABLED)
-        ));
+        for (int i = 0; i < attrList.size(); i++) {
+            labels.add(new AtomsGoodsAttrLabel()
+                    .setId(RandomUtil.getUUID())
+                    .setAtomsGoodsId(atomsGoodsId)
+                    .setAttrName(attrList.get(i).getAttrName())
+                    .setOrderBy(i)
+                    .setCreateTime(time)
+                    .setUpdateTime(time)
+                    .setStatus(Constant.ENABLED));
+        }
         saveBatch(labels);
     }
 }

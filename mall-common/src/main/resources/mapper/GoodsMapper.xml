@@ -1,4 +1,64 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="matrix.project.mall.mapper.GoodsMapper">
+    <select id="countGoods" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM goods g JOIN atoms_goods ag ON g.ATOMS_GOODS_ID = ag.ATOMS_GOODS_ID
+        WHERE ag.STATUS != -1 and ag.SHOP_ID = #{shopId} and g.STATUS != -1
+        <if test="item.status != null">
+            and g.STATUS = #{item.status}
+        </if>
+        <if test="item.atomsGoodsName != null and item.atomsGoodsName != ''">
+            and ag.ATOMS_GOODS_NAME like concat('%', #{item.atomsGoodsName}, '%')
+        </if>
+    </select>
+    <select id="listGoods" resultType="matrix.project.mall.dto.GoodsDto">
+        SELECT
+        g.GOODS_ID as goodsId,
+        g.ATOMS_GOODS_ID as atomsGoodsId,
+        ag.ATOMS_GOODS_NAME as atomsGoodsName,
+        GROUP_CONCAT(gs.SKU_VALUE order by agkl.ORDER_BY) as skuInfo,
+        g.ORIGIN_PRICE as originPrice,
+        g.SALE_PRICE as salePrice,
+        g.STOCK as stock,
+        g.IMAGE_URL as imageUrl,
+        g.CREATE_TIME as createTime,
+        g.UPDATE_TIME as updateTime,
+        g.`STATUS` as status
+        FROM goods g
+        JOIN atoms_goods ag ON g.ATOMS_GOODS_ID = ag.ATOMS_GOODS_ID
+        LEFT JOIN goods_sku gs ON gs.GOODS_ID = g.GOODS_ID AND gs.`STATUS` = 1
+        left join atoms_goods_sku_label agkl on agkl.ID = gs.ATOMS_GOODS_SKU_LABEL_ID
+        WHERE ag.STATUS != -1 and ag.SHOP_ID = #{shopId} and g.STATUS != -1
+        <if test="item.status != null">
+            and g.STATUS = #{item.status}
+        </if>
+        <if test="item.atomsGoodsName != null and item.atomsGoodsName != ''">
+            and ag.ATOMS_GOODS_NAME like concat('%', #{item.atomsGoodsName}, '%')
+        </if>
+        GROUP BY g.GOODS_ID
+        ORDER BY ag.UPDATE_TIME, g.UPDATE_TIME
+    </select>
+    <select id="getGoods" resultType="matrix.project.mall.dto.GoodsDto">
+        SELECT g.GOODS_ID                                        as goodsId,
+               g.ATOMS_GOODS_ID                                  as atomsGoodsId,
+               ag.ATOMS_GOODS_NAME                               as atomsGoodsName,
+               GROUP_CONCAT(gs.SKU_VALUE order by agkl.ORDER_BY) as skuInfo,
+               g.ORIGIN_PRICE                                    as originPrice,
+               g.SALE_PRICE                                      as salePrice,
+               g.STOCK                                           as stock,
+               g.IMAGE_URL                                       as imageUrl,
+               g.CREATE_TIME                                     as createTime,
+               g.UPDATE_TIME                                     as updateTime,
+               g.`STATUS`                                        as status
+        FROM goods g
+                 JOIN atoms_goods ag ON g.ATOMS_GOODS_ID = ag.ATOMS_GOODS_ID
+                 LEFT JOIN goods_sku gs ON gs.GOODS_ID = g.GOODS_ID AND gs.`STATUS` = 1
+                 left join atoms_goods_sku_label agkl on agkl.ID = gs.ATOMS_GOODS_SKU_LABEL_ID
+        WHERE ag.STATUS != -1
+          and ag.SHOP_ID = #{shopId}
+          and g.STATUS != -1
+          and g.GOODS_ID = #{goodsId}
+        GROUP BY g.GOODS_ID
+    </select>
 </mapper>

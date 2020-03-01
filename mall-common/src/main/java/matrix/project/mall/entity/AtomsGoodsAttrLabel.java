@@ -26,6 +26,8 @@ public class AtomsGoodsAttrLabel implements Serializable {
 
     private String attrName;
 
+    private Integer orderBy;
+
     @JsonSerialize(using = DateTimeSerializer.class)
     private Date createTime;
 

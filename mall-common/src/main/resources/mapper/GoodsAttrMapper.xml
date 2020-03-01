@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="matrix.project.mall.mapper.GoodsAttrMapper">
+
+    <select id="queryByGoodsId" resultType="matrix.project.mall.dto.GoodsDto$GoodsAttrDto">
+        SELECT agal.ID        as id,
+               agal.ATTR_NAME as attrName,
+               ga.ATTR_VALUE  as attrValue
+        FROM goods_attr ga
+                 left join atoms_goods_attr_label agal on agal.ID = ga.ATOMS_GOODS_ATTR_LABEL_ID
+        where ga.GOODS_ID = #{goodsId}
+          AND ga.STATUS = 1
+        order by agal.ORDER_BY
+    </select>
+
 </mapper>

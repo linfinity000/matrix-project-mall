@@ -37,14 +37,17 @@ public class AtomsGoodsSkuLabelServiceImpl extends ServiceImpl<AtomsGoodsSkuLabe
         }
         List<AtomsGoodsSkuLabel> labels = new ArrayList<>();
         Date time = new Date();
-        skuList.forEach(skuLabel -> labels.add(new AtomsGoodsSkuLabel()
-                .setId(RandomUtil.getUUID())
-                .setAtomsGoodsId(atomsGoodsId)
-                .setSkuName(skuLabel.getSkuName())
-                .setCreateTime(time)
-                .setUpdateTime(time)
-                .setStatus(Constant.ENABLED)
-        ));
+        for (int i = 0; i < skuList.size(); i++) {
+            labels.add(new AtomsGoodsSkuLabel()
+                    .setId(RandomUtil.getUUID())
+                    .setAtomsGoodsId(atomsGoodsId)
+                    .setSkuName(skuList.get(i).getSkuName())
+                    .setOrderBy(i)
+                    .setCreateTime(time)
+                    .setUpdateTime(time)
+                    .setStatus(Constant.ENABLED)
+            );
+        }
         saveBatch(labels);
     }
 
