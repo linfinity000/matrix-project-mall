@@ -53,14 +53,19 @@ public class LoginAspect {
                 return joinPoint.proceed(joinPoint.getArgs());
             }
             HttpServletRequest request = RequestUtil.getRequest();
-            String clientToken = request.getHeader("Authorization");
-            Assert.state(!StringUtils.isEmpty(clientToken)
-                    && clientToken.startsWith("Basic ")
-                    && clientToken.split("Basic ").length > 1,
-                    "Authorization 不合法");
-            clientToken = clientToken.split("Basic ")[1];
-            Assert.state(!StringUtils.isEmpty(clientToken), "Authorization 不合法");
-            clientService.refreshClientToken(clientToken);
+            try {
+                String clientToken = request.getHeader("Authorization");
+                Assert.state(!StringUtils.isEmpty(clientToken)
+                                && clientToken.startsWith("Basic ")
+                                && clientToken.split("Basic ").length > 1,
+                        "Authorization 不合法");
+                clientToken = clientToken.split("Basic ")[1];
+                Assert.state(!StringUtils.isEmpty(clientToken), "Authorization 不合法");
+                clientService.refreshClientToken(clientToken);
+            } catch (Exception e) {
+                logger.error(e);
+                return Result.fail(e.getMessage()).setResultCode(-1001);
+            }
             notNeedUserVerify = joinPoint.getTarget().getClass().getAnnotation(NotNeedUserVerify.class);
             if (notNeedUserVerify == null) {
                 Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
