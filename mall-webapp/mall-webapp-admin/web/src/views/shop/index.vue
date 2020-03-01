@@ -28,7 +28,7 @@
                                 <el-button @click="append" size="small" type="primary">新增</el-button>
                                 <el-button :disabled="selection.length !== 1" @click="bindShop" size="small"
                                            type="primary">
-                                    绑定店铺
+                                    当前账号绑定店铺
                                 </el-button>
                                 <el-button :disabled="selection.length !== 1" @click="edit" size="small" type="primary">
                                     编辑
