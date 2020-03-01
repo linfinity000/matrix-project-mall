@@ -1,4 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="matrix.project.mall.mapper.AtomsGoodsMapper">
+
+    <select id="listAtomsGoods" resultType="matrix.project.mall.dto.AtomsGoodsDto">
+        SELECT ag.ATOMS_GOODS_ID as atomsGoodsId,
+        ag.ATOMS_GOODS_NAME as atomsGoodsName,
+        ag.SALE_POINTS as salePoints,
+        ag.DESCRIPTION as description,
+        ag.ATOMS_GOODS_IMAGE as atomsGoodsImage,
+        ag.SHOP_ID as shopId,
+        ag.BRAND_ID as brandId,
+        ag.CATEGORY_ID as categoryId,
+        ag.CREATE_TIME as createTime,
+        ag.UPDATE_TIME as updateTime,
+        ag.`STATUS` as `status`,
+        b.BRAND_NAME as brandName,
+        c.CATEGORY_NAME as categoryName,
+        s.SHOP_NAME as shopName
+        FROM atoms_goods ag
+        LEFT JOIN brand b on b.BRAND_ID = ag.BRAND_ID
+        LEFT JOIN category c on c.CATEGORY_ID = ag.CATEGORY_ID
+        LEFT JOIN shop s on s.SHOP_ID = ag.SHOP_ID
+        <where>
+            ag.SHOP_ID = #{shopId}
+            <if test="item.status != null">
+                and ag.STATUS = #{item.status}
+            </if>
+            <if test="item.status == null">
+                and ag.STATUS != -1
+            </if>
+            <if test="item.atomsGoodsName != null and item.atomsGoodsName != ''">
+                and ag.ATOMS_GOODS_NAME like CONCAT('%', #{item.atomsGoodsName}, '%')
+            </if>
+        </where>
+        ORDER BY ag.UPDATE_TIME
+    </select>
+
 </mapper>
