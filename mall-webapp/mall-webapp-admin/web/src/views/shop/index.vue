@@ -75,6 +75,9 @@
                                                      list-type="picture"
                                                      style="width: 350px;" type="Image"></file-upload>
                                     </el-form-item>
+                                    <el-form-item label="商品描述">
+                                        <rich-editor style="width: 800px;" v-model="ruleForm.shopDesc"></rich-editor>
+                                    </el-form-item>
                                     <el-form-item label="状态" prop="status">
                                         <el-select :disabled="ruleForm.isDefault === 1" placeholder="请选择" size="small"
                                                    v-model="ruleForm.status">

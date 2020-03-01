@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
  * @date 2020-02-29
  */
 @RestController
-@RequestMapping("/menu")
+@RequestMapping("/api/menu")
 public class MenuController {
 
     @Autowired

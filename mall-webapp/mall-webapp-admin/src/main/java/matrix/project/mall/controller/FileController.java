@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  * @date 2019/6/3
  */
 @RestController
-@RequestMapping("/file")
+@RequestMapping("/api/file")
 @NotNeedUserVerify
 public class FileController {
 

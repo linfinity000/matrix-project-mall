@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @date 2020-03-01
  */
 @RestController
-@RequestMapping("/shop")
+@RequestMapping("/api/shop")
 public class ShopController implements Serializable {
 
     @Autowired
