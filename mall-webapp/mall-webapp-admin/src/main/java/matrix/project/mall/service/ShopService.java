@@ -3,6 +3,7 @@ package matrix.project.mall.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import matrix.project.mall.entity.Shop;
 import matrix.project.mall.vo.QueryShopVo;
+import matrix.project.mall.vo.ShopVo;
 
 import java.util.List;
 
@@ -24,4 +25,7 @@ public interface ShopService extends IService<Shop> {
 
     List<Shop> listValidShop();
 
+    boolean saveShop(ShopVo shopVo);
+
+    boolean removeShop(String shopId);
 }

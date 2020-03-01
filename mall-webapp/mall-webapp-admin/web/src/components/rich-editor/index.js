@@ -14,7 +14,6 @@ const toolbarOptions = [
     ["link", "image"] // 链接、图片
 ];
 export let data = {
-    name: 'VkQuillEditor',
     props: {
         value: {
             type: String,

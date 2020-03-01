@@ -3,6 +3,7 @@ package matrix.project.mall.controller;
 import matrix.module.common.bean.Result;
 import matrix.project.mall.service.ShopService;
 import matrix.project.mall.vo.QueryShopVo;
+import matrix.project.mall.vo.ShopVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,5 +40,14 @@ public class ShopController implements Serializable {
         return Result.success(shopService.getShop());
     }
 
+    @PostMapping("/saveShop")
+    public Result saveShop(@RequestBody ShopVo shopVo) {
+        return Result.success(shopService.saveShop(shopVo));
+    }
+
+    @GetMapping("/removeShop")
+    public Result removeShop(@RequestParam String shopId) {
+        return Result.success(shopService.removeShop(shopId));
+    }
 
 }
