@@ -85,6 +85,39 @@
                                     <el-form-item label="商品描述">
                                         <rich-editor style="width: 800px;" v-model="ruleForm.description"></rich-editor>
                                     </el-form-item>
+                                    <el-form-item label="SKU属性配置" style="width: 800px;">
+                                        <el-tag :closable="ruleForm.atomsGoodsId == null" :key="sku.skuName"
+                                                @close="delSkuLabel(sku.skuName)"
+                                                v-for="sku in ruleForm.skuList">
+                                            {{sku.skuName}}
+                                        </el-tag>
+                                        <el-input @blur="newSkuLabel" @keyup.enter.native="newSkuLabel"
+                                                  class="input-new-tag"
+                                                  size="small"
+                                                  v-if="showSkuInput && (ruleForm.atomsGoodsId == null)"
+                                                  v-model="skuInputValue">
+                                        </el-input>
+                                        <el-button @click="() => {this.showSkuInput = true;}" class="button-new-tag"
+                                                   size="small"
+                                                   v-if="!showSkuInput && ruleForm.atomsGoodsId == null">+
+                                        </el-button>
+                                    </el-form-item>
+                                    <el-form-item label="标签属性配置" style="width: 800px;">
+                                        <el-tag :closable="ruleForm.atomsGoodsId == null" :key="attr.attrName"
+                                                @close="delAttrLabel(attr.attrName)"
+                                                v-for="attr in ruleForm.attrList">
+                                            {{attr.attrName}}
+                                        </el-tag>
+                                        <el-input @blur="newAttrLabel" @keyup.enter.native="newAttrLabel"
+                                                  class="input-new-tag" size="small"
+                                                  v-if="showAttrInput && ruleForm.atomsGoodsId == null"
+                                                  v-model="attrInputValue">
+                                        </el-input>
+                                        <el-button @click="() => {this.showAttrInput = true;}" class="button-new-tag"
+                                                   size="small"
+                                                   v-if="!showAttrInput && ruleForm.atomsGoodsId == null">+
+                                        </el-button>
+                                    </el-form-item>
                                     <el-form-item label="状态" prop="status">
                                         <el-select placeholder="请选择" size="small" v-model="ruleForm.status">
                                             <el-option :key="item.id" :label="item.name" :value="item.id"
@@ -113,5 +146,23 @@
     .el-main {
         padding-left: 2px;
         padding-right: 2px;
+    }
+
+    .el-tag + .el-tag {
+        margin-left: 10px;
+    }
+
+    .button-new-tag {
+        margin-left: 10px;
+        height: 32px;
+        line-height: 30px;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .input-new-tag {
+        width: 90px;
+        margin-left: 10px;
+        vertical-align: bottom;
     }
 </style>

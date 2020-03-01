@@ -4,6 +4,10 @@ export let data = {
             activeName: 'list',
             atomsGoodsList: [],
             atomsGoodsCount: 0,
+            showSkuInput: false,
+            skuInputValue: '',
+            showAttrInput: false,
+            attrInputValue: '',
             selection: [],
             showDetail: false,
             queryForm: {
@@ -12,7 +16,10 @@ export let data = {
                 page: 1,
                 pageSize: 20
             },
-            ruleForm: {},
+            ruleForm: {
+                skuList: [],
+                attrList: []
+            },
             rules: {
                 atomsGoodsName: [
                     {required: true, message: '商品名不能为空', trigger: 'blur'},
@@ -66,13 +73,8 @@ export let data = {
             } catch (e) {
             }
             this.ruleForm = {
-                shopId: null,
-                shopName: '',
-                shopLogo: null,
-                shopDesc: null,
-                isDefault: 0,
-                shopStar: 5,
-                status: null,
+                attrList: [],
+                skuList: []
             };
             this.upload.images.splice(0);
             this.showDetail = true;
@@ -117,6 +119,60 @@ export let data = {
                     this.loadTable();
                 });
             });
+        },
+        newSkuLabel() {
+            this.showSkuInput = false;
+            for (let i = 0; i < this.ruleForm.skuList.length; i++) {
+                if (this.ruleForm.skuList[i].skuName === this.skuInputValue) {
+                    this.skuInputValue = '';
+                    return;
+                }
+            }
+            if (this.skuInputValue != null && this.skuInputValue.length > 0) {
+                this.ruleForm.skuList.push({
+                    skuName: this.skuInputValue
+                });
+            }
+            this.skuInputValue = '';
+        },
+        delSkuLabel(skuName) {
+            let index = -1;
+            for (let i = 0; i < this.ruleForm.skuList.length; i++) {
+                if (this.ruleForm.skuList[i].skuName === skuName) {
+                    index = i;
+                    break;
+                }
+            }
+            if (index >= 0) {
+                this.ruleForm.skuList.splice(index, 1);
+            }
+        },
+        newAttrLabel() {
+            this.showAttrInput = false;
+            for (let i = 0; i < this.ruleForm.attrList.length; i++) {
+                if (this.ruleForm.attrList[i].attrName === this.attrInputValue) {
+                    this.attrInputValue = '';
+                    return;
+                }
+            }
+            if (this.attrInputValue != null && this.attrInputValue.length > 0) {
+                this.ruleForm.attrList.push({
+                    attrName: this.attrInputValue
+                });
+            }
+            this.skuInputValue = '';
+        },
+        delAttrLabel(attrName) {
+            let index = -1;
+            for (let i = 0; i < this.ruleForm.attrList.length; i++) {
+                if (this.ruleForm.attrList[i].attrName === attrName) {
+                    index = i;
+                    break;
+                }
+            }
+            if (index >= 0) {
+                this.ruleForm.attrList.splice(index, 1);
+            }
         },
         handleSelectionChange(val) {
             this.selection = val;
