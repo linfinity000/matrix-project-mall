@@ -15,6 +15,7 @@ import matrix.project.mall.vo.AtomsGoodsVo;
 import matrix.project.mall.vo.QueryAtomsGoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
@@ -95,7 +96,7 @@ public class AtomsGoodsServiceImpl extends ServiceImpl<AtomsGoodsMapper, AtomsGo
     }
 
     @Override
-    //@Transactional
+    @Transactional
     public boolean saveAtomsGoods(AtomsGoodsVo atomsGoodsVo) {
         Assert.state(!StringUtils.isEmpty(atomsGoodsVo.getAtomsGoodsName()), "原子商品名称不允许为空");
         Assert.state(atomsGoodsVo.getBrandId() != null, "品牌不允许为空");
