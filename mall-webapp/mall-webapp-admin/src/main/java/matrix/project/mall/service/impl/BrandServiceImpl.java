@@ -9,6 +9,7 @@ import matrix.module.common.utils.RandomUtil;
 import matrix.project.mall.constants.Constant;
 import matrix.project.mall.entity.Brand;
 import matrix.project.mall.mapper.BrandMapper;
+import matrix.project.mall.service.AtomsGoodsService;
 import matrix.project.mall.service.BrandService;
 import matrix.project.mall.service.ShopService;
 import matrix.project.mall.vo.BrandVo;
@@ -29,6 +30,9 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
 
     @Autowired
     private ShopService shopService;
+
+    @Autowired
+    private AtomsGoodsService atomsGoodsService;
 
     @Override
     public Integer countByShopId(String shopId) {
@@ -94,6 +98,7 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
         Brand brand = queryByBrandId(brandId);
         Assert.state(brand != null, "未找到品牌");
         assert brand != null;
+        Assert.state(atomsGoodsService.countByBrandId(brandId) <= 0, "品牌下存在商品");
         brand.setStatus(Constant.DELETED);
         updateById(brand);
         return true;
