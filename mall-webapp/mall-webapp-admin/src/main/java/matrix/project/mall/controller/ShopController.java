@@ -25,6 +25,11 @@ public class ShopController implements Serializable {
         return Result.success(shopService.countShop(queryShopVo));
     }
 
+    @GetMapping("/bindShop")
+    public Result bindShop(@RequestParam String shopId) {
+        return Result.success(shopService.bindShop(shopId));
+    }
+
     @GetMapping("/listValidShop")
     public Result listValidShop() {
         return Result.success(shopService.listValidShop());

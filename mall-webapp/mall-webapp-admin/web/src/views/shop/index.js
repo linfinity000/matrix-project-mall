@@ -63,6 +63,17 @@ export let data = {
                 this.ruleForm.shopLogo = null;
             }
         },
+        bindShop() {
+            this.$confirm('确认绑定么？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                this.get('/shop/bindShop?shopId=' + this.selection[0].shopId, function (res) {
+                    this.showMessage('success', "绑定成功");
+                });
+            });
+        },
         append() {
             try {
                 this.$refs.ruleForm.resetFields();

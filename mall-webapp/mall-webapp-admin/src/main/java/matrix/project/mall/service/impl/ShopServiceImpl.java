@@ -14,6 +14,9 @@ import matrix.project.mall.service.ShopService;
 import matrix.project.mall.utils.LoginUtil;
 import matrix.project.mall.vo.QueryShopVo;
 import matrix.project.mall.vo.ShopVo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -27,13 +30,37 @@ import java.util.List;
 @Service
 public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements ShopService {
 
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
+
     @Override
     public Shop getShop() {
         AdminUserDto adminUserDto = LoginUtil.getAdminUser();
         if (!StringUtils.isEmpty(adminUserDto.getShopId())) {
             return queryByShopId(adminUserDto.getShopId());
+        } else {
+            ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+            String shopId = valueOperations.get("bind-shop:" + LoginUtil.getAdminUser().getUserId());
+            if (StringUtils.isEmpty(shopId)) {
+                return queryDefaultShop();
+            } else {
+                Shop shop = queryByShopId(shopId);
+                Assert.state(shop != null, "绑定店铺已不存在，请重新绑定");
+                return shop;
+            }
         }
-        return queryDefaultShop();
+    }
+
+    @Override
+    public boolean bindShop(String shopId) {
+        Assert.state(StringUtils.isEmpty(LoginUtil.getAdminUser().getShopId()), "只有管理员可以绑定店铺");
+        Shop shop = queryByShopId(shopId);
+        Assert.state(shop != null, "店铺不存在");
+        assert shop != null;
+        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+        String key = "bind-shop:" + LoginUtil.getAdminUser().getUserId();
+        valueOperations.set(key, shopId);
+        return true;
     }
 
     @Override

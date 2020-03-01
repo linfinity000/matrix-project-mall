@@ -15,6 +15,8 @@ public interface ShopService extends IService<Shop> {
 
     Shop getShop();
 
+    boolean bindShop(String shopId);
+
     List<Shop> listShop(QueryShopVo queryShopVo);
 
     Integer countShop(QueryShopVo queryShopVo);
