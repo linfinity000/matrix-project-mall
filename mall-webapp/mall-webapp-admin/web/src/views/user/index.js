@@ -2,8 +2,8 @@ export let data = {
     data() {
         return {
             activeName: 'list',
-            userList: [],
-            userCount: 0,
+            shopList: [],
+            shopCount: 0,
             selection: [],
             showDetail: false,
             queryForm: {
@@ -51,14 +51,14 @@ export let data = {
             this.activeName = 'list';
             this.showDetail = false;
             this.post(this.queryForm, '/user/listUser', function (res) {
-                this.userList.splice(0);
+                this.shopList.splice(0);
                 res.body.forEach(item => {
                     item['statusRemark'] = item.status === 1 ? '启用' : '停用';
-                    this.userList.push(item);
+                    this.shopList.push(item);
                 });
             });
             this.post(this.queryForm, '/user/countUser', function (res) {
-                this.userCount = res.body;
+                this.shopCount = res.body;
             });
         },
         append() {

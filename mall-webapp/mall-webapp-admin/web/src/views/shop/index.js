@@ -2,29 +2,29 @@ export let data = {
     data() {
         return {
             activeName: 'list',
-            userList: [],
-            userCount: 0,
+            shopList: [],
+            shopCount: 0,
             selection: [],
             showDetail: false,
             queryForm: {
-                username: '',
+                shopName: '',
                 status: null,
                 page: 1,
                 pageSize: 20
             },
             ruleForm: {},
             rules: {
-                username: [
-                    {required: true, message: '用户名不能为空', trigger: 'blur'},
+                shopName: [
+                    {required: true, message: '店铺名不能为空', trigger: 'blur'},
                     {min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur'}
-                ],
-                password: [
-                    {required: true, message: '密码不能为空', trigger: 'blur'},
-                    {min: 6, max: 32, message: '长度在 6 到 32 个字符', trigger: 'blur'}
                 ],
                 status: [
                     {required: true, message: '状态不能为空', trigger: 'blur'}
                 ]
+            },
+            upload: {
+                images: [],
+                tip: '只能上传jpg/png文件，且不超过500kb'
             },
             statusOptions: [{
                 id: 1,
@@ -42,17 +42,23 @@ export let data = {
         loadTable() {
             this.activeName = 'list';
             this.showDetail = false;
-            this.post(this.queryForm, '/admin-user/listUser', function (res) {
-                this.userList.splice(0);
+            this.post(this.queryForm, '/shop/listShop', function (res) {
+                this.shopList.splice(0);
                 res.body.forEach(item => {
-                    item['userGrantRemark'] = item.shopId != null && item.shopId.length > 0 ? '运营用户' : '管理员用户';
                     item['statusRemark'] = item.status === 1 ? '启用' : '停用';
-                    this.userList.push(item);
+                    this.shopList.push(item);
                 });
             });
-            this.post(this.queryForm, '/admin-user/countUser', function (res) {
-                this.userCount = res.body;
+            this.post(this.queryForm, '/shop/countShop', function (res) {
+                this.shopCount = res.body;
             });
+        },
+        uploadImagesChange(fileList) {
+            if (fileList != null && fileList.length >= 1) {
+                this.ruleForm.shopLogo = fileList[0].url;
+            } else {
+                this.ruleForm.shopLogo = null;
+            }
         },
         append() {
             try {
@@ -60,13 +66,15 @@ export let data = {
             } catch (e) {
             }
             this.ruleForm = {
-                userId: null,
-                username: '',
-                password: null,
-                isDefault: 0,
                 shopId: null,
+                shopName: '',
+                shopLogo: null,
+                shopDesc: null,
+                isDefault: 0,
+                shopStar: 5,
                 status: null,
             };
+            this.upload.images.splice(0);
             this.showDetail = true;
             this.activeName = 'detail';
         },
@@ -76,20 +84,28 @@ export let data = {
             } catch (e) {
             }
             this.ruleForm = {
-                userId: this.selection[0].userId,
-                username: this.selection[0].username,
-                password: null,
-                isDefault: this.selection[0].isDefault,
                 shopId: this.selection[0].shopId,
+                shopName: this.selection[0].shopName,
+                shopLogo: this.selection[0].shopLogo,
+                shopDesc: this.selection[0].shopDesc,
+                isDefault: this.selection[0].isDefault,
+                shopStar: this.selection[0].shopStar,
                 status: this.selection[0].status,
             };
+            this.upload.images.splice(0);
+            if (this.ruleForm.shopLogo != null && this.ruleForm.shopLogo.length > 0) {
+                this.upload.images.push({
+                    name: this.ruleForm.shopLogo.substring(this.ruleForm.shopLogo.lastIndexOf('/') + 1, this.ruleForm.shopLogo.length),
+                    url: this.ruleForm.shopLogo
+                });
+            }
             this.showDetail = true;
             this.activeName = 'detail';
         },
         save() {
             this.$refs.ruleForm.validate((valid) => {
                 if (valid) {
-                    this.post(this.ruleForm, '/admin-user/saveUser', function (res) {
+                    this.post(this.ruleForm, '/shop/saveShop', function (res) {
                         this.showMessage("success", "保存成功");
                         this.loadTable();
                     });
@@ -97,9 +113,9 @@ export let data = {
             });
         },
         remove() {
-            let user = this.selection[0];
-            if (user.isDefault === 1) {
-                this.showMessage('error', '默认用户不允许删除');
+            let shop = this.selection[0];
+            if (shop.isDefault === 1) {
+                this.showMessage('error', '默认店铺不允许删除');
                 return;
             }
             this.$confirm('确认删除么？', '提示', {
@@ -107,7 +123,7 @@ export let data = {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.get('/admin-user/removeUser?userId=' + user.userId, function (res) {
+                this.get('/shop/removeShop?shopId=' + shop.shopId, function (res) {
                     this.showMessage('success', '删除成功!');
                     this.loadTable();
                 });

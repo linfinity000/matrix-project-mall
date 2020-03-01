@@ -10,6 +10,13 @@ spring:
       max-file-size: 10000MB
       max-request-size: 10000MB
 
+upload:
+  file-max-size: 5120000
+  suffix-filter: .jpg.png
+  download-url: /api/file/download
+  file-path: C:\Users\win7\Downloads
+  preview-image-url: /api/file/previewImage/
+
 mvc:
   enabled: true
   static-path: classpath:/static/

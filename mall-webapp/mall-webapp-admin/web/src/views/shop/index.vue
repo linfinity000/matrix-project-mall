@@ -8,8 +8,8 @@
                         <el-row>
                             <el-form label-position='center' label-width="80px">
                                 <el-col :span="3">
-                                    <el-form-item label="用户名">
-                                        <el-input clearable size="small" v-model="queryForm.username"></el-input>
+                                    <el-form-item label="店铺名">
+                                        <el-input clearable size="small" v-model="queryForm.shopName"></el-input>
                                     </el-form-item>
                                 </el-col>
                                 <el-col :span="3">
@@ -36,18 +36,25 @@
                         </el-row>
                         <el-row>
                             <el-col :span="24">
-                                <el-table :data="userList" @selection-change="handleSelectionChange" border
+                                <el-table :data="shopList" @selection-change="handleSelectionChange" border
                                           style="width: 100%;margin-top: 5px;">
                                     <el-table-column type="selection" width="55"></el-table-column>
-                                    <el-table-column label="用户ID" prop="userId" width="250"></el-table-column>
-                                    <el-table-column label="用户名" prop="username" width="180"></el-table-column>
-                                    <el-table-column label="用户类型" prop="userGrantRemark" width="180"></el-table-column>
+                                    <el-table-column label="店铺ID" prop="shopId" width="250"></el-table-column>
+                                    <el-table-column label="店铺名称" prop="shopName" width="180"></el-table-column>
+                                    <el-table-column label="店铺Logo" width="180">
+                                        <template slot-scope="scope">
+                                            <img :src="scope.row.shopLogo"
+                                                 height="100"
+                                                 v-if="scope.row.shopLogo != null && scope.row.shopLogo.length > 0"
+                                                 width="100"/>
+                                        </template>
+                                    </el-table-column>
                                     <el-table-column label="创建时间" prop="createTime"></el-table-column>
                                     <el-table-column label="更新时间" prop="updateTime"></el-table-column>
                                     <el-table-column label="状态" prop="statusRemark"></el-table-column>
                                 </el-table>
                                 <el-pagination :page-count="queryForm.pageSize"
-                                               :page-sizes="[20, 50, 100]" :total="userCount"
+                                               :page-sizes="[20, 50, 100]" :total="shopCount"
                                                @current-change="handleCurrentChange"
                                                @size-change="handleSizeChange" background
                                                layout="total, prev, pager, next, sizes"
@@ -59,16 +66,14 @@
                         <el-row>
                             <el-col :span="5">
                                 <el-form :model="ruleForm" :rules="rules" label-width="100px" ref="ruleForm">
-                                    <el-form-item label="用户名" prop="username">
-                                        <el-input :disabled="ruleForm.userId != null" size="small"
-                                                  v-model="ruleForm.username"></el-input>
+                                    <el-form-item label="店铺名称" prop="shopName">
+                                        <el-input size="small" v-model="ruleForm.shopName"></el-input>
                                     </el-form-item>
-                                    <el-form-item :prop="ruleForm.userId == null ? 'password' : 'noPassword'"
-                                                  label="密码">
-                                        <el-input size="small" type="password" v-model="ruleForm.password"></el-input>
-                                    </el-form-item>
-                                    <el-form-item label="所属店铺" v-if="ruleForm.isDefault !== 1">
-                                        <el-input size="small" v-model="ruleForm.shopId"></el-input>
+                                    <el-form-item label="店铺Logo">
+                                        <file-upload :change="uploadImagesChange" :fileList="upload.images" :limit="1"
+                                                     :tip="upload.tip"
+                                                     list-type="picture"
+                                                     style="width: 350px;" type="Image"></file-upload>
                                     </el-form-item>
                                     <el-form-item label="状态" prop="status">
                                         <el-select :disabled="ruleForm.isDefault === 1" placeholder="请选择" size="small"

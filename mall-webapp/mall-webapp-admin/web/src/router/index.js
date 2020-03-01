@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 Vue.component('TopMenu', () => import('../components/top-menu/index.vue'));
+Vue.component('FileUpload', () => import('../components/file-upload/index.vue'));
 
 const routes = [{
     path: '/',

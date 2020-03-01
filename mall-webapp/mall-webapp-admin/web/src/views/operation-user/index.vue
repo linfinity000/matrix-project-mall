@@ -36,7 +36,7 @@
                         </el-row>
                         <el-row>
                             <el-col :span="24">
-                                <el-table :data="userList" @selection-change="handleSelectionChange" border
+                                <el-table :data="shopList" @selection-change="handleSelectionChange" border
                                           style="width: 100%;margin-top: 5px;">
                                     <el-table-column type="selection" width="55"></el-table-column>
                                     <el-table-column label="用户ID" prop="userId" width="250"></el-table-column>
@@ -47,7 +47,7 @@
                                     <el-table-column label="状态" prop="statusRemark"></el-table-column>
                                 </el-table>
                                 <el-pagination :page-count="queryForm.pageSize"
-                                               :page-sizes="[20, 50, 100]" :total="userCount"
+                                               :page-sizes="[20, 50, 100]" :total="shopCount"
                                                @current-change="handleCurrentChange"
                                                @size-change="handleSizeChange" background
                                                layout="total, prev, pager, next, sizes"
