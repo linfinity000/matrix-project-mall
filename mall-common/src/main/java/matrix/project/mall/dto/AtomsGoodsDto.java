@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 import matrix.module.based.serializer.DateTimeSerializer;
 import matrix.project.mall.entity.AtomsGoodsAttrLabel;
+import matrix.project.mall.entity.AtomsGoodsBanner;
 import matrix.project.mall.entity.AtomsGoodsSkuLabel;
 
 import java.io.Serializable;
@@ -52,4 +53,6 @@ public class AtomsGoodsDto implements Serializable {
     private List<AtomsGoodsSkuLabel> skuList;
 
     private List<AtomsGoodsAttrLabel> attrList;
+
+    private List<AtomsGoodsBanner> banners;
 }

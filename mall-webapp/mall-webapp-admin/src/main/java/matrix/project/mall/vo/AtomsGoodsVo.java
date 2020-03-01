@@ -34,6 +34,8 @@ public class AtomsGoodsVo implements Serializable {
 
     private List<SkuLabel> skuList;
 
+    private List<Banner> banners;
+
     @Data
     @Accessors(chain = true)
     public static class AttrLabel implements Serializable {
@@ -47,6 +49,14 @@ public class AtomsGoodsVo implements Serializable {
     public static class SkuLabel implements Serializable {
 
         private String skuName;
+
+    }
+
+    @Data
+    @Accessors(chain = true)
+    public static class Banner implements Serializable {
+
+        private String imageUrl;
 
     }
 }

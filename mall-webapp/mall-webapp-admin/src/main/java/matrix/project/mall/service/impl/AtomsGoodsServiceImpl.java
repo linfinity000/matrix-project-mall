@@ -40,6 +40,9 @@ public class AtomsGoodsServiceImpl extends ServiceImpl<AtomsGoodsMapper, AtomsGo
     @Autowired
     private AtomsGoodsAttrLabelService atomsGoodsAttrLabelService;
 
+    @Autowired
+    private AtomsGoodsBannerService atomsGoodsBannerService;
+
     @Override
     public Integer countByShopId(String shopId) {
         QueryWrapper<AtomsGoods> queryWrapper = new QueryWrapper<>();
@@ -92,6 +95,7 @@ public class AtomsGoodsServiceImpl extends ServiceImpl<AtomsGoodsMapper, AtomsGo
         assert atomsGoodsDto != null;
         atomsGoodsDto.setSkuList(atomsGoodsSkuLabelService.queryByAtomsGoodsId(atomsGoodsId));
         atomsGoodsDto.setAttrList(atomsGoodsAttrLabelService.queryByAtomsGoodsId(atomsGoodsId));
+        atomsGoodsDto.setBanners(atomsGoodsBannerService.queryByAtomsGoodsId(atomsGoodsId));
         return atomsGoodsDto;
     }
 
@@ -120,6 +124,7 @@ public class AtomsGoodsServiceImpl extends ServiceImpl<AtomsGoodsMapper, AtomsGo
                 .setCategoryId(atomsGoodsVo.getCategoryId())
                 .setUpdateTime(new Date())
                 .setStatus(atomsGoodsVo.getStatus());
+        atomsGoodsBannerService.saveAtomsGoodsBanner(atomsGoods.getAtomsGoodsId(), atomsGoodsVo.getBanners());
         if (!StringUtils.isEmpty(atomsGoodsVo.getAtomsGoodsId())) {
             updateById(atomsGoods);
         } else {

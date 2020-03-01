@@ -18,7 +18,8 @@ export let data = {
             },
             ruleForm: {
                 skuList: [],
-                attrList: []
+                attrList: [],
+                banners: [],
             },
             rules: {
                 atomsGoodsName: [
@@ -37,6 +38,7 @@ export let data = {
             },
             upload: {
                 images: [],
+                bannerImages: [],
                 tip: '只能上传jpg/png文件，且不超过500kb'
             },
             statusOptions: [{
@@ -98,6 +100,16 @@ export let data = {
                 this.ruleForm.atomsGoodsImage = null;
             }
         },
+        uploadBannerImagesChange(fileList) {
+            this.ruleForm.banners.splice(0);
+            if (fileList != null && fileList.length >= 1) {
+                fileList.forEach(item => {
+                    this.ruleForm.banners.push({
+                        imageUrl: item.url
+                    });
+                });
+            }
+        },
         append() {
             try {
                 this.$refs.ruleForm.resetFields();
@@ -105,9 +117,11 @@ export let data = {
             }
             this.ruleForm = {
                 attrList: [],
-                skuList: []
+                skuList: [],
+                banners: [],
             };
             this.upload.images.splice(0);
+            this.upload.bannerImages.splice(0);
             this.showDetail = true;
             this.activeName = 'detail';
         },
@@ -117,6 +131,7 @@ export let data = {
             } catch (e) {
             }
             this.upload.images.splice(0);
+            this.upload.bannerImages.splice(0);
             this.get('/atoms-goods/getAtomsGoods?atomsGoodsId=' + this.selection[0].atomsGoodsId, function (res) {
                 this.ruleForm = res.body;
                 if (this.ruleForm.atomsGoodsImage != null && this.ruleForm.atomsGoodsImage.length > 0) {
@@ -124,6 +139,14 @@ export let data = {
                         name: this.ruleForm.atomsGoodsImage.substring(this.ruleForm.atomsGoodsImage.lastIndexOf('/') + 1, this.ruleForm.atomsGoodsImage.length),
                         url: this.ruleForm.atomsGoodsImage
                     });
+                }
+                if (this.ruleForm.banners != null && this.ruleForm.banners.length > 0) {
+                    this.ruleForm.banners.forEach(item => {
+                        this.upload.bannerImages.push({
+                            name: item.imageUrl.substring(item.imageUrl.lastIndexOf('/') + 1, item.imageUrl.length),
+                            url: item.imageUrl
+                        });
+                    })
                 }
                 this.showDetail = true;
                 this.activeName = 'detail';

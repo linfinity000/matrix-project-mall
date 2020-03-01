@@ -128,6 +128,11 @@
                                                    v-if="!showAttrInput && ruleForm.atomsGoodsId == null">+
                                         </el-button>
                                     </el-form-item>
+                                    <el-form-item label="图片banner" style="width: 800px">
+                                        <file-upload :change="uploadBannerImagesChange" :fileList="upload.bannerImages"
+                                                     :limit="10" :tip="upload.tip" list-type="picture-card"
+                                                     type="Image"></file-upload>
+                                    </el-form-item>
                                     <el-form-item label="状态" prop="status">
                                         <el-select placeholder="请选择" size="small" v-model="ruleForm.status">
                                             <el-option :key="item.id" :label="item.name" :value="item.id"
