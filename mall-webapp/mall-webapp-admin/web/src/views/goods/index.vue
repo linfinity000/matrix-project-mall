@@ -8,7 +8,7 @@
                         <el-row>
                             <el-form label-position='center' label-width="80px">
                                 <el-col :span="3">
-                                    <el-form-item label="商品名">
+                                    <el-form-item label="商品名称">
                                         <el-input clearable size="small" v-model="queryForm.atomsGoodsName"></el-input>
                                     </el-form-item>
                                 </el-col>
