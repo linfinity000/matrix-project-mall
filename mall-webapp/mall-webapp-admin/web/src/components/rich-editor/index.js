@@ -23,7 +23,7 @@ export let data = {
     data() {
         return {
             quillUpdateImg: false,
-            content: null,
+            content: '',
             editorOption: {
                 placeholder: '',
                 theme: 'snow',
@@ -65,8 +65,12 @@ export let data = {
         }
     },
     watch: {
-        value(val) {
-            this.content = val;
+        'value': {
+            handler(val) {
+                this.content = val;
+            },
+            deep: true,
+            immediate: true,
         }
     }
 };

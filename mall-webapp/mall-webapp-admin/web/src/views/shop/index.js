@@ -18,6 +18,9 @@ export let data = {
                     {required: true, message: '店铺名不能为空', trigger: 'blur'},
                     {min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur'}
                 ],
+                shopStar: [
+                    {required: true, message: '店铺星级不能为空', trigger: 'blur'},
+                ],
                 status: [
                     {required: true, message: '状态不能为空', trigger: 'blur'}
                 ]

@@ -75,8 +75,12 @@
                                                      list-type="picture"
                                                      style="width: 350px;" type="Image"></file-upload>
                                     </el-form-item>
-                                    <el-form-item label="商品描述">
+                                    <el-form-item label="店铺描述">
                                         <rich-editor style="width: 800px;" v-model="ruleForm.shopDesc"></rich-editor>
+                                    </el-form-item>
+                                    <el-form-item label="店铺星级" prop="shopStar">
+                                        <el-rate :colors="['#99A9BF', '#F7BA2A', '#FF9900']" style="margin-top: 10px;"
+                                                 v-model="ruleForm.shopStar"></el-rate>
                                     </el-form-item>
                                     <el-form-item label="状态" prop="status">
                                         <el-select :disabled="ruleForm.isDefault === 1" placeholder="请选择" size="small"
