@@ -1,8 +1,12 @@
 package matrix.project.mall.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import matrix.module.based.serializer.DateTimeSerializer;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -20,14 +24,18 @@ public class Brand implements Serializable {
 
     private String brandName;
 
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private String brandLogo;
 
-    private String brandLink;
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
+    private String brandUrl;
 
     private String shopId;
 
+    @JsonSerialize(using = DateTimeSerializer.class)
     private Date createTime;
 
+    @JsonSerialize(using = DateTimeSerializer.class)
     private Date updateTime;
 
     private Integer status;
