@@ -2,12 +2,17 @@ package matrix.project.mall.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import matrix.module.common.utils.RandomUtil;
 import matrix.project.mall.constants.Constant;
 import matrix.project.mall.entity.AtomsGoodsAttrLabel;
 import matrix.project.mall.mapper.AtomsGoodsAttrLabelMapper;
 import matrix.project.mall.service.AtomsGoodsAttrLabelService;
+import matrix.project.mall.vo.AtomsGoodsVo;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,5 +27,23 @@ public class AtomsGoodsAttrLabelServiceImpl extends ServiceImpl<AtomsGoodsAttrLa
         queryWrapper.eq("STATUS", Constant.ENABLED)
                 .eq("ATOMS_GOODS_ID", atomsGoodsId);
         return list(queryWrapper);
+    }
+
+    @Override
+    public void saveLabel(String atomsGoodsId, List<AtomsGoodsVo.AttrLabel> attrList) {
+        if (CollectionUtils.isEmpty(attrList)) {
+            return;
+        }
+        List<AtomsGoodsAttrLabel> labels = new ArrayList<>();
+        Date time = new Date();
+        attrList.forEach(attrLabel -> labels.add(new AtomsGoodsAttrLabel()
+                .setId(RandomUtil.getUUID())
+                .setAtomsGoodsId(atomsGoodsId)
+                .setAttrName(attrLabel.getAttrName())
+                .setCreateTime(time)
+                .setUpdateTime(time)
+                .setStatus(Constant.ENABLED)
+        ));
+        saveBatch(labels);
     }
 }

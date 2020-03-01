@@ -73,6 +73,16 @@
                                     <el-form-item label="原子商品名称" prop="atomsGoodsName">
                                         <el-input size="small" v-model="ruleForm.atomsGoodsName"></el-input>
                                     </el-form-item>
+                                    <el-form-item label="品牌" prop="brandId">
+                                        <el-select placeholder="请选择" size="small" v-model="ruleForm.brandId">
+                                            <el-option :key="item.brandId" :label="item.brandName" :value="item.brandId"
+                                                       v-for="item in brandOptions"></el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                    <el-form-item label="分类" prop="categoryId">
+                                        <select-tree :options="categoryTree" v-model="ruleForm.categoryId"
+                                                     width="200"></select-tree>
+                                    </el-form-item>
                                     <el-form-item label="商品卖点">
                                         <el-input size="small" v-model="ruleForm.salePoints"></el-input>
                                     </el-form-item>

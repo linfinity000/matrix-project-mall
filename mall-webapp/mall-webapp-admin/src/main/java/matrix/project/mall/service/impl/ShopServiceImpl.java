@@ -175,7 +175,7 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements Sh
         Assert.state(shop != null, "未找到店铺");
         assert shop != null;
         Assert.state(shop.getIsDefault().equals(0), "默认店铺不允许删除");
-        Assert.state(atomsGoodsService.countByShopId(shopId) <= 0, "店铺下存在商品");
+        Assert.state(atomsGoodsService.countByShopId(shopId) <= 0, "店铺下存在原子商品");
         Assert.state(categoryService.countByShopId(shopId) <= 0, "店铺下存在分类");
         Assert.state(brandService.countByShopId(shopId) <= 0, "店铺下存在品牌");
         shop.setStatus(Constant.DELETED);

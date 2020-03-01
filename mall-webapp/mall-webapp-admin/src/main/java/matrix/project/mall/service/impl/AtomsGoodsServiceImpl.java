@@ -5,20 +5,19 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import matrix.module.common.helper.Assert;
+import matrix.module.common.utils.RandomUtil;
 import matrix.project.mall.constants.Constant;
 import matrix.project.mall.dto.AtomsGoodsDto;
 import matrix.project.mall.entity.AtomsGoods;
 import matrix.project.mall.mapper.AtomsGoodsMapper;
-import matrix.project.mall.service.AtomsGoodsAttrLabelService;
-import matrix.project.mall.service.AtomsGoodsService;
-import matrix.project.mall.service.AtomsGoodsSkuLabelService;
-import matrix.project.mall.service.ShopService;
+import matrix.project.mall.service.*;
 import matrix.project.mall.vo.AtomsGoodsVo;
 import matrix.project.mall.vo.QueryAtomsGoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,6 +29,9 @@ public class AtomsGoodsServiceImpl extends ServiceImpl<AtomsGoodsMapper, AtomsGo
 
     @Autowired
     private ShopService shopService;
+
+    @Autowired
+    private GoodsService goodsService;
 
     @Autowired
     private AtomsGoodsSkuLabelService atomsGoodsSkuLabelService;
@@ -93,13 +95,57 @@ public class AtomsGoodsServiceImpl extends ServiceImpl<AtomsGoodsMapper, AtomsGo
     }
 
     @Override
+    //@Transactional
     public boolean saveAtomsGoods(AtomsGoodsVo atomsGoodsVo) {
-        return false;
+        Assert.state(!StringUtils.isEmpty(atomsGoodsVo.getAtomsGoodsName()), "原子商品名称不允许为空");
+        Assert.state(atomsGoodsVo.getBrandId() != null, "品牌不允许为空");
+        Assert.state(atomsGoodsVo.getCategoryId() != null, "分类不允许为空");
+        AtomsGoods atomsGoods;
+        if (!StringUtils.isEmpty(atomsGoodsVo.getAtomsGoodsId())) {
+            atomsGoods = queryByAtomsGoodsId(atomsGoodsVo.getAtomsGoodsId());
+            Assert.state(atomsGoods != null, "未找到原子商品");
+        } else {
+            atomsGoods = new AtomsGoods()
+                    .setAtomsGoodsId(RandomUtil.getUUID())
+                    .setShopId(shopService.getShop().getShopId())
+                    .setCreateTime(new Date());
+        }
+        assert atomsGoods != null;
+        atomsGoods.setAtomsGoodsName(atomsGoodsVo.getAtomsGoodsName())
+                .setAtomsGoodsImage(atomsGoodsVo.getAtomsGoodsImage())
+                .setDescription(atomsGoodsVo.getDescription())
+                .setSalePoints(atomsGoodsVo.getSalePoints())
+                .setBrandId(atomsGoodsVo.getBrandId())
+                .setCategoryId(atomsGoodsVo.getCategoryId())
+                .setUpdateTime(new Date())
+                .setStatus(atomsGoodsVo.getStatus());
+        if (!StringUtils.isEmpty(atomsGoodsVo.getAtomsGoodsId())) {
+            updateById(atomsGoods);
+        } else {
+            atomsGoodsSkuLabelService.saveLabel(atomsGoods.getAtomsGoodsId(), atomsGoodsVo.getSkuList());
+            atomsGoodsAttrLabelService.saveLabel(atomsGoods.getAtomsGoodsId(), atomsGoodsVo.getAttrList());
+            save(atomsGoods);
+        }
+        return true;
     }
 
     @Override
     public boolean removeAtomsGoods(String atomsGoodsId) {
-        return false;
+        AtomsGoods atomsGoods = queryByAtomsGoodsId(atomsGoodsId);
+        Assert.state(atomsGoods != null, "未找到原子商品");
+        assert atomsGoods != null;
+        Assert.state(goodsService.countByAtomsGoodsId(atomsGoodsId) <= 0, "原子商品下存在商品");
+        atomsGoods.setStatus(Constant.DELETED);
+        updateById(atomsGoods);
+        return true;
+    }
+
+    @Override
+    public AtomsGoods queryByAtomsGoodsId(String atomsGoodsId) {
+        QueryWrapper<AtomsGoods> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("ATOMS_GOODS_ID", atomsGoodsId)
+                .ne("STATUS", Constant.DELETED);
+        return getOne(queryWrapper, false);
     }
 
 }

@@ -6,6 +6,7 @@ Vue.use(VueRouter)
 Vue.component('TopMenu', () => import('../components/top-menu/index.vue'));
 Vue.component('FileUpload', () => import('../components/file-upload/index.vue'));
 Vue.component('RichEditor', () => import('../components/rich-editor/index.vue'));
+Vue.component('SelectTree', () => import('../components/select-tree/index.vue'));
 
 const routes = [{
     path: '/',

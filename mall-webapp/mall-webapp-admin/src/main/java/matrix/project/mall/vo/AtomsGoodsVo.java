@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author wangcheng
@@ -12,4 +13,40 @@ import java.io.Serializable;
 @Data
 @Accessors(chain = true)
 public class AtomsGoodsVo implements Serializable {
+
+    private String atomsGoodsId;
+
+    private String atomsGoodsName;
+
+    private String atomsGoodsImage;
+
+    private String brandId;
+
+    private String categoryId;
+
+    private String description;
+
+    private String salePoints;
+
+    private Integer status;
+
+    private List<AttrLabel> attrList;
+
+    private List<SkuLabel> skuList;
+
+    @Data
+    @Accessors(chain = true)
+    public static class AttrLabel implements Serializable {
+
+        private String attrName;
+
+    }
+
+    @Data
+    @Accessors(chain = true)
+    public static class SkuLabel implements Serializable {
+
+        private String skuName;
+
+    }
 }

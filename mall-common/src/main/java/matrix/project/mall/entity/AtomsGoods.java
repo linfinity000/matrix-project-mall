@@ -1,5 +1,7 @@
 package matrix.project.mall.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -24,10 +26,13 @@ public class AtomsGoods implements Serializable {
 
     private String atomsGoodsName;
 
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private String salePoints;
 
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private String description;
 
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private String atomsGoodsImage;
 
     private String shopId;

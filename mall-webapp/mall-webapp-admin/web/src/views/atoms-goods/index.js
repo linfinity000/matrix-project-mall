@@ -25,6 +25,12 @@ export let data = {
                     {required: true, message: '商品名不能为空', trigger: 'blur'},
                     {min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur'}
                 ],
+                brandId: [
+                    {required: true, message: '品牌不能为空', trigger: 'blur'}
+                ],
+                categoryId: [
+                    {required: true, message: '分类不能为空', trigger: 'blur'}
+                ],
                 status: [
                     {required: true, message: '状态不能为空', trigger: 'blur'}
                 ]
@@ -39,14 +45,39 @@ export let data = {
             }, {
                 id: 0,
                 name: '下架'
-            }]
+            }],
+            brandOptions: [],
+            categoryTree: [],
         }
     },
     created() {
         this.loadTable();
     },
     methods: {
+        loadBrand() {
+            this.post({page: 1, pageSize: 100}, '/brand/listBrand', function (res) {
+                this.brandOptions = res.body;
+            })
+        },
+        loadCategory() {
+            this.get('/category/categoryTree', function (res) {
+                this.categoryTree = res.body;
+                this.recursiveCategoryTree(this.categoryTree);
+            })
+        },
+        recursiveCategoryTree(categoryList) {
+            if (categoryList == null || categoryList.length <= 0) {
+                return;
+            }
+            categoryList.forEach(item => {
+                item.id = item.categoryId;
+                item.name = item.categoryName;
+                this.recursiveCategoryTree(item.children);
+            });
+        },
         loadTable() {
+            this.loadBrand();
+            this.loadCategory();
             this.activeName = 'list';
             this.showDetail = false;
             this.post(this.queryForm, '/atoms-goods/listAtomsGoods', function (res) {
