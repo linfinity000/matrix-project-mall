@@ -13,6 +13,7 @@ export let data = {
                 pageSize: 20
             },
             skuLabels: [],
+            attrLabels: [],
             skuSelect: [],
             newValue: {
                 shows: {},
@@ -79,11 +80,51 @@ export let data = {
                 }
             });
         },
+        loadAttrLabel(atomsGoodsId, goodsId) {
+            this.attrLabels.splice(0);
+            goodsId = goodsId != null ? goodsId : '';
+            this.get('/goods/attrLabels?atomsGoodsId=' + atomsGoodsId + '&goodsId=' + goodsId, function (res) {
+                this.attrLabels = res.body;
+            });
+        },
         loadSingleGoods() {
+            this.loadAttrLabel(this.selection[0].atomsGoodsId);
             this.skuSelect.splice(0);
             this.get('/goods/getGoodsByAtomsGoodsId?atomsGoodsId=' + this.selection[0].atomsGoodsId, function (res) {
                 this.ruleForm = res.body;
+                this.loadAttrLabel(this.selection[0].atomsGoodsId, res.body.goodsId);
             });
+        },
+        loadMultiGoods() {
+            this.skuSelect.splice(0);
+            for (let i = 0; i < this.skuLabels.length; i++) {
+                let label = this.skuLabels[i];
+                for (let j = 0; j < label.skuValues.length; j++) {
+                    let value = label.skuValues[j];
+                    if (value.type === 'success') {
+                        this.skuSelect.push({labelId: label.labelId, skuValue: value.value});
+                    }
+                }
+            }
+            if (this.skuSelect.length === this.skuLabels.length && this.skuLabels.length > 0) {
+                this.upload.images.splice(0);
+                this.post(JSON.stringify(this.skuSelect), '/goods/getGoods', function (res) {
+                    this.showRuleForm = true;
+                    try {
+                        this.$refs.ruleForm.resetFields();
+                    } catch (e) {
+                    }
+                    this.ruleForm = res.body;
+                    this.ruleForm.atomsGoodsId = this.ruleForm.atomsGoodsId != null ? this.ruleForm.atomsGoodsId : this.selection[0].atomsGoodsId;
+                    if (this.ruleForm.imageUrl != null && this.ruleForm.imageUrl.length > 0) {
+                        this.upload.images.push({
+                            name: this.ruleForm.imageUrl.substring(this.ruleForm.imageUrl.lastIndexOf('/') + 1, this.ruleForm.imageUrl.length),
+                            url: this.ruleForm.imageUrl
+                        });
+                    }
+                    this.loadAttrLabel(this.selection[0].atomsGoodsId, res.body.goodsId);
+                });
+            }
         },
         loadTable() {
             this.activeName = 'list';
@@ -124,36 +165,6 @@ export let data = {
             });
             this.loadMultiGoods();
         },
-        loadMultiGoods() {
-            this.skuSelect.splice(0);
-            for (let i = 0; i < this.skuLabels.length; i++) {
-                let label = this.skuLabels[i];
-                for (let j = 0; j < label.skuValues.length; j++) {
-                    let value = label.skuValues[j];
-                    if (value.type === 'success') {
-                        this.skuSelect.push({labelId: label.labelId, skuValue: value.value});
-                    }
-                }
-            }
-            if (this.skuSelect.length === this.skuLabels.length && this.skuLabels.length > 0) {
-                this.upload.images.splice(0);
-                this.post(JSON.stringify(this.skuSelect), '/goods/getGoods', function (res) {
-                    this.showRuleForm = true;
-                    try {
-                        this.$refs.ruleForm.resetFields();
-                    } catch (e) {
-                    }
-                    this.ruleForm = res.body;
-                    this.ruleForm.atomsGoodsId = this.ruleForm.atomsGoodsId != null ? this.ruleForm.atomsGoodsId : this.selection[0].atomsGoodsId;
-                    if (this.ruleForm.imageUrl != null && this.ruleForm.imageUrl.length > 0) {
-                        this.upload.images.push({
-                            name: this.ruleForm.imageUrl.substring(this.ruleForm.imageUrl.lastIndexOf('/') + 1, this.ruleForm.imageUrl.length),
-                            url: this.ruleForm.imageUrl
-                        });
-                    }
-                });
-            }
-        },
         handleNewValueConfirm(id) {
             let value = this.newValue.values[id];
             if (value) {
@@ -184,6 +195,7 @@ export let data = {
             this.$refs.ruleForm.validate((valid) => {
                 if (valid) {
                     this.ruleForm.skuLabels = this.skuSelect;
+                    this.ruleForm.attrLabels = this.attrLabels;
                     this.post(this.ruleForm, '/goods/saveGoods', function (res) {
                         this.showMessage("success", "保存成功");
                         if (this.skuLabels.length > 0) {

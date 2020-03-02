@@ -81,4 +81,13 @@
         group by gs.GOODS_ID
         having count(1) = #{length}
     </select>
+    <select id="attrLabels" resultType="matrix.project.mall.dto.AttrDto">
+        select DISTINCT agal.ID as labelId, agal.ATTR_NAME as labelName, ga.ATTR_VALUE as attrValue
+        from atoms_goods_attr_label agal
+                 left join goods_attr ga
+                           on ga.ATOMS_GOODS_ATTR_LABEL_ID = agal.ID and ga.STATUS = 1 and ga.GOODS_ID = #{goodsId}
+        where agal.ATOMS_GOODS_ID = #{atomsGoodsId}
+          and agal.STATUS = 1
+        order by agal.ORDER_BY
+    </select>
 </mapper>

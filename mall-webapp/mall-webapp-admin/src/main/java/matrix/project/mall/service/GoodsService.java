@@ -1,6 +1,7 @@
 package matrix.project.mall.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import matrix.project.mall.dto.AttrDto;
 import matrix.project.mall.dto.GoodsDto;
 import matrix.project.mall.dto.SkuDto;
 import matrix.project.mall.entity.Goods;
@@ -33,6 +34,8 @@ public interface GoodsService extends IService<Goods> {
     Goods queryByGoodsId(String goodsId);
 
     List<SkuDto> skuLabels(String atomsGoodsId);
+
+    List<AttrDto> attrLabels(String atomsGoodsId, String goodsId);
 
     GoodsDto getGoods(List<QuerySkuLabelVo> querySkuLabelVos);
 

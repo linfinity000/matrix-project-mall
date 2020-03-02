@@ -113,6 +113,11 @@
                                                            v-for="item in statusOptions"></el-option>
                                             </el-select>
                                         </el-form-item>
+                                        <el-form-item :key="attr.labelId" :label="attr.labelName"
+                                                      v-for="attr in attrLabels" v-if="attrLabels.length > 0">
+                                            <el-input size="small" style="width: 180px;"
+                                                      v-model="attr.attrValue"></el-input>
+                                        </el-form-item>
                                         <el-form-item>
                                             <el-button @click="save" size="small" type="primary">保存</el-button>
                                             <el-button @click="remove" size="small" type="danger"

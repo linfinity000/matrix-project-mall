@@ -8,6 +8,7 @@ import matrix.module.common.helper.Assert;
 import matrix.module.common.utils.RandomUtil;
 import matrix.project.mall.constants.Constant;
 import matrix.project.mall.converter.SkuLabelConvert;
+import matrix.project.mall.dto.AttrDto;
 import matrix.project.mall.dto.GoodsDto;
 import matrix.project.mall.dto.SkuDto;
 import matrix.project.mall.entity.Goods;
@@ -99,6 +100,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
                 .setImageUrl(goodsVo.getImageUrl())
                 .setUpdateTime(new Date())
                 .setStatus(goodsVo.getStatus());
+        goodsAttrService.saveGoodsAttr(goods.getGoodsId(), goodsVo.getAttrLabels());
         if (!StringUtils.isEmpty(goodsVo.getGoodsId())) {
             updateById(goods);
         } else {
@@ -133,6 +135,11 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     @Override
     public List<SkuDto> skuLabels(String atomsGoodsId) {
         return SkuLabelConvert.convert(getBaseMapper().skuLabels(atomsGoodsId));
+    }
+
+    @Override
+    public List<AttrDto> attrLabels(String atomsGoodsId, String goodsId) {
+        return getBaseMapper().attrLabels(atomsGoodsId, goodsId);
     }
 
     @Override

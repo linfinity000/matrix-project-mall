@@ -3,6 +3,7 @@ package matrix.project.mall.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import matrix.module.jdbc.annotation.TargetDataSource;
+import matrix.project.mall.dto.AttrDto;
 import matrix.project.mall.dto.GoodsDto;
 import matrix.project.mall.dto.SkuDto;
 import matrix.project.mall.entity.Goods;
@@ -30,4 +31,6 @@ public interface GoodsMapper extends BaseMapper<Goods> {
     List<SkuDto.SkuLabelDto> skuLabels(@Param("atomsGoodsId") String atomsGoodsId);
 
     String queryGoodsIdBySkuLabel(@Param("list") List<QuerySkuLabelVo> list, @Param("length") int size);
+
+    List<AttrDto> attrLabels(@Param("atomsGoodsId") String atomsGoodsId, @Param("goodsId") String goodsId);
 }

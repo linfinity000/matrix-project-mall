@@ -36,6 +36,11 @@ public class GoodsController {
         return Result.success(goodsService.skuLabels(atomsGoodsId));
     }
 
+    @GetMapping("/attrLabels")
+    public Result attrLabels(@RequestParam String atomsGoodsId, @RequestParam String goodsId) {
+        return Result.success(goodsService.attrLabels(atomsGoodsId, goodsId));
+    }
+
     @PostMapping("/getGoods")
     public Result getGoods(@RequestBody List<QuerySkuLabelVo> querySkuLabelVo) {
         return Result.success(goodsService.getGoods(querySkuLabelVo));

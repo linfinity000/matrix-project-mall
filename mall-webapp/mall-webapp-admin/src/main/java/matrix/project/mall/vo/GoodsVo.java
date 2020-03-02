@@ -31,6 +31,8 @@ public class GoodsVo implements Serializable {
 
     private List<SkuLabel> skuLabels;
 
+    private List<AttrLabel> attrLabels;
+
     @Data
     @Accessors(chain = true)
     public static class SkuLabel implements Serializable {
@@ -38,6 +40,16 @@ public class GoodsVo implements Serializable {
         private String labelId;
 
         private String skuValue;
+
+    }
+
+    @Data
+    @Accessors(chain = true)
+    public static class AttrLabel implements Serializable {
+
+        private String labelId;
+
+        private String attrValue;
 
     }
 }
