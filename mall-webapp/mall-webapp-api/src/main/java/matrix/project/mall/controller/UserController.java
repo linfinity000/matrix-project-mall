@@ -17,17 +17,18 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/user")
-@NotNeedUserVerify
 public class UserController {
 
     @Autowired
     private UserService userService;
 
+    @NotNeedUserVerify
     @PostMapping("/registerUser")
     public Result registerUser(@RequestBody UserVo userVo) {
         return Result.success(userService.registerUser(userVo));
     }
 
+    @NotNeedUserVerify
     @PostMapping("/login")
     public Result login(@RequestBody LoginUserVo loginUserVo) {
         return Result.success(userService.login(loginUserVo));
