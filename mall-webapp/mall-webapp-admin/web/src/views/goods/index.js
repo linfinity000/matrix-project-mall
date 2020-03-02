@@ -38,10 +38,10 @@ export let data = {
             },
             statusOptions: [{
                 id: 1,
-                name: '上架'
+                name: '启用'
             }, {
                 id: 0,
-                name: '下架'
+                name: '禁用'
             }]
         }
     },
