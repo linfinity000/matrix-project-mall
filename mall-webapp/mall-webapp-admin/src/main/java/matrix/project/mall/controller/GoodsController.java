@@ -4,8 +4,11 @@ import matrix.module.common.bean.Result;
 import matrix.project.mall.service.GoodsService;
 import matrix.project.mall.vo.GoodsVo;
 import matrix.project.mall.vo.QueryGoodsVo;
+import matrix.project.mall.vo.QuerySkuLabelVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author wangcheng
@@ -28,8 +31,23 @@ public class GoodsController {
         return Result.success(goodsService.listGoods(queryGoodsVo));
     }
 
+    @GetMapping("/skuLabels")
+    public Result skuLabels(@RequestParam String atomsGoodsId) {
+        return Result.success(goodsService.skuLabels(atomsGoodsId));
+    }
+
+    @PostMapping("/getGoods")
+    public Result getGoods(@RequestBody List<QuerySkuLabelVo> querySkuLabelVo) {
+        return Result.success(goodsService.getGoods(querySkuLabelVo));
+    }
+
+    @GetMapping("/getGoodsByAtomsGoodsId")
+    public Result getGoodsByAtomsGoodsId(@RequestParam String atomsGoodsId) {
+        return Result.success(goodsService.getGoodsByAtomsGoodsId(atomsGoodsId));
+    }
+
     @GetMapping("/getGoods")
-    public Result getAtomsGoods(@RequestParam String goodsId) {
+    public Result getGoods(@RequestParam String goodsId) {
         return Result.success(goodsService.getGoods(goodsId));
     }
 

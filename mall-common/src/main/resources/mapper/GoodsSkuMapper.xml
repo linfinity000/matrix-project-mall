@@ -2,14 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="matrix.project.mall.mapper.GoodsSkuMapper">
 
-    <select id="queryByGoodsId" resultType="matrix.project.mall.dto.GoodsDto$GoodsSkuDto">
-        SELECT agsl.ID       as id,
-               agsl.SKU_NAME as skuName,
-               gs.SKU_VALUE  as skuValue
-        FROM goods_sku gs
-                 left join atoms_goods_sku_label agsl on agsl.ID = gs.ATOMS_GOODS_SKU_LABEL_ID
-        where gs.GOODS_ID = #{goodsId}
-          AND gs.STATUS = 1
-        order by agsl.ORDER_BY
-    </select>
+    <update id="removeSku">
+        update goods_sku
+        set STATUS = -1
+        where GOODS_ID = #{goodsId}
+          and STATUS != -1
+    </update>
 </mapper>

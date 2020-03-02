@@ -1,8 +1,8 @@
 package matrix.project.mall.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import matrix.project.mall.dto.GoodsDto;
 import matrix.project.mall.entity.GoodsSku;
+import matrix.project.mall.vo.GoodsVo;
 
 import java.util.List;
 
@@ -12,6 +12,7 @@ import java.util.List;
  */
 public interface GoodsSkuService extends IService<GoodsSku> {
 
-    List<GoodsDto.GoodsSkuDto> queryByGoodsId(String goodsId);
+    void saveGoodsSku(String goodsId, List<GoodsVo.SkuLabel> skuLabels);
 
+    void removeSku(String goodsId);
 }

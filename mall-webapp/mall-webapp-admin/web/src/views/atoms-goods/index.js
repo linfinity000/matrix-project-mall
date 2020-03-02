@@ -174,6 +174,12 @@ export let data = {
                 });
             });
         },
+        handleShowSkuInput() {
+            this.showSkuInput = true;
+            this.$nextTick(_ => {
+                this.$refs['skuInput'].$refs.input.focus();
+            });
+        },
         newSkuLabel() {
             this.showSkuInput = false;
             for (let i = 0; i < this.ruleForm.skuList.length; i++) {
@@ -200,6 +206,12 @@ export let data = {
             if (index >= 0) {
                 this.ruleForm.skuList.splice(index, 1);
             }
+        },
+        handleShowAttrInput() {
+            this.showAttrInput = true;
+            this.$nextTick(_ => {
+                this.$refs['attrInput'].$refs.input.focus();
+            });
         },
         newAttrLabel() {
             this.showAttrInput = false;

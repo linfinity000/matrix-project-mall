@@ -70,7 +70,7 @@
                         <el-row>
                             <el-col :span="5">
                                 <el-form :model="ruleForm" :rules="rules" label-width="120px" ref="ruleForm">
-                                    <el-form-item label="原子商品名称" prop="atomsGoodsName">
+                                    <el-form-item label="商品名称" prop="atomsGoodsName">
                                         <el-input size="small" v-model="ruleForm.atomsGoodsName"></el-input>
                                     </el-form-item>
                                     <el-form-item label="品牌" prop="brandId">
@@ -86,7 +86,7 @@
                                     <el-form-item label="商品卖点">
                                         <el-input size="small" v-model="ruleForm.salePoints"></el-input>
                                     </el-form-item>
-                                    <el-form-item label="原子商品图片">
+                                    <el-form-item label="商品图片">
                                         <file-upload :change="uploadImagesChange" :fileList="upload.images" :limit="1"
                                                      :tip="upload.tip"
                                                      list-type="picture"
@@ -103,11 +103,11 @@
                                         </el-tag>
                                         <el-input @blur="newSkuLabel" @keyup.enter.native="newSkuLabel"
                                                   class="input-new-tag"
-                                                  size="small"
+                                                  ref="skuInput" size="small"
                                                   v-if="showSkuInput && (ruleForm.atomsGoodsId == null)"
                                                   v-model="skuInputValue">
                                         </el-input>
-                                        <el-button @click="() => {this.showSkuInput = true;}" class="button-new-tag"
+                                        <el-button @click="handleShowSkuInput" class="button-new-tag"
                                                    size="small"
                                                    v-if="!showSkuInput && ruleForm.atomsGoodsId == null">+
                                         </el-button>
@@ -119,11 +119,11 @@
                                             {{attr.attrName}}
                                         </el-tag>
                                         <el-input @blur="newAttrLabel" @keyup.enter.native="newAttrLabel"
-                                                  class="input-new-tag" size="small"
+                                                  class="input-new-tag" ref="attrInput" size="small"
                                                   v-if="showAttrInput && ruleForm.atomsGoodsId == null"
                                                   v-model="attrInputValue">
                                         </el-input>
-                                        <el-button @click="() => {this.showAttrInput = true;}" class="button-new-tag"
+                                        <el-button @click="handleShowAttrInput" class="button-new-tag"
                                                    size="small"
                                                    v-if="!showAttrInput && ruleForm.atomsGoodsId == null">+
                                         </el-button>

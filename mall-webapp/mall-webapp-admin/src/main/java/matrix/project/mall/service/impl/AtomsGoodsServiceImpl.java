@@ -154,4 +154,13 @@ public class AtomsGoodsServiceImpl extends ServiceImpl<AtomsGoodsMapper, AtomsGo
         return getOne(queryWrapper, false);
     }
 
+    @Override
+    public void verifyHasAtomsGoodsId(String atomsGoodsId) {
+        QueryWrapper<AtomsGoods> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("SHOP_ID", shopService.getShop().getShopId())
+                .eq("ATOMS_GOODS_ID", atomsGoodsId)
+                .ne("STATUS", Constant.DELETED);
+        Assert.state(getOne(queryWrapper, false) != null, "该店铺未找到商品");
+    }
+
 }

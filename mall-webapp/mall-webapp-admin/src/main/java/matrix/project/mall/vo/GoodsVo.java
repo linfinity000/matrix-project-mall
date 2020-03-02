@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @author wangcheng
@@ -12,4 +14,30 @@ import java.io.Serializable;
 @Data
 @Accessors(chain = true)
 public class GoodsVo implements Serializable {
+
+    private String atomsGoodsId;
+
+    private String goodsId;
+
+    private BigDecimal originPrice;
+
+    private BigDecimal salePrice;
+
+    private Integer stock;
+
+    private String imageUrl;
+
+    private Integer status;
+
+    private List<SkuLabel> skuLabels;
+
+    @Data
+    @Accessors(chain = true)
+    public static class SkuLabel implements Serializable {
+
+        private String labelId;
+
+        private String skuValue;
+
+    }
 }
