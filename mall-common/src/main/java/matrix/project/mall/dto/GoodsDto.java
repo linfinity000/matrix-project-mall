@@ -21,6 +21,8 @@ public class GoodsDto implements Serializable {
 
     private String atomsGoodsId;
 
+    private String atomsGoodsName;
+
     private String goodsName;
 
     private BigDecimal originPrice;

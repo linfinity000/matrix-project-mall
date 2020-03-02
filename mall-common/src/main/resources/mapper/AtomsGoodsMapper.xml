@@ -16,8 +16,10 @@
         ag.`STATUS` as `status`,
         b.BRAND_NAME as brandName,
         c.CATEGORY_NAME as categoryName,
-        s.SHOP_NAME as shopName
+        s.SHOP_NAME as shopName,
+        count(g.GOODS_ID) as goodsCount
         FROM atoms_goods ag
+        LEFT JOIN goods g on g.ATOMS_GOODS_ID = ag.ATOMS_GOODS_ID and g.STATUS = 1
         LEFT JOIN brand b on b.BRAND_ID = ag.BRAND_ID
         LEFT JOIN category c on c.CATEGORY_ID = ag.CATEGORY_ID
         LEFT JOIN shop s on s.SHOP_ID = ag.SHOP_ID
@@ -30,6 +32,7 @@
                 and ag.ATOMS_GOODS_NAME like CONCAT('%', #{item.atomsGoodsName}, '%')
             </if>
         </where>
+        GROUP BY ag.ATOMS_GOODS_ID
         ORDER BY ag.UPDATE_TIME
     </select>
 

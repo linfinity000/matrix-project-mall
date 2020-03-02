@@ -41,6 +41,7 @@
     <select id="getGoods" resultType="matrix.project.mall.dto.GoodsDto">
         SELECT g.GOODS_ID                                                              as goodsId,
                g.ATOMS_GOODS_ID                                                        as atomsGoodsId,
+               ag.ATOMS_GOODS_NAME                                                     as atomsGoodsName,
                CONCAT(ag.ATOMS_GOODS_NAME, ' ',
                       GROUP_CONCAT(gs.SKU_VALUE order by agkl.ORDER_BY SEPARATOR ' ')) as goodsName,
                g.ORIGIN_PRICE                                                          as originPrice,

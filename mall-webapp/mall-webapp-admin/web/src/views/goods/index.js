@@ -80,6 +80,7 @@ export let data = {
             });
         },
         loadSingleGoods() {
+            this.skuSelect.splice(0);
             this.get('/goods/getGoodsByAtomsGoodsId?atomsGoodsId=' + this.selection[0].atomsGoodsId, function (res) {
                 this.ruleForm = res.body;
             });
@@ -121,9 +122,9 @@ export let data = {
                     value.type = 'success';
                 }
             });
-            this.verifySkuSelect();
+            this.loadMultiGoods();
         },
-        verifySkuSelect() {
+        loadMultiGoods() {
             this.skuSelect.splice(0);
             for (let i = 0; i < this.skuLabels.length; i++) {
                 let label = this.skuLabels[i];
@@ -186,7 +187,7 @@ export let data = {
                     this.post(this.ruleForm, '/goods/saveGoods', function (res) {
                         this.showMessage("success", "保存成功");
                         if (this.skuLabels.length > 0) {
-                            this.verifySkuSelect();
+                            this.loadMultiGoods();
                         } else {
                             this.loadSingleGoods();
                         }

@@ -40,6 +40,7 @@
                                     <el-table-column label="商品卖点" prop="salePoints"></el-table-column>
                                     <el-table-column label="品牌名称" prop="brandName"></el-table-column>
                                     <el-table-column label="分类名称" prop="categoryName"></el-table-column>
+                                    <el-table-column label="有效商品" prop="goodsCount"></el-table-column>
                                     <el-table-column label="店铺名称" prop="shopName"></el-table-column>
                                     <el-table-column label="创建时间" prop="createTime"></el-table-column>
                                     <el-table-column label="更新时间" prop="updateTime"></el-table-column>
@@ -80,8 +81,9 @@
                                     </div>
                                     <div v-if="showRuleForm">
                                         <el-divider content-position="left">商品信息</el-divider>
-                                        <el-form-item label="商品名称" v-if="ruleForm.goodsName != null">
-                                            {{ruleForm.goodsName}}
+                                        <el-form-item label="商品名称" v-if="ruleForm.atomsGoodsName != null">
+                                            {{ruleForm.goodsName == null ? ruleForm.atomsGoodsName :
+                                            ruleForm.goodsName}}
                                         </el-form-item>
                                         <el-form-item label="原价">
                                             <el-input-number :max="100000" :min="0.01" :precision="2"
