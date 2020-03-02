@@ -16,7 +16,7 @@
         SELECT
         g.GOODS_ID as goodsId,
         g.ATOMS_GOODS_ID as atomsGoodsId,
-        CONCAT(ag.ATOMS_GOODS_NAME, ' ', GROUP_CONCAT(gs.SKU_VALUE order by agkl.ORDER_BY SEPARATOR ' ')) as goodsName,
+        CONCAT(ag.ATOMS_GOODS_NAME, ' ', GROUP_CONCAT(gs.SKU_VALUE order by agkl.ORDER_BY)) as goodsName,
         g.ORIGIN_PRICE as originPrice,
         g.SALE_PRICE as salePrice,
         g.STOCK as stock,
@@ -39,18 +39,17 @@
         ORDER BY ag.UPDATE_TIME, g.UPDATE_TIME
     </select>
     <select id="getGoods" resultType="matrix.project.mall.dto.GoodsDto">
-        SELECT g.GOODS_ID                                                              as goodsId,
-               g.ATOMS_GOODS_ID                                                        as atomsGoodsId,
-               ag.ATOMS_GOODS_NAME                                                     as atomsGoodsName,
-               CONCAT(ag.ATOMS_GOODS_NAME, ' ',
-                      GROUP_CONCAT(gs.SKU_VALUE order by agkl.ORDER_BY SEPARATOR ' ')) as goodsName,
-               g.ORIGIN_PRICE                                                          as originPrice,
-               g.SALE_PRICE                                                            as salePrice,
-               g.STOCK                                                                 as stock,
-               g.IMAGE_URL                                                             as imageUrl,
-               g.CREATE_TIME                                                           as createTime,
-               g.UPDATE_TIME                                                           as updateTime,
-               g.`STATUS`                                                              as status
+        SELECT g.GOODS_ID                                                                          as goodsId,
+               g.ATOMS_GOODS_ID                                                                    as atomsGoodsId,
+               ag.ATOMS_GOODS_NAME                                                                 as atomsGoodsName,
+               CONCAT(ag.ATOMS_GOODS_NAME, ' ', GROUP_CONCAT(gs.SKU_VALUE order by agkl.ORDER_BY)) as goodsName,
+               g.ORIGIN_PRICE                                                                      as originPrice,
+               g.SALE_PRICE                                                                        as salePrice,
+               g.STOCK                                                                             as stock,
+               g.IMAGE_URL                                                                         as imageUrl,
+               g.CREATE_TIME                                                                       as createTime,
+               g.UPDATE_TIME                                                                       as updateTime,
+               g.`STATUS`                                                                          as status
         FROM goods g
                  JOIN atoms_goods ag ON g.ATOMS_GOODS_ID = ag.ATOMS_GOODS_ID
                  LEFT JOIN goods_sku gs ON gs.GOODS_ID = g.GOODS_ID AND gs.`STATUS` = 1
