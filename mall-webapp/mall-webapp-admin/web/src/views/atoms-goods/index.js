@@ -168,7 +168,7 @@ export let data = {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.get('/atoms-goods/removeAtomsGoods?shopId=' + this.selection[0].atomsGoodsId, function (res) {
+                this.get('/atoms-goods/removeAtomsGoods?atomsGoodsId=' + this.selection[0].atomsGoodsId, function (res) {
                     this.showMessage('success', '删除成功!');
                     this.loadTable();
                 });
