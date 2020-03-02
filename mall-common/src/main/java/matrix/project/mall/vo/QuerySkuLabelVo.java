@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class QuerySkuLabelVo implements Serializable {
 
-    private Long labelId;
+    private String labelId;
 
     private String skuValue;
 }

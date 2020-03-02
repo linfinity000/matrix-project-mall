@@ -26,7 +26,8 @@ public class AtomsGoodsSkuLabelServiceImpl extends ServiceImpl<AtomsGoodsSkuLabe
     public List<AtomsGoodsSkuLabel> queryByAtomsGoodsId(String atomsGoodsId) {
         QueryWrapper<AtomsGoodsSkuLabel> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("STATUS", Constant.ENABLED)
-                .eq("ATOMS_GOODS_ID", atomsGoodsId);
+                .eq("ATOMS_GOODS_ID", atomsGoodsId)
+                .orderByAsc("ORDER_BY");
         return list(queryWrapper);
     }
 
