@@ -33,5 +33,4 @@ public class UserController {
     public Result login(@RequestBody LoginUserVo loginUserVo) {
         return Result.success(userService.login(loginUserVo));
     }
-
 }

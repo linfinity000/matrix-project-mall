@@ -8,4 +8,7 @@ import matrix.project.mall.entity.Goods;
  * @date 2020-02-28
  */
 public interface GoodsService extends IService<Goods> {
+
+    Goods queryByGoodsId(String goodsId);
+
 }

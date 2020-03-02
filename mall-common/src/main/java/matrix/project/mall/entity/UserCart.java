@@ -1,5 +1,6 @@
 package matrix.project.mall.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
@@ -18,6 +19,7 @@ import java.util.Date;
 @TableName("user_cart")
 public class UserCart implements Serializable {
 
+    @TableId
     private String id;
 
     private String userId;
