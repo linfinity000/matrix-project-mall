@@ -65,4 +65,23 @@ public class UserCartServiceImpl extends ServiceImpl<UserCartMapper, UserCart> i
         return getOne(queryWrapper, false);
     }
 
+    @Override
+    public UserCart queryById(String id) {
+        QueryWrapper<UserCart> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("ID", id)
+                .eq("USER_ID", LoginUtil.getUser().getUserId())
+                .eq("STATUS", Constant.ENABLED);
+        return getOne(queryWrapper, false);
+    }
+
+    @Override
+    public boolean removeCart(String id) {
+        UserCart userCart = queryById(id);
+        Assert.state(userCart != null, "查询购物车为空");
+        assert userCart != null;
+        userCart.setStatus(Constant.DELETED);
+        updateById(userCart);
+        return true;
+    }
+
 }

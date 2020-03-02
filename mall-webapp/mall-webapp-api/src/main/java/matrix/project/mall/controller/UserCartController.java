@@ -4,10 +4,7 @@ import matrix.module.common.bean.Result;
 import matrix.project.mall.service.UserCartService;
 import matrix.project.mall.vo.CartVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author wangcheng
@@ -25,4 +22,8 @@ public class UserCartController {
         return Result.success(userCartService.updateCart(cartVo));
     }
 
+    @GetMapping("/removeCart")
+    public Result removeCart(@RequestParam String id) {
+        return Result.success(userCartService.removeCart(id));
+    }
 }

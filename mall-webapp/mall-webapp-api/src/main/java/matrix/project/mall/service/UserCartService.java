@@ -14,4 +14,7 @@ public interface UserCartService extends IService<UserCart> {
 
     UserCart queryByGoodsId(String goodsId);
 
+    UserCart queryById(String id);
+
+    boolean removeCart(String id);
 }
