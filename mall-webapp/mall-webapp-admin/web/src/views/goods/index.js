@@ -38,10 +38,10 @@ export let data = {
             },
             statusOptions: [{
                 id: 1,
-                name: '启用'
+                name: '上架'
             }, {
                 id: 0,
-                name: '禁用'
+                name: '下架'
             }]
         }
     },
@@ -132,7 +132,7 @@ export let data = {
             this.post(this.queryForm, '/atoms-goods/listAtomsGoods', function (res) {
                 this.atomsGoodsList.splice(0);
                 res.body.forEach(item => {
-                    item['statusRemark'] = item.status === 1 ? '启用' : '禁用';
+                    item['statusRemark'] = item.status === 1 ? '上架' : '下架';
                     this.atomsGoodsList.push(item);
                 });
             });
