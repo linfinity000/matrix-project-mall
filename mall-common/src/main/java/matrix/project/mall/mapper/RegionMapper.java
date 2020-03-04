@@ -2,7 +2,7 @@ package matrix.project.mall.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import matrix.module.jdbc.annotation.TargetDataSource;
-import matrix.project.mall.entity.Country;
+import matrix.project.mall.entity.Region;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -11,5 +11,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 @TargetDataSource
-public interface CountryMapper extends BaseMapper<Country> {
+public interface RegionMapper extends BaseMapper<Region> {
 }

@@ -11,9 +11,11 @@ import java.io.Serializable;
  */
 @Data
 @Accessors(chain = true)
-public class Province implements Serializable {
+public class Region implements Serializable {
 
     private String code;
 
     private String name;
+
+    private Integer status;
 }
