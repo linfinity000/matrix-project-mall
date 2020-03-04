@@ -2,11 +2,9 @@ package matrix.project.mall.controller;
 
 import matrix.module.common.bean.Result;
 import matrix.project.mall.service.RegionService;
+import matrix.project.mall.vo.RegionVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author wangcheng
@@ -22,6 +20,11 @@ public class RegionController {
     @GetMapping("/listRegion")
     public Result listRegion(@RequestParam Long parentCode) {
         return Result.success(regionService.listRegion(parentCode));
+    }
+
+    @PostMapping("/addRegion")
+    public Result addRegion(@RequestBody RegionVo regionVo) {
+        return Result.success(regionService.addRegion(regionVo));
     }
 
 

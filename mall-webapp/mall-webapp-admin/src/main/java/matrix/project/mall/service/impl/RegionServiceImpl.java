@@ -7,6 +7,7 @@ import matrix.project.mall.constants.Constant;
 import matrix.project.mall.entity.Region;
 import matrix.project.mall.mapper.RegionMapper;
 import matrix.project.mall.service.RegionService;
+import matrix.project.mall.vo.RegionVo;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -26,6 +27,19 @@ public class RegionServiceImpl extends ServiceImpl<RegionMapper, Region> impleme
                 .eq("STATUS", Constant.ENABLED)
                 .orderByAsc("CODE");
         return list(queryWrapper);
+    }
+
+    @Override
+    public boolean addRegion(RegionVo regionVo) {
+        Assert.state(queryByCode(regionVo.getCode()) == null, "code已存在");
+        Assert.state(queryByCode(regionVo.getParentCode()) != null, "父code不存在");
+        Region region = new Region()
+                .setCode(regionVo.getCode())
+                .setName(regionVo.getName())
+                .setParentCode(regionVo.getParentCode())
+                .setStatus(Constant.ENABLED);
+        save(region);
+        return true;
     }
 
     @Override

@@ -12,4 +12,10 @@ import java.io.Serializable;
 @Data
 @Accessors(chain = true)
 public class RegionVo implements Serializable {
+
+    private Long code;
+
+    private String name;
+
+    private Long parentCode;
 }

@@ -2,6 +2,7 @@ package matrix.project.mall.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import matrix.project.mall.entity.Region;
+import matrix.project.mall.vo.RegionVo;
 
 import java.util.List;
 
@@ -12,6 +13,8 @@ import java.util.List;
 public interface RegionService extends IService<Region> {
 
     List<Region> listRegion(Long parentCode);
+
+    boolean addRegion(RegionVo regionVo);
 
     boolean removeRegion(Long code);
 
