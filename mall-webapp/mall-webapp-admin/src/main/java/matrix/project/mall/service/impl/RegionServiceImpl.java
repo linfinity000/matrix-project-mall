@@ -1,10 +1,16 @@
 package matrix.project.mall.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import matrix.module.common.helper.Assert;
+import matrix.project.mall.constants.Constant;
 import matrix.project.mall.entity.Region;
 import matrix.project.mall.mapper.RegionMapper;
 import matrix.project.mall.service.RegionService;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.util.List;
 
 /**
  * @author wangcheng
@@ -12,4 +18,34 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class RegionServiceImpl extends ServiceImpl<RegionMapper, Region> implements RegionService {
+
+    @Override
+    public List<Region> listRegion(Long parentCode) {
+        QueryWrapper<Region> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("PARENT_CODE", parentCode)
+                .eq("STATUS", Constant.ENABLED)
+                .orderByAsc("CODE");
+        return list(queryWrapper);
+    }
+
+    @Override
+    public boolean removeRegion(Long code) {
+        List<Region> region = listRegion(code);
+        Assert.state(CollectionUtils.isEmpty(region), "节点下存在数据");
+        Region result = queryByCode(code);
+        Assert.state(result != null, "查询region不存在");
+        assert result != null;
+        result.setStatus(Constant.DISABLED);
+        updateById(result);
+        return true;
+    }
+
+    @Override
+    public Region queryByCode(Long code) {
+        QueryWrapper<Region> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("CODE", code)
+                .eq("STATUS", Constant.ENABLED);
+        return getOne(queryWrapper, false);
+    }
+
 }

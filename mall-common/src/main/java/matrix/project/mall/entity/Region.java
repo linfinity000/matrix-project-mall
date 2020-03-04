@@ -1,5 +1,6 @@
 package matrix.project.mall.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -13,9 +14,12 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class Region implements Serializable {
 
-    private String code;
+    @TableId
+    private Long code;
 
     private String name;
+
+    private Long parentCode;
 
     private Integer status;
 }
