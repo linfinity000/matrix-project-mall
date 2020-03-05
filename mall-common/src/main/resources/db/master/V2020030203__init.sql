@@ -23,6 +23,7 @@ CREATE TABLE order_ext
     CITY_CODE              INT(10) COMMENT '城市编码',
     CITY_NAME              VARCHAR(20) COMMENT '城市名称',
     ADDRESS                VARCHAR(255) COMMENT '收货地址',
+    REMARK                 TEXT COMMENT '订单备注',
     PRIMARY KEY (ID)
 );
 
