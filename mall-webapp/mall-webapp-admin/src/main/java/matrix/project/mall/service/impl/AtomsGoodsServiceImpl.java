@@ -112,6 +112,7 @@ public class AtomsGoodsServiceImpl extends ServiceImpl<AtomsGoodsMapper, AtomsGo
         } else {
             atomsGoods = new AtomsGoods()
                     .setAtomsGoodsId(RandomUtil.getUUID())
+                    .setHasLogistics(atomsGoodsVo.getHasLogistics())
                     .setShopId(shopService.getShop().getShopId())
                     .setCreateTime(new Date());
         }

@@ -32,6 +32,9 @@ export let data = {
                 categoryId: [
                     {required: true, message: '分类不能为空', trigger: 'blur'}
                 ],
+                hasLogistics: [
+                    {required: true, message: '请选择是否需要物流', trigger: 'blur'}
+                ],
                 status: [
                     {required: true, message: '状态不能为空', trigger: 'blur'}
                 ]

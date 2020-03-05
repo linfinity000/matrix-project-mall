@@ -128,6 +128,13 @@
                                                    v-if="!showAttrInput && ruleForm.atomsGoodsId == null">+
                                         </el-button>
                                     </el-form-item>
+                                    <el-form-item label="是否需要物流" prop="hasLogistics">
+                                        <el-radio-group :disabled="ruleForm.atomsGoodsId != null"
+                                                        v-model="ruleForm.hasLogistics">
+                                            <el-radio :label="1">需要物流</el-radio>
+                                            <el-radio :label="2">不需要物流</el-radio>
+                                        </el-radio-group>
+                                    </el-form-item>
                                     <el-form-item label="图片banner" style="width: 800px">
                                         <file-upload :change="uploadBannerImagesChange" :fileList="upload.bannerImages"
                                                      :limit="10" :tip="upload.tip" list-type="picture-card"

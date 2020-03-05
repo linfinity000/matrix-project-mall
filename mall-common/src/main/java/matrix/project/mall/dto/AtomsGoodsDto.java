@@ -44,6 +44,8 @@ public class AtomsGoodsDto implements Serializable {
 
     private Integer goodsCount;
 
+    private Integer hasLogistics;
+
     @JsonSerialize(using = DateTimeSerializer.class)
     private Date createTime;
 

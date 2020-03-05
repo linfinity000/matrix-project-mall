@@ -41,6 +41,8 @@ public class AtomsGoods implements Serializable {
 
     private String categoryId;
 
+    private Integer hasLogistics;
+
     @JsonSerialize(using = DateTimeSerializer.class)
     private Date createTime;
 

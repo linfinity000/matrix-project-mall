@@ -28,6 +28,8 @@ public class AtomsGoodsVo implements Serializable {
 
     private String salePoints;
 
+    private Integer hasLogistics;
+
     private Integer status;
 
     private List<AttrLabel> attrList;
