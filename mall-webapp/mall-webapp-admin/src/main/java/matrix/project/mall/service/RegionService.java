@@ -14,7 +14,7 @@ public interface RegionService extends IService<Region> {
 
     List<Region> listRegion(Long parentCode);
 
-    boolean addRegion(RegionVo regionVo);
+    boolean saveRegion(RegionVo regionVo);
 
     boolean removeRegion(Long code);
 

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
  * @date 2020-03-05
  */
 @RestController
-@RequestMapping("/region")
+@RequestMapping("/api/region")
 public class RegionController {
 
     @Autowired
@@ -22,9 +22,9 @@ public class RegionController {
         return Result.success(regionService.listRegion(parentCode));
     }
 
-    @PostMapping("/addRegion")
-    public Result addRegion(@RequestBody RegionVo regionVo) {
-        return Result.success(regionService.addRegion(regionVo));
+    @PostMapping("/saveRegion")
+    public Result saveRegion(@RequestBody RegionVo regionVo) {
+        return Result.success(regionService.saveRegion(regionVo));
     }
 
 
