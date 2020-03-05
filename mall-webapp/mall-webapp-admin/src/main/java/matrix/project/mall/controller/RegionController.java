@@ -17,9 +17,9 @@ public class RegionController {
     @Autowired
     private RegionService regionService;
 
-    @GetMapping("/listRegion")
-    public Result listRegion(@RequestParam Long parentCode) {
-        return Result.success(regionService.listRegion(parentCode));
+    @GetMapping("/regionTree")
+    public Result regionTree() {
+        return Result.success(regionService.regionTree());
     }
 
     @PostMapping("/saveRegion")

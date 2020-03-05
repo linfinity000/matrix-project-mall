@@ -25,36 +25,28 @@ export let data = {
         this.loadTree(0);
     },
     methods: {
-        loadTree(parentCode) {
+        loadTree() {
             this.showRuleForm = false;
             this.ruleForm = {
                 code: null,
                 parentCode: null,
                 name: null,
             };
-            this.get('/region/listRegion?parentCode=' + parentCode, function (res) {
+            this.get('/region/regionTree', function (res) {
                 this.regionList.splice(0);
                 this.regionList = res.body;
             });
         },
         filterNode(value, data) {
             if (!value) return true;
-            return data.categoryName.indexOf(value) !== -1;
-        },
-        nodeClick(data) {
-            this.showRuleForm = true;
-            this.ruleForm = {
-                name: data.name,
-                parentCode: data.parentCode,
-                code: data.code,
-            }
+            return data.name.indexOf(value) !== -1;
         },
         append(data) {
             this.showRuleForm = true;
             this.ruleForm = {
                 code: null,
-                parentCode: data.parentCode,
-                name: data.name
+                parentCode: data.code,
+                name: null
             }
         },
         appendRoot() {
@@ -74,7 +66,7 @@ export let data = {
             }).then(() => {
                 this.get('/region/removeRegion?code=' + data.code, function (res) {
                     this.showMessage('success', '删除成功!');
-                    this.loadTree(0);
+                    this.loadTree();
                 });
             });
         },
@@ -83,7 +75,7 @@ export let data = {
                 if (valid) {
                     this.post(this.ruleForm, '/region/saveRegion', function (res) {
                         this.showMessage('success', '保存成功!');
-                        this.loadTree(0);
+                        this.loadTree();
                     });
                 }
             });

@@ -3,14 +3,19 @@ package matrix.project.mall.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import matrix.module.common.helper.Assert;
+import matrix.module.common.utils.TreeUtil;
 import matrix.project.mall.constants.Constant;
+import matrix.project.mall.dto.RegionDto;
 import matrix.project.mall.entity.Region;
 import matrix.project.mall.mapper.RegionMapper;
 import matrix.project.mall.service.RegionService;
+import matrix.project.mall.utils.ListUtil;
 import matrix.project.mall.vo.RegionVo;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +24,37 @@ import java.util.List;
  */
 @Service
 public class RegionServiceImpl extends ServiceImpl<RegionMapper, Region> implements RegionService {
+
+    @Override
+    public List<RegionDto> regionTree() {
+        QueryWrapper<Region> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("STATUS", Constant.ENABLED)
+                .orderByAsc("CODE");
+        List<Region> regions = list(queryWrapper);
+        if (CollectionUtils.isEmpty(regions)) {
+            return new ArrayList<>();
+        }
+        List<RegionDto> result = ListUtil.copyList(regions, RegionDto.class);
+        TreeUtil.toTree(result, new TreeUtil.Comparator<RegionDto>() {
+            @Override
+            public boolean isParentWithChild(RegionDto pre, RegionDto after) {
+                if (pre.getCode().equals(after.getParentCode())) {
+                    return true;
+                }
+                return false;
+            }
+
+            @Override
+            public boolean isTop(RegionDto region) {
+                Long parentCode = region.getParentCode();
+                if (parentCode != null && parentCode.equals(0L)) {
+                    return true;
+                }
+                return false;
+            }
+        });
+        return result;
+    }
 
     @Override
     public List<Region> listRegion(Long parentCode) {
@@ -31,10 +67,13 @@ public class RegionServiceImpl extends ServiceImpl<RegionMapper, Region> impleme
 
     @Override
     public boolean saveRegion(RegionVo regionVo) {
-        Assert.state(queryByCode(regionVo.getCode()) == null, "code已存在");
+        Assert.state(!StringUtils.isEmpty(regionVo.getCode()), "code不允许为空");
+        Assert.state(regionVo.getCode().toString().length() == 2, "code必须为两位数字");
+        Long code = Long.valueOf((regionVo.getParentCode().equals(0L) ? "" : regionVo.getParentCode().toString()) + regionVo.getCode().toString());
+        Assert.state(queryByCode(code) == null, "code已存在");
         Assert.state(regionVo.getParentCode() == 0L || queryByCode(regionVo.getParentCode()) != null, "父code不存在");
         Region region = new Region()
-                .setCode(regionVo.getCode())
+                .setCode(code)
                 .setName(regionVo.getName())
                 .setParentCode(regionVo.getParentCode())
                 .setStatus(Constant.ENABLED);
@@ -48,9 +87,7 @@ public class RegionServiceImpl extends ServiceImpl<RegionMapper, Region> impleme
         Assert.state(CollectionUtils.isEmpty(region), "节点下存在数据");
         Region result = queryByCode(code);
         Assert.state(result != null, "查询region不存在");
-        assert result != null;
-        result.setStatus(Constant.DISABLED);
-        updateById(result);
+        removeById(code);
         return true;
     }
 
