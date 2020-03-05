@@ -13,9 +13,6 @@ public enum OrderStatus {
     SHIPPED(14, "已发货"),
     RECEIPTED(15, "已收货"),
     ORDER_END(100, "订单结束");
-    // 退货设计中。。。
-//    REPLY_RETURNS(16, "申请退款"),
-//    APPLY_RETURNS(17, "同意退款"),
     private Integer code;
 
     private String name;

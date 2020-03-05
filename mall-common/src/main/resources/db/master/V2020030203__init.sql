@@ -2,7 +2,6 @@ CREATE TABLE `order`
 (
     ORDER_ID    VARCHAR(255)   NOT NULL COMMENT '订单ID',
     SHOP_ID     VARCHAR(255)   NOT NULL COMMENT '店铺ID',
-    GOODS_ID    VARCHAR(255)   NOT NULL COMMENT '商品ID',
     PRICE       DECIMAL(20, 2) NOT NULL COMMENT '订单金额',
     CREATE_TIME DATETIME       NOT NULL COMMENT '创建时间',
     UPDATE_TIME DATETIME       NOT NULL COMMENT '更新时间',
@@ -24,6 +23,17 @@ CREATE TABLE order_ext
     CITY_CODE              INT(10) COMMENT '城市编码',
     CITY_NAME              VARCHAR(20) COMMENT '城市名称',
     ADDRESS                VARCHAR(255) COMMENT '收货地址',
-    MIRROR                 TEXT         NOT NULL COMMENT '订单商品镜像(JSON)',
+    PRIMARY KEY (ID)
+);
+
+CREATE TABLE order_goods
+(
+    ID                VARCHAR(255)   NOT NULL COMMENT '订单商品表ID',
+    ORDER_ID          VARCHAR(255)   NOT NULL COMMENT '订单ID',
+    GOODS_ID          VARCHAR(255)   NOT NULL COMMENT '商品ID',
+    GOODS_COUNT       INT(10)        NOT NULL COMMENT '商品数量',
+    GOODS_TOTAL_PRICE DECIMAL(20, 2) NOT NULL COMMENT '商品总价格',
+    GOODS_SECRET      TEXT COMMENT '商品密钥，不需要收货订单可能需要此密钥',
+    MIRROR            TEXT           NOT NULL COMMENT '商品镜像(JSON)',
     PRIMARY KEY (ID)
 );
