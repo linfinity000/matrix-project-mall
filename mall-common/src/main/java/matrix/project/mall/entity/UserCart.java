@@ -24,6 +24,8 @@ public class UserCart implements Serializable {
 
     private String userId;
 
+    private String shopId;
+
     private String goodsId;
 
     private Integer goodsCount;

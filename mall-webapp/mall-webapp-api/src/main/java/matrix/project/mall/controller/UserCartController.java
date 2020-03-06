@@ -17,9 +17,9 @@ public class UserCartController {
     @Autowired
     private UserCartService userCartService;
 
-    @PostMapping("/updateCart")
-    public Result updateCart(@RequestBody CartVo cartVo) {
-        return Result.success(userCartService.updateCart(cartVo));
+    @PostMapping("/saveCart")
+    public Result saveCart(@RequestBody CartVo cartVo) {
+        return Result.success(userCartService.saveCart(cartVo));
     }
 
     @GetMapping("/removeCart")

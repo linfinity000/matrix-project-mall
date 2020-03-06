@@ -20,11 +20,17 @@ public class Address implements Serializable {
 
     private String address;
 
-    private Long provinceId;
+    private Long provinceCode;
 
-    private Long cityId;
+    private String provinceName;
 
-    private Long areaId;
+    private Long cityCode;
+
+    private String cityName;
+
+    private Long areaCode;
+
+    private String areaName;
 
     private String userId;
 

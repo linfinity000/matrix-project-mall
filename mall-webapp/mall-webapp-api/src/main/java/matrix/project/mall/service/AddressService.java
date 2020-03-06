@@ -8,4 +8,6 @@ import matrix.project.mall.entity.Address;
  * @date 2020-03-05
  */
 public interface AddressService extends IService<Address> {
+
+    Address queryById(String addressId);
 }

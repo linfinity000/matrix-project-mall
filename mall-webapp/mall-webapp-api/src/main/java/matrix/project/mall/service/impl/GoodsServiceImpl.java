@@ -9,6 +9,8 @@ import matrix.project.mall.mapper.GoodsMapper;
 import matrix.project.mall.service.GoodsService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author wangcheng
  * @date 2020-02-28
@@ -24,6 +26,14 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         Goods goods = getOne(queryWrapper, false);
         Assert.state(goods != null, "查询商品为空");
         return goods;
+    }
+
+    @Override
+    public List<Goods> queryByGoodsIds(List<String> goodsIds) {
+        QueryWrapper<Goods> queryWrapper = new QueryWrapper<>();
+        queryWrapper.in("GOODS_ID", goodsIds)
+                .eq("STATUS", Constant.ENABLED);
+        return list(queryWrapper);
     }
 
 }

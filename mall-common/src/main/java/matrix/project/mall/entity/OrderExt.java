@@ -25,10 +25,6 @@ public class OrderExt implements Serializable {
 
     private String logisticsNo;
 
-    private Long countryCode;
-
-    private String countryName;
-
     private Long provinceCode;
 
     private String provinceName;
@@ -36,6 +32,10 @@ public class OrderExt implements Serializable {
     private Long cityCode;
 
     private String cityName;
+
+    private Long areaCode;
+
+    private String areaName;
 
     private String address;
 

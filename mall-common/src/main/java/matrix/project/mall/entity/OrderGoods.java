@@ -24,7 +24,7 @@ public class OrderGoods implements Serializable {
 
     private String goodsId;
 
-    private Long goodsCount;
+    private Integer goodsCount;
 
     private BigDecimal goodsTotalPrice;
 

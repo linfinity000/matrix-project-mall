@@ -5,9 +5,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import matrix.module.common.helper.Assert;
 import matrix.module.common.utils.RandomUtil;
 import matrix.project.mall.constants.Constant;
+import matrix.project.mall.entity.AtomsGoods;
 import matrix.project.mall.entity.Goods;
 import matrix.project.mall.entity.UserCart;
 import matrix.project.mall.mapper.UserCartMapper;
+import matrix.project.mall.service.AtomsGoodsService;
 import matrix.project.mall.service.GoodsService;
 import matrix.project.mall.service.UserCartService;
 import matrix.project.mall.utils.LoginUtil;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author wangcheng
@@ -26,22 +29,31 @@ import java.util.Date;
 public class UserCartServiceImpl extends ServiceImpl<UserCartMapper, UserCart> implements UserCartService {
 
     @Autowired
+    private AtomsGoodsService atomsGoodsService;
+
+    @Autowired
     private GoodsService goodsService;
 
     @Override
-    public boolean updateCart(CartVo cartVo) {
+    public boolean saveCart(CartVo cartVo) {
         Assert.state(!StringUtils.isEmpty(cartVo.getGoodsId()), "商品ID不允许为空");
         Assert.state(cartVo.getGoodsCount() != null, "商品数量不允许为空");
         assert cartVo.getGoodsCount() != null;
         Assert.state(cartVo.getGoodsCount() > 0, "商品数量必须大于0");
         Goods goods = goodsService.queryByGoodsId(cartVo.getGoodsId());
+        Assert.state(goods != null, "商品不可用");
+        assert goods != null;
         Assert.state(goods.getStock() >= cartVo.getGoodsCount(), "商品库存不足");
+        AtomsGoods atomsGoods = atomsGoodsService.queryById(goods.getAtomsGoodsId());
+        Assert.state(atomsGoods != null, "原子商品不可用");
         Date date = new Date();
         UserCart userCart = queryByGoodsId(cartVo.getGoodsId());
         if (userCart == null) {
+            assert atomsGoods != null;
             userCart = new UserCart()
                     .setId(RandomUtil.getUUID())
                     .setUserId(LoginUtil.getUser().getUserId())
+                    .setShopId(atomsGoods.getShopId())
                     .setGoodsId(cartVo.getGoodsId())
                     .setGoodsCount(cartVo.getGoodsCount())
                     .setCreateTime(date)
@@ -72,6 +84,16 @@ public class UserCartServiceImpl extends ServiceImpl<UserCartMapper, UserCart> i
                 .eq("USER_ID", LoginUtil.getUser().getUserId())
                 .eq("STATUS", Constant.ENABLED);
         return getOne(queryWrapper, false);
+    }
+
+    @Override
+    public List<UserCart> queryByIds(List<String> ids) {
+        QueryWrapper<UserCart> queryWrapper = new QueryWrapper<>();
+        queryWrapper.in("ID", ids)
+                .eq("USER_ID", LoginUtil.getUser().getUserId())
+                .gt("GOODS_COUNT", 0)
+                .eq("STATUS", Constant.ENABLED);
+        return list(queryWrapper);
     }
 
     @Override
