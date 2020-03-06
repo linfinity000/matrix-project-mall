@@ -38,7 +38,7 @@ INSERT INTO menu (MENU_ID, MENU_NAME, IS_DEFAULT, URL, PARENT_ID, TYPE, ORDER_BY
 VALUES ('31', '当前店铺信息管理', 1, 'ShopInfo', '3', 'Operation', '2', NOW(), NOW(), 1);
 
 INSERT INTO menu (MENU_ID, MENU_NAME, IS_DEFAULT, URL, PARENT_ID, TYPE, ORDER_BY, CREATE_TIME, UPDATE_TIME, STATUS)
-VALUES ('4', '订单管理', 1, '', '0', 'Operation', '9997', NOW(), NOW(), 1);
+VALUES ('4', '订单管理', 1, 'Order', '0', 'Operation', '9997', NOW(), NOW(), 1);
 
 INSERT INTO menu (MENU_ID, MENU_NAME, IS_DEFAULT, URL, PARENT_ID, TYPE, ORDER_BY, CREATE_TIME, UPDATE_TIME, STATUS)
 VALUES ('5', '商品管理', 1, '', '0', 'Operation', '9996', NOW(), NOW(), 1);
