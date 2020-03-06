@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import matrix.module.common.helper.Assert;
 import matrix.project.mall.constants.Constant;
+import matrix.project.mall.dto.GoodsNameDto;
 import matrix.project.mall.entity.Goods;
 import matrix.project.mall.mapper.GoodsMapper;
 import matrix.project.mall.service.GoodsService;
@@ -34,6 +35,11 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         queryWrapper.in("GOODS_ID", goodsIds)
                 .eq("STATUS", Constant.ENABLED);
         return list(queryWrapper);
+    }
+
+    @Override
+    public List<GoodsNameDto> goodsNameList(List<String> goodsIds) {
+        return getBaseMapper().goodsNameList(goodsIds);
     }
 
 }

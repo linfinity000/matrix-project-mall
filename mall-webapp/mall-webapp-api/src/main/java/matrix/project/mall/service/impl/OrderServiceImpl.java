@@ -6,6 +6,7 @@ import matrix.module.common.exception.ServiceException;
 import matrix.module.common.helper.Assert;
 import matrix.module.common.utils.RandomUtil;
 import matrix.project.mall.constants.Constant;
+import matrix.project.mall.dto.GoodsNameDto;
 import matrix.project.mall.entity.*;
 import matrix.project.mall.enums.Logistics;
 import matrix.project.mall.enums.OrderStatus;
@@ -56,7 +57,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         Assert.state(!CollectionUtils.isEmpty(userCarts), "无有效的购物车");
         Map<String, UserCart> userCartMap = userCarts.stream().collect(Collectors.toMap(UserCart::getGoodsId, item -> item, (o1, o2) -> o2));
         //查询商品信息
-        List<Goods> goods = goodsService.queryByGoodsIds(userCarts.stream().map(UserCart::getGoodsId).collect(Collectors.toList()));
+        List<String> tempGoodsIds = userCarts.stream().map(UserCart::getGoodsId).collect(Collectors.toList());
+        List<Goods> goods = goodsService.queryByGoodsIds(tempGoodsIds);
         Map<String, Goods> goodsMap = goods.stream().collect(Collectors.toMap(Goods::getGoodsId, item -> item, (o1, o2) -> o2));
         //查询原子商品信息
         List<AtomsGoods> atomsGoods = atomsGoodsService.queryByIds(goods.stream().map(Goods::getAtomsGoodsId).distinct().collect(Collectors.toList()));
@@ -65,6 +67,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         for (UserCart userCart : userCarts) {
             goodsIdsMap.computeIfAbsent(userCart.getShopId(), k -> new ArrayList<>()).add(userCart.getGoodsId());
         }
+        //查询商品名称
+        List<GoodsNameDto> goodsNameList = goodsService.goodsNameList(tempGoodsIds);
+        Map<String, GoodsNameDto> goodsNameMap = goodsNameList.stream().collect(Collectors.toMap(GoodsNameDto::getGoodsId, item -> item, (o1, o2) -> o2));
         List<Order> orders = new ArrayList<>();
         List<OrderGoods> orderGoods = new ArrayList<>();
         List<OrderExt> orderExts = new ArrayList<>();
@@ -85,9 +90,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 if (tempGoods.getStock() < userCart.getGoodsCount()) {
                     throw new ServiceException(String.format("商品%s库存不足", tempAtomsGoods.getAtomsGoodsName()));
                 }
+                GoodsNameDto goodsName = goodsNameMap.get(goodsId);
                 Map<String, Object> mirror = new HashMap<>();
                 mirror.put("atomsGoods", tempAtomsGoods);
                 mirror.put("goods", tempGoods);
+                mirror.put("goodsName", StringUtils.isEmpty(goodsName.getGoodsName())
+                        ? goodsName.getAtomsGoodsName()
+                        : goodsName.getGoodsName());
                 BigDecimal goodsTotalPrice = tempGoods.getSalePrice().multiply(new BigDecimal(userCart.getGoodsCount()));
                 orderGoods.add(new OrderGoods()
                         .setId(RandomUtil.getUUID())

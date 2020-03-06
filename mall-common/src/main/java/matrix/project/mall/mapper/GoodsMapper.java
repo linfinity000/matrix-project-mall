@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import matrix.module.jdbc.annotation.TargetDataSource;
 import matrix.project.mall.dto.AttrDto;
 import matrix.project.mall.dto.GoodsDto;
+import matrix.project.mall.dto.GoodsNameDto;
 import matrix.project.mall.dto.SkuDto;
 import matrix.project.mall.entity.Goods;
 import matrix.project.mall.vo.QueryGoodsVo;
@@ -33,4 +34,6 @@ public interface GoodsMapper extends BaseMapper<Goods> {
     String queryGoodsIdBySkuLabel(@Param("list") List<QuerySkuLabelVo> list, @Param("length") int size);
 
     List<AttrDto> attrLabels(@Param("atomsGoodsId") String atomsGoodsId, @Param("goodsId") String goodsId);
+
+    List<GoodsNameDto> goodsNameList(@Param("goodsIds") List<String> goodsIds);
 }

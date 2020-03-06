@@ -89,4 +89,21 @@
           and agal.STATUS = 1
         order by agal.ORDER_BY
     </select>
+
+    <select id="goodsNameList" resultType="matrix.project.mall.dto.GoodsNameDto">
+        SELECT g.GOODS_ID as goodsId,
+        ag.ATOMS_GOODS_NAME as atomsGoodsName,
+        CONCAT(ag.ATOMS_GOODS_NAME, ' ', GROUP_CONCAT(gs.SKU_VALUE order by agkl.ORDER_BY)) as goodsName
+        FROM goods g
+        JOIN atoms_goods ag ON g.ATOMS_GOODS_ID = ag.ATOMS_GOODS_ID
+        LEFT JOIN goods_sku gs ON gs.GOODS_ID = g.GOODS_ID AND gs.`STATUS` = 1
+        left join atoms_goods_sku_label agkl on agkl.ID = gs.ATOMS_GOODS_SKU_LABEL_ID
+        WHERE ag.STATUS != -1
+        and g.STATUS != -1
+        and g.GOODS_ID in
+        <foreach collection="goodsIds" item="goodsId" open="(" close=")" separator=",">
+            #{goodsId}
+        </foreach>
+        GROUP BY g.GOODS_ID
+    </select>
 </mapper>
