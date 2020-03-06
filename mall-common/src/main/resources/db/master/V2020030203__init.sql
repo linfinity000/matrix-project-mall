@@ -15,6 +15,7 @@ CREATE TABLE order_ext
 (
     ID                     VARCHAR(255) NOT NULL COMMENT '订单扩展表ID',
     ORDER_ID               VARCHAR(255) NOT NULL COMMENT '订单ID',
+    HAS_LOGISTICS          INT(1)       NOT NULL DEFAULT 1 COMMENT '1:有物流, 2:无物流',
     LOGISTICS_COMPANY_ID   VARCHAR(255) COMMENT '物流公司ID',
     LOGISTICS_COMPANY_NAME VARCHAR(255) COMMENT '物流公司名称',
     LOGISTICS_NO           VARCHAR(255) COMMENT '物流单号',
@@ -33,6 +34,7 @@ CREATE TABLE order_goods
 (
     ID                VARCHAR(255)   NOT NULL COMMENT '订单商品表ID',
     ORDER_ID          VARCHAR(255)   NOT NULL COMMENT '订单ID',
+    HAS_LOGISTICS     INT(1)         NOT NULL DEFAULT 1 COMMENT '1:有物流, 2:无物流',
     GOODS_ID          VARCHAR(255)   NOT NULL COMMENT '商品ID',
     GOODS_COUNT       INT(10)        NOT NULL COMMENT '商品数量',
     GOODS_NAME        VARCHAR(255)   NOT NULL COMMENT '商品名称',

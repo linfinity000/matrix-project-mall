@@ -103,6 +103,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 orderGoods.add(new OrderGoods()
                         .setId(RandomUtil.getUUID())
                         .setOrderId(orderId)
+                        .setHasLogistics(tempAtomsGoods.getHasLogistics())
                         .setGoodsId(goodsId)
                         .setGoodsName(goodsName)
                         .setGoodsCount(userCart.getGoodsCount())
@@ -120,13 +121,15 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             OrderExt orderExt = new OrderExt()
                     .setId(RandomUtil.getUUID())
                     .setOrderId(orderId)
+                    .setHasLogistics(Logistics.HAS_NO_LOGISTICS.getCode())
                     .setRemark(orderVo.getRemark());
             if (hasLogistics) {
                 //如果有物流
                 if (address == null) {
                     throw new ServiceException("请选择收货地址");
                 }
-                orderExt.setProvinceCode(address.getProvinceCode())
+                orderExt.setHasLogistics(Logistics.HAS_LOGISTICS.getCode())
+                        .setProvinceCode(address.getProvinceCode())
                         .setProvinceName(address.getProvinceName())
                         .setCityCode(address.getCityCode())
                         .setCityName(address.getCityName())

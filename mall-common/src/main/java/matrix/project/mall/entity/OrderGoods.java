@@ -22,6 +22,8 @@ public class OrderGoods implements Serializable {
 
     private String orderId;
 
+    private Integer hasLogistics;
+
     private String goodsId;
 
     private String goodsName;
