@@ -15,4 +15,6 @@ public class Constant {
     public static final Integer DISABLED = 0;
 
     public static final Integer DELETED = -1;
+
+    public static final Integer IS_DEFAULT = 1;
 }

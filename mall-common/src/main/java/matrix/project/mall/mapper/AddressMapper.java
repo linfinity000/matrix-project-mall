@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import matrix.module.jdbc.annotation.TargetDataSource;
 import matrix.project.mall.entity.Address;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author wangcheng
@@ -12,4 +13,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 @TargetDataSource
 public interface AddressMapper extends BaseMapper<Address> {
+
+    Integer updateNoDefault(@Param("userId") String userId);
+
 }
