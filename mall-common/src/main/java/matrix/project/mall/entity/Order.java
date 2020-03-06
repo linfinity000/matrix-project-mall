@@ -25,9 +25,13 @@ public class Order implements Serializable {
 
     private BigDecimal price;
 
+    private Integer goodsCount;
+
     private Date createTime;
 
     private Date updateTime;
+
+    private Integer orderStatus;
 
     private Integer status;
 }

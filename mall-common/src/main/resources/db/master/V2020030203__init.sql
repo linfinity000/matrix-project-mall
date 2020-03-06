@@ -1,11 +1,13 @@
 CREATE TABLE `order`
 (
-    ORDER_ID    VARCHAR(255)   NOT NULL COMMENT '订单ID',
-    SHOP_ID     VARCHAR(255)   NOT NULL COMMENT '店铺ID',
-    PRICE       DECIMAL(20, 2) NOT NULL COMMENT '订单金额',
-    CREATE_TIME DATETIME       NOT NULL COMMENT '创建时间',
-    UPDATE_TIME DATETIME       NOT NULL COMMENT '更新时间',
-    STATUS      INT(1)         NOT NULL COMMENT '10:取消订单,11:等待支付,12:已支付,13:等待发货,14:已发货,15:已收货,100:订单结束',
+    ORDER_ID     VARCHAR(255)   NOT NULL COMMENT '订单ID',
+    SHOP_ID      VARCHAR(255)   NOT NULL COMMENT '店铺ID',
+    PRICE        DECIMAL(20, 2) NOT NULL COMMENT '订单金额',
+    GOODS_COUNT  INT(10)        NOT NULL COMMENT '商品总数量',
+    CREATE_TIME  DATETIME       NOT NULL COMMENT '创建时间',
+    UPDATE_TIME  DATETIME       NOT NULL COMMENT '更新时间',
+    ORDER_STATUS INT(3)         NOT NULL COMMENT '10:取消订单,11:等待支付,12:已支付,13:等待发货,14:已发货,15:已收货,100:订单结束',
+    STATUS       INT(1)         NOT NULL COMMENT '1:正常(前端)，-1:删除(前端)',
     PRIMARY KEY (ORDER_ID)
 );
 

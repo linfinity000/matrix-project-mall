@@ -81,6 +81,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             String orderId = RandomUtil.getUUID();
             Date date = new Date();
             BigDecimal price = BigDecimal.ZERO;
+            Integer goodsCount = 0;
             boolean hasLogistics = false;
             //生成订单商品
             for (String goodsId : goodsIds) {
@@ -113,6 +114,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                         .setUpdateTime(date);
                 userCart.setStatus(Constant.DELETED)
                         .setUpdateTime(date);
+                goodsCount += userCart.getGoodsCount();
             }
             //生成订单扩展表数据
             OrderExt orderExt = new OrderExt()
@@ -138,9 +140,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                     .setOrderId(orderId)
                     .setShopId(shopId)
                     .setPrice(price)
+                    .setGoodsCount(goodsCount)
                     .setCreateTime(date)
                     .setUpdateTime(date)
-                    .setStatus(OrderStatus.WAIT_PAYING.getCode()));
+                    .setOrderStatus(OrderStatus.WAIT_PAYING.getCode())
+                    .setStatus(Constant.ENABLED));
         });
         goodsService.updateBatchById(goods);
         userCartService.updateBatchById(userCarts);
