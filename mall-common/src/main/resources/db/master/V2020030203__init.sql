@@ -33,6 +33,7 @@ CREATE TABLE order_goods
     ORDER_ID          VARCHAR(255)   NOT NULL COMMENT '订单ID',
     GOODS_ID          VARCHAR(255)   NOT NULL COMMENT '商品ID',
     GOODS_COUNT       INT(10)        NOT NULL COMMENT '商品数量',
+    GOODS_NAME        VARCHAR(255)   NOT NULL COMMENT '商品名称',
     GOODS_TOTAL_PRICE DECIMAL(20, 2) NOT NULL COMMENT '商品总价格',
     GOODS_SECRET      TEXT COMMENT '商品密钥，不需要收货订单可能需要此密钥',
     MIRROR            TEXT           NOT NULL COMMENT '商品镜像(JSON)',

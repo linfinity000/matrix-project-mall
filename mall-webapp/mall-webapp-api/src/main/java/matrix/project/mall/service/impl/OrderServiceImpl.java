@@ -90,18 +90,20 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 if (tempGoods.getStock() < userCart.getGoodsCount()) {
                     throw new ServiceException(String.format("商品%s库存不足", tempAtomsGoods.getAtomsGoodsName()));
                 }
-                GoodsNameDto goodsName = goodsNameMap.get(goodsId);
+                GoodsNameDto goodsNameDto = goodsNameMap.get(goodsId);
+                String goodsName = StringUtils.isEmpty(goodsNameDto.getGoodsName())
+                        ? goodsNameDto.getAtomsGoodsName()
+                        : goodsNameDto.getGoodsName();
                 Map<String, Object> mirror = new HashMap<>();
                 mirror.put("atomsGoods", tempAtomsGoods);
                 mirror.put("goods", tempGoods);
-                mirror.put("goodsName", StringUtils.isEmpty(goodsName.getGoodsName())
-                        ? goodsName.getAtomsGoodsName()
-                        : goodsName.getGoodsName());
+                mirror.put("goodsName", goodsName);
                 BigDecimal goodsTotalPrice = tempGoods.getSalePrice().multiply(new BigDecimal(userCart.getGoodsCount()));
                 orderGoods.add(new OrderGoods()
                         .setId(RandomUtil.getUUID())
                         .setOrderId(orderId)
                         .setGoodsId(goodsId)
+                        .setGoodsName(goodsName)
                         .setGoodsCount(userCart.getGoodsCount())
                         .setGoodsTotalPrice(goodsTotalPrice)
                         .setMirror(JacksonUtil.toJsonString(mirror)));
