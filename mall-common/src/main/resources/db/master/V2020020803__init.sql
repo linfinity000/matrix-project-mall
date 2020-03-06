@@ -13,8 +13,9 @@ CREATE TABLE atoms_goods (
                              STATUS            INT(1)       NOT NULL COMMENT '状态(1:启用,0:禁用,-1:删除)',
                              PRIMARY KEY (ATOMS_GOODS_ID)
 );
-INSERT INTO atoms_goods (ATOMS_GOODS_ID, ATOMS_GOODS_NAME, SALE_POINTS, DESCRIPTION, ATOMS_GOODS_IMAGE, SHOP_ID, BRAND_ID, CATEGORY_ID, CREATE_TIME, UPDATE_TIME, STATUS)
-VALUES ('1', '测试手机', '此商品为测试商品', '<a href="http://www.baidu.com">百度</a>', '', '1', '1', '1', NOW(), NOW(), 1);
+INSERT INTO atoms_goods (ATOMS_GOODS_ID, ATOMS_GOODS_NAME, SALE_POINTS, DESCRIPTION, ATOMS_GOODS_IMAGE, SHOP_ID,
+                         BRAND_ID, CATEGORY_ID, HAS_LOGISTICS, CREATE_TIME, UPDATE_TIME, STATUS)
+VALUES ('1', '测试手机', '此商品为测试商品', '<a href="http://www.baidu.com">百度</a>', '', '1', '1', '1', 1, NOW(), NOW(), 1);
 
 CREATE TABLE atoms_goods_attr_label (
                                         ID             VARCHAR(255) NOT NULL COMMENT '属性标签ID',
