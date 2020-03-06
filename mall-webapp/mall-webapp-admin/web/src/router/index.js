@@ -60,6 +60,10 @@ const routes = [{
     path: '/Region',
     name: 'Region',
     component: () => import('../views/region/index.vue')
+}, {
+    path: '/Logistics',
+    name: 'Logistics',
+    component: () => import('../views/logistics/index.vue')
 }]
 
 const router = new VueRouter({

@@ -17,7 +17,9 @@ VALUES ('1', '系统设置', 1, '', '0', 'Admin', '10000', NOW(), NOW(), 1);
 INSERT INTO menu (MENU_ID, MENU_NAME, IS_DEFAULT, URL, PARENT_ID, TYPE, ORDER_BY, CREATE_TIME, UPDATE_TIME, STATUS)
 VALUES ('10', '菜单管理', 1, 'Menu', '1', 'Admin', '1', NOW(), NOW(), 1);
 INSERT INTO menu (MENU_ID, MENU_NAME, IS_DEFAULT, URL, PARENT_ID, TYPE, ORDER_BY, CREATE_TIME, UPDATE_TIME, STATUS)
-VALUES ('11', '地区管理', 1, 'Region', '1', 'Admin', '1', NOW(), NOW(), 1);
+VALUES ('11', '地区管理', 1, 'Region', '1', 'Admin', '2', NOW(), NOW(), 1);
+INSERT INTO menu (MENU_ID, MENU_NAME, IS_DEFAULT, URL, PARENT_ID, TYPE, ORDER_BY, CREATE_TIME, UPDATE_TIME, STATUS)
+VALUES ('12', '快递管理', 1, 'Logistics', '1', 'Admin', '3', NOW(), NOW(), 1);
 
 INSERT INTO menu (MENU_ID, MENU_NAME, IS_DEFAULT, URL, PARENT_ID, TYPE, ORDER_BY, CREATE_TIME, UPDATE_TIME, STATUS)
 VALUES ('2', '用户管理', 1, '', '0', 'Operation', '9999', NOW(), NOW(), 1);
