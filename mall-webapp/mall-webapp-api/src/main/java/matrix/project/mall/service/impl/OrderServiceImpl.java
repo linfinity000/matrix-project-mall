@@ -5,6 +5,7 @@ import matrix.module.based.utils.JacksonUtil;
 import matrix.module.common.exception.ServiceException;
 import matrix.module.common.helper.Assert;
 import matrix.module.common.utils.RandomUtil;
+import matrix.project.mall.constants.Constant;
 import matrix.project.mall.entity.*;
 import matrix.project.mall.enums.Logistics;
 import matrix.project.mall.enums.OrderStatus;
@@ -79,8 +80,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             //生成订单商品
             for (String goodsId : goodsIds) {
                 UserCart userCart = userCartMap.get(goodsId);
-                AtomsGoods tempAtomsGoods = atomsGoodsMap.get(goodsId);
                 Goods tempGoods = goodsMap.get(goodsId);
+                AtomsGoods tempAtomsGoods = atomsGoodsMap.get(tempGoods.getAtomsGoodsId());
                 if (tempGoods.getStock() < userCart.getGoodsCount()) {
                     throw new ServiceException(String.format("商品%s库存不足", tempAtomsGoods.getAtomsGoodsName()));
                 }
@@ -98,6 +99,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 price = price.add(goodsTotalPrice);
                 hasLogistics = tempAtomsGoods.getHasLogistics().equals(Logistics.HAS_LOGISTICS.getCode());
                 tempGoods.setStock(tempGoods.getStock() - userCart.getGoodsCount())
+                        .setUpdateTime(date);
+                userCart.setStatus(Constant.DELETED)
                         .setUpdateTime(date);
             }
             //生成订单扩展表数据
@@ -129,6 +132,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                     .setStatus(OrderStatus.WAIT_PAYING.getCode()));
         });
         goodsService.updateBatchById(goods);
+        userCartService.updateBatchById(userCarts);
         saveBatch(orders);
         orderGoodsService.saveBatch(orderGoods);
         orderExtService.saveBatch(orderExts);

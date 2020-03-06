@@ -54,6 +54,7 @@ public class AddressServiceImpl extends ServiceImpl<AddressMapper, Address> impl
         Date date = new Date();
         Address address = new Address()
                 .setAddressId(RandomUtil.getUUID())
+                .setUserId(LoginUtil.getUser().getUserId())
                 .setAddress(addressVo.getAddress())
                 .setIsDefault(addressVo.getIsDefault())
                 .setProvinceCode(addressVo.getProvinceCode())

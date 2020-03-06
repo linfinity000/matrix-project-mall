@@ -29,7 +29,7 @@ public class RegionServiceImpl extends ServiceImpl<RegionMapper, Region> impleme
     @Override
     public List<Region> queryByCodes(List<Long> codes) {
         QueryWrapper<Region> queryWrapper = new QueryWrapper<>();
-        queryWrapper.in("PARENT_CODE", codes)
+        queryWrapper.in("CODE", codes)
                 .eq("STATUS", Constant.ENABLED);
         return list(queryWrapper);
     }
