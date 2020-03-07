@@ -4,6 +4,7 @@ import matrix.module.common.bean.Result;
 import matrix.project.mall.service.OrderService;
 import matrix.project.mall.vo.OrderAddressVo;
 import matrix.project.mall.vo.QueryOrderVo;
+import matrix.project.mall.vo.ShipVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,5 +42,10 @@ public class OrderController {
     @GetMapping("/listOrderGoods")
     public Result listOrderGoods(@RequestParam String orderId) {
         return Result.success(orderService.listOrderGoods(orderId));
+    }
+
+    @PostMapping("/saveShip")
+    public Result saveShip(@RequestBody ShipVo shipVo) {
+        return Result.success(orderService.saveShip(shipVo));
     }
 }

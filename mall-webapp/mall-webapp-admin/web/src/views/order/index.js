@@ -3,6 +3,7 @@ export let data = {
         return {
             activeName: 'list',
             orderList: [],
+            orderGoodsList: [],
             orderCount: 0,
             showDetail: false,
             queryForm: {
@@ -28,7 +29,29 @@ export let data = {
                     {required: true, message: '请输入详细地址', trigger: 'blur'},
                     {min: 1, max: 100, message: '长度在 1 到 100 个字符', trigger: 'blur'}
                 ]
-            }
+            },
+            logisticsOptions: [],
+            shipForm: {
+                orderGoodsId: null,
+                logisticsCompanyId: null,
+                logisticsNo: '',
+                goodsSecret: '',
+                hasLogistics: null,
+            },
+            shipRules: {
+                logisticsCompanyId: [
+                    {required: true, message: '请选择快递公司', trigger: 'blur'},
+                ],
+                logisticsNo: [
+                    {required: true, message: '请输入运单号', trigger: 'blur'},
+                    {min: 1, max: 100, message: '长度在 1 到 100 个字符', trigger: 'blur'}
+                ],
+                goodsSecret: [
+                    {required: true, message: '请输入商品密钥', trigger: 'blur'},
+                    {min: 1, max: 1000, message: '长度在 1 到 1000 个字符', trigger: 'blur'}
+                ]
+            },
+            shipDialogVisible: false
         }
     },
     created() {
@@ -40,6 +63,15 @@ export let data = {
                     name: item.name
                 });
                 this.orderStatusDict[item.code] = item.name;
+            });
+        });
+        this.logisticsOptions.splice(0);
+        this.post({logisticsName: '', page: 1, pageSize: 10000}, '/logistics/listLogistics', function (res) {
+            res.body.forEach(item => {
+                this.logisticsOptions.push({
+                    label: item.logisticsName,
+                    value: item.logisticsId
+                });
             });
         });
         this.addressOptions.splice(0);
@@ -72,8 +104,15 @@ export let data = {
                 regions: [row.provinceCode, row.cityCode, row.areaCode],
                 address: row.address
             };
-            this.showDetail = true;
-            this.activeName = 'detail';
+            this.loadOrderGoodsList();
+        },
+        loadOrderGoodsList() {
+            this.orderGoodsList.splice(0);
+            this.get('/order/listOrderGoods?orderId=' + this.selectRow.orderId, function (res) {
+                this.orderGoodsList = res.body;
+                this.showDetail = true;
+                this.activeName = 'detail';
+            });
         },
         editAddress() {
             this.$confirm('确认修改么？', '提示', {
@@ -84,6 +123,29 @@ export let data = {
                 this.post(this.addressForm, '/order/saveOrderAddress', function (res) {
                     this.loadTable(true);
                 });
+            });
+        },
+        lookLogistics(row) {
+            if (row.logisticsNo == null || row.logisticsNo === '') {
+                this.showMessage('error', '暂无物流单号');
+                return;
+            }
+        },
+        ship(row) {
+            this.shipForm = {
+                orderGoodsId: row.id,
+                logisticsCompanyId: row.logisticsCompanyId,
+                logisticsNo: row.logisticsNo,
+                goodsSecret: row.goodsSecret,
+                hasLogistics: row.hasLogistics
+            };
+            this.shipDialogVisible = true;
+        },
+        saveShip() {
+            this.post(this.shipForm, '/order/saveShip', function (res) {
+                this.shipDialogVisible = false;
+                this.loadOrderGoodsList();
+                this.loadTable(true);
             });
         },
         handleSizeChange(val) {

@@ -24,4 +24,11 @@ public class OrderGoodsServiceImpl extends ServiceImpl<OrderGoodsMapper, OrderGo
         return list(queryWrapper);
     }
 
+    @Override
+    public OrderGoods queryById(String orderGoodsId) {
+        QueryWrapper<OrderGoods> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("ID", orderGoodsId);
+        return getOne(queryWrapper, false);
+    }
+
 }

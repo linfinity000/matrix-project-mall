@@ -7,6 +7,7 @@ import matrix.project.mall.entity.Order;
 import matrix.project.mall.entity.OrderGoods;
 import matrix.project.mall.vo.OrderAddressVo;
 import matrix.project.mall.vo.QueryOrderVo;
+import matrix.project.mall.vo.ShipVo;
 
 import java.util.List;
 
@@ -27,4 +28,6 @@ public interface OrderService extends IService<Order> {
     Order queryByOrderId(String orderId);
 
     List<OrderGoods> listOrderGoods(String orderId);
+
+    boolean saveShip(ShipVo shipVo);
 }

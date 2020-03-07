@@ -51,30 +51,80 @@
                         </el-row>
                     </el-tab-pane>
                     <el-tab-pane label="详情" name="detail" v-if="showDetail">
-                        <el-row v-if="selectRow.hasLogistics === 1
-                                    && (selectRow.orderStatus === 11 || selectRow.orderStatus === 12)">
+                        <el-row v-if="selectRow.hasLogistics === 1">
                             <el-col :span="5" style="margin-bottom: 20px;">
                                 <el-card class="box-card">
                                     <div class="clearfix" slot="header">
                                         <span>收货地址</span>
-                                        <el-button @click="editAddress" style="float: right; padding: 3px 0"
-                                                   type="text">修改
+                                        <el-button @click="editAddress"
+                                                   style="float: right; padding: 3px 0" type="text"
+                                                   v-if="(selectRow.orderStatus === 11 || selectRow.orderStatus === 12)">
+                                            修改
                                         </el-button>
                                     </div>
                                     <el-form :model="addressForm" :rules="addressRules" label-width="100px"
                                              ref="addressForm">
                                         <el-form-item label="地区选择" prop="regions">
                                             <el-cascader :options="addressOptions"
+                                                         :disabled="!(selectRow.orderStatus === 11 || selectRow.orderStatus === 12)"
                                                          :props="{label: 'name', value: 'code'}"
                                                          size="small" v-model="addressForm.regions"></el-cascader>
                                         </el-form-item>
                                         <el-form-item label="详细地址" prop="address">
-                                            <el-input type="textarea" v-model="addressForm.address"></el-input>
+                                            <el-input
+                                                    :disabled="!(selectRow.orderStatus === 11 || selectRow.orderStatus === 12)"
+                                                    type="textarea"
+                                                    v-model="addressForm.address"></el-input>
                                         </el-form-item>
                                     </el-form>
                                 </el-card>
                             </el-col>
                         </el-row>
+                        <el-row>
+                            <el-col :span="24" style="margin-bottom: 20px;">
+                                <el-table :data="orderGoodsList" border style="width: 100%;margin-top: 5px;">
+                                    <el-table-column label="ID" prop="id" width="250"></el-table-column>
+                                    <el-table-column label="商品名称" prop="goodsName" width="180"></el-table-column>
+                                    <el-table-column label="商品总金额(￥)" prop="goodsTotalPrice"
+                                                     width="180"></el-table-column>
+                                    <el-table-column label="商品数量" prop="goodsCount" width="180"></el-table-column>
+                                    <el-table-column label="快递公司名称" prop="logisticsCompanyName"></el-table-column>
+                                    <el-table-column label="物流单号" prop="logisticsNo"></el-table-column>
+                                    <el-table-column label="商品密钥" prop="goodsSecret"></el-table-column>
+                                    <el-table-column fixed="right" label="操作" width="200">
+                                        <template slot-scope="scope">
+                                            <el-button @click="ship(scope.row)" size="small" type="text">发货</el-button>
+                                            <el-button @click="lookLogistics(scope.row)" size="small" type="text"
+                                                       v-if="scope.row.hasLogistics === 1">查看物流
+                                            </el-button>
+                                        </template>
+                                    </el-table-column>
+                                </el-table>
+                            </el-col>
+                        </el-row>
+                        <el-dialog :visible.sync="shipDialogVisible" title="发货" width="30%">
+                            <el-form :model="shipForm" :rules="shipRules" label-width="100px" ref="shipForm">
+                                <el-form-item label="快递公司" prop="logisticsCompanyId" v-if="shipForm.hasLogistics === 1">
+                                    <el-select clearable placeholder="请选择" size="small"
+                                               v-model="shipForm.logisticsCompanyId">
+                                        <el-option :key="item.value" :label="item.label" :value="item.value"
+                                                   v-for="item in logisticsOptions"></el-option>
+                                    </el-select>
+                                </el-form-item>
+                                <el-form-item label="运单号" prop="logisticsNo" v-if="shipForm.hasLogistics === 1">
+                                    <el-input size="small" style="width: 200px;"
+                                              v-model="shipForm.logisticsNo"></el-input>
+                                </el-form-item>
+                                <el-form-item label="商品密钥" prop="goodsSecret" v-if="shipForm.hasLogistics === 2">
+                                    <el-input size="small" style="width: 200px;"
+                                              v-model="shipForm.goodsSecret"></el-input>
+                                </el-form-item>
+                            </el-form>
+                            <span class="dialog-footer" slot="footer">
+                                <el-button @click="shipDialogVisible = false">取 消</el-button>
+                                <el-button @click="saveShip" type="primary">发 货</el-button>
+                            </span>
+                        </el-dialog>
                     </el-tab-pane>
                 </el-tabs>
             </el-main>

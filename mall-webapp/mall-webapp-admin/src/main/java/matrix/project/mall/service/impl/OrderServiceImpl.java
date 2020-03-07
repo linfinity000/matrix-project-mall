@@ -12,16 +12,20 @@ import matrix.project.mall.entity.Order;
 import matrix.project.mall.entity.OrderExt;
 import matrix.project.mall.entity.OrderGoods;
 import matrix.project.mall.entity.Region;
+import matrix.project.mall.enums.Logistics;
 import matrix.project.mall.enums.OrderStatus;
 import matrix.project.mall.mapper.OrderMapper;
 import matrix.project.mall.service.*;
 import matrix.project.mall.vo.OrderAddressVo;
 import matrix.project.mall.vo.QueryOrderVo;
+import matrix.project.mall.vo.ShipVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -44,6 +48,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     @Autowired
     private OrderGoodsService orderGoodsService;
+
+    @Autowired
+    private LogisticsService logisticsService;
 
     @Override
     public List<ItemDto> orderStatus() {
@@ -113,6 +120,47 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Override
     public List<OrderGoods> listOrderGoods(String orderId) {
         return orderGoodsService.listOrderGoods(orderId);
+    }
+
+    @Override
+    @Transactional
+    public boolean saveShip(ShipVo shipVo) {
+        Assert.state(!StringUtils.isEmpty(shipVo.getOrderGoodsId()), "订单商品ID不允许为空");
+        OrderGoods orderGoods = orderGoodsService.queryById(shipVo.getOrderGoodsId());
+        Assert.state(orderGoods != null, "订单商品未找到");
+        assert orderGoods != null;
+        Order order = queryByOrderId(orderGoods.getOrderId());
+        Assert.state(order != null, "订单未找到");
+        assert order != null;
+        List<OrderGoods> orderGoodsList = orderGoodsService.listOrderGoods(order.getOrderId());
+        boolean isPartShip = false;
+        for (OrderGoods tempOrderGoods : orderGoodsList) {
+            if ((tempOrderGoods.getHasLogistics().equals(Logistics.HAS_LOGISTICS.getCode()) && StringUtils.isEmpty(tempOrderGoods.getLogisticsNo()))
+                    || (tempOrderGoods.getHasLogistics().equals(Logistics.HAS_NO_LOGISTICS.getCode()) && StringUtils.isEmpty(tempOrderGoods.getGoodsSecret()))
+                    && !tempOrderGoods.getId().equals(shipVo.getOrderGoodsId())) {
+                isPartShip = true;
+                break;
+            }
+        }
+        //更新订单状态
+        order.setOrderStatus(isPartShip ? OrderStatus.PART_SHIP.getCode() : OrderStatus.SHIPPED.getCode())
+                .setUpdateTime(new Date());
+        updateById(order);
+        //更新商品物流信息
+        if (orderGoods.getHasLogistics().equals(Logistics.HAS_LOGISTICS.getCode())) {
+            //有物流
+            Assert.state(!StringUtils.isEmpty(shipVo.getLogisticsCompanyId()), "快递公司不允许为空");
+            Assert.state(!StringUtils.isEmpty(shipVo.getLogisticsNo()), "运单号不允许为空");
+            orderGoods.setLogisticsCompanyId(shipVo.getLogisticsCompanyId())
+                    .setLogisticsCompanyName(logisticsService.queryByLogisticsId(shipVo.getLogisticsCompanyId()).getLogisticsName())
+                    .setLogisticsNo(shipVo.getLogisticsNo());
+        } else {
+            //无物流
+            Assert.state(!StringUtils.isEmpty(shipVo.getGoodsSecret()), "商品密钥不允许为空");
+            orderGoods.setGoodsSecret(shipVo.getGoodsSecret());
+        }
+        orderGoodsService.updateById(orderGoods);
+        return true;
     }
 
 }
