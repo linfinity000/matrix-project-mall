@@ -115,14 +115,18 @@ export let data = {
             });
         },
         editAddress() {
-            this.$confirm('确认修改么？', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                this.post(this.addressForm, '/order/saveOrderAddress', function (res) {
-                    this.loadTable(true);
-                });
+            this.$refs.addressForm.validate((valid) => {
+                if (valid) {
+                    this.$confirm('确认修改么？', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        this.post(this.addressForm, '/order/saveOrderAddress', function (res) {
+                            this.loadTable(true);
+                        });
+                    });
+                }
             });
         },
         lookLogistics(row) {
@@ -142,10 +146,14 @@ export let data = {
             this.shipDialogVisible = true;
         },
         saveShip() {
-            this.post(this.shipForm, '/order/saveShip', function (res) {
-                this.shipDialogVisible = false;
-                this.loadOrderGoodsList();
-                this.loadTable(true);
+            this.$refs.shipForm.validate((valid) => {
+                if (valid) {
+                    this.post(this.shipForm, '/order/saveShip', function (res) {
+                        this.shipDialogVisible = false;
+                        this.loadOrderGoodsList();
+                        this.loadTable(true);
+                    });
+                }
             });
         },
         handleSizeChange(val) {

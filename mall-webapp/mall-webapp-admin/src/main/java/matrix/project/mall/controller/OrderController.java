@@ -44,6 +44,11 @@ public class OrderController {
         return Result.success(orderService.listOrderGoods(orderId));
     }
 
+    @GetMapping("/cancelOrder")
+    public Result cancelOrder(@RequestParam String orderId) {
+        return Result.success(orderService.cancelOrder(orderId));
+    }
+
     @PostMapping("/saveShip")
     public Result saveShip(@RequestBody ShipVo shipVo) {
         return Result.success(orderService.saveShip(shipVo));

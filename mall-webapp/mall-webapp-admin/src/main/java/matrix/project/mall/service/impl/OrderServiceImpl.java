@@ -165,4 +165,18 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         return true;
     }
 
+    @Override
+    public boolean cancelOrder(String orderId) {
+        Order order = queryByOrderId(orderId);
+        Assert.state(order != null, "订单未找到");
+        assert order != null;
+        if (order.getOrderStatus().equals(OrderStatus.WAIT_PAYING.getCode())) {
+            order.setOrderStatus(OrderStatus.CANCEL_ORDER.getCode())
+                    .setUpdateTime(new Date());
+            updateById(order);
+            return true;
+        }
+        throw new ServiceException("只能取消待支付订单，其他订单请走申请退款逻辑");
+    }
+
 }
