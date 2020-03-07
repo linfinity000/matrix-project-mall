@@ -99,4 +99,12 @@ public class RegionServiceImpl extends ServiceImpl<RegionMapper, Region> impleme
         return getOne(queryWrapper, false);
     }
 
+    @Override
+    public List<Region> queryByCodes(List<Long> codes) {
+        QueryWrapper<Region> queryWrapper = new QueryWrapper<>();
+        queryWrapper.in("CODE", codes)
+                .eq("STATUS", Constant.ENABLED);
+        return list(queryWrapper);
+    }
+
 }

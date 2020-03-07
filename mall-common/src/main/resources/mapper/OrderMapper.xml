@@ -1,4 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="matrix.project.mall.mapper.OrderMapper">
+
+    <select id="listOrder" resultType="matrix.project.mall.dto.OrderDto">
+        select o.ORDER_ID as orderId, s.SHOP_NAME as shopName,
+        o.PRICE as orderPrice, o.GOODS_COUNT as orderGoodsCount,
+        oe.PROVINCE_CODE as provinceCode, oe.CITY_CODE as cityCode,
+        oe.AREA_CODE as areaCode, oe.HAS_LOGISTICS as hasLogistics,
+        oe.PROVINCE_NAME as provinceName, oe.CITY_NAME as cityName,
+        oe.AREA_NAME as areaName, oe.ADDRESS as address,
+        oe.LOGISTICS_COMPANY_NAME as logisticsCompanyName,
+        oe.LOGISTICS_NO as logisticsNo, oe.REMARK as remark,
+        o.CREATE_TIME as createTime, o.UPDATE_TIME as updateTime,
+        o.ORDER_STATUS as orderStatus
+        from `order` o
+        join shop s on s.SHOP_ID = o.SHOP_ID
+        join order_ext oe on oe.ORDER_ID = o.ORDER_ID
+        where o.SHOP_ID = #{shopId}
+        <if test="item.orderStatus != null">
+            and o.ORDER_STATUS = #{item.orderStatus}
+        </if>
+        order by o.CREATE_TIME desc
+    </select>
+
 </mapper>

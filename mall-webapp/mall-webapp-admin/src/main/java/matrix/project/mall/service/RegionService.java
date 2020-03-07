@@ -22,4 +22,6 @@ public interface RegionService extends IService<Region> {
     boolean removeRegion(Long code);
 
     Region queryByCode(Long code);
+
+    List<Region> queryByCodes(List<Long> codes);
 }

@@ -27,7 +27,6 @@ public class RegionController {
         return Result.success(regionService.saveRegion(regionVo));
     }
 
-
     @GetMapping("/removeRegion")
     public Result removeRegion(@RequestParam Long code) {
         return Result.success(regionService.removeRegion(code));

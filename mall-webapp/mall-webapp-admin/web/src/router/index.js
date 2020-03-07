@@ -64,6 +64,10 @@ const routes = [{
     path: '/Logistics',
     name: 'Logistics',
     component: () => import('../views/logistics/index.vue')
+}, {
+    path: '/Order',
+    name: 'Order',
+    component: () => import('../views/order/index.vue')
 }]
 
 const router = new VueRouter({

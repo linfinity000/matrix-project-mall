@@ -8,4 +8,7 @@ import matrix.project.mall.entity.OrderExt;
  * @date 2020-03-06
  */
 public interface OrderExtService extends IService<OrderExt> {
+
+    OrderExt queryByOrderId(String orderId);
+
 }

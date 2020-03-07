@@ -7,7 +7,7 @@ package matrix.project.mall.enums;
 public enum OrderStatus {
 
     CANCEL_ORDER(10, "取消订单"),
-    WAIT_PAYING(11, "等待支付"),
+    WAIT_PAYING(11, "待支付"),
     PAYED(12, "已支付"),
     WAIT_SHIPPING(13, "等待发货"),
     SHIPPED(14, "已发货"),
