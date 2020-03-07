@@ -93,9 +93,14 @@
                                     <el-table-column label="商品密钥" prop="goodsSecret"></el-table-column>
                                     <el-table-column fixed="right" label="操作" width="200">
                                         <template slot-scope="scope">
-                                            <el-button @click="ship(scope.row)" size="small" type="text">发货</el-button>
+                                            <el-button @click="ship(scope.row)" size="small" type="text"
+                                                       v-if="selectRow.orderStatus === 12 || selectRow.orderStatus === 13">
+                                                发货
+                                            </el-button>
                                             <el-button @click="lookLogistics(scope.row)" size="small" type="text"
-                                                       v-if="scope.row.hasLogistics === 1">查看物流
+                                                       v-if="scope.row.hasLogistics === 1
+                                                       && (selectRow.orderStatus === 12 || selectRow.orderStatus === 13)">
+                                                查看物流
                                             </el-button>
                                         </template>
                                     </el-table-column>

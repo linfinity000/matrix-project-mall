@@ -132,6 +132,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         Order order = queryByOrderId(orderGoods.getOrderId());
         Assert.state(order != null, "订单未找到");
         assert order != null;
+        Assert.state(order.getOrderStatus().equals(OrderStatus.WAIT_SHIPPING.getCode())
+                || order.getOrderStatus().equals(OrderStatus.PART_SHIP.getCode()), "订单状态不支持发货");
         List<OrderGoods> orderGoodsList = orderGoodsService.listOrderGoods(order.getOrderId());
         boolean isPartShip = false;
         for (OrderGoods tempOrderGoods : orderGoodsList) {
