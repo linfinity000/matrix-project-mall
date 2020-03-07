@@ -21,4 +21,7 @@ public interface OrderMapper extends BaseMapper<Order> {
 
     List<OrderDto> listOrder(IPage<Order> page, @Param("item") QueryOrderVo queryOrderVo, @Param("shopId") String shopId);
 
+    void processPayedOrderIds(@Param("orderIds") List<String> orderIds,
+                              @Param("currentOrderStatus") Integer currentOrderStatus,
+                              @Param("processOrderStatus") Integer processOrderStatus);
 }

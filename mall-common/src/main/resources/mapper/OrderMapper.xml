@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="matrix.project.mall.mapper.OrderMapper">
+    <update id="processPayedOrderIds">
+        update `order` set ORDER_STATUS = #{processOrderStatus}, UPDATE_TIME = NOW()
+        WHERE ORDER_STATUS = #{currentOrderStatus} and ORDER_ID in
+        <foreach collection="orderIds" separator="," open="(" close=")" item="orderId">
+            #{orderId}
+        </foreach>
+    </update>
 
     <select id="listOrder" resultType="matrix.project.mall.dto.OrderDto">
         select o.ORDER_ID as orderId, s.SHOP_NAME as shopName,

@@ -174,4 +174,11 @@ public class AdminUserServiceImpl extends ServiceImpl<AdminUserMapper, AdminUser
         updateById(adminUser);
         return true;
     }
+
+    @Override
+    public boolean exit(String accessToken) {
+        String key = "login:" + accessToken;
+        redisTemplate.delete(key);
+        return true;
+    }
 }

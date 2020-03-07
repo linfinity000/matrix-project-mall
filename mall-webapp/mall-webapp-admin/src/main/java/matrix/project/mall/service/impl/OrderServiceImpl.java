@@ -137,8 +137,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         List<OrderGoods> orderGoodsList = orderGoodsService.listOrderGoods(order.getOrderId());
         boolean isPartShip = false;
         for (OrderGoods tempOrderGoods : orderGoodsList) {
-            if ((tempOrderGoods.getHasLogistics().equals(Logistics.HAS_LOGISTICS.getCode()) && StringUtils.isEmpty(tempOrderGoods.getLogisticsNo()))
-                    || (tempOrderGoods.getHasLogistics().equals(Logistics.HAS_NO_LOGISTICS.getCode()) && StringUtils.isEmpty(tempOrderGoods.getGoodsSecret()))
+            boolean hasLogisticsNoShip = tempOrderGoods.getHasLogistics().equals(Logistics.HAS_LOGISTICS.getCode()) && StringUtils.isEmpty(tempOrderGoods.getLogisticsNo());
+            boolean hasNoLogisticsNoShip = tempOrderGoods.getHasLogistics().equals(Logistics.HAS_NO_LOGISTICS.getCode()) && StringUtils.isEmpty(tempOrderGoods.getGoodsSecret());
+            if ((hasLogisticsNoShip || hasNoLogisticsNoShip)
                     && !tempOrderGoods.getId().equals(shipVo.getOrderGoodsId())) {
                 isPartShip = true;
                 break;

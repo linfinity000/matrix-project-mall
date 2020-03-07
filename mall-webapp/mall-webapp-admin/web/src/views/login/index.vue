@@ -2,7 +2,7 @@
     <div>
         <div class="bg"></div>
         <div class='middle-line'></div>
-        <div class='middle-line-tip'>Matrix电商管理平台</div>
+        <div class='middle-line-tip'>Matrix开源电商管理平台</div>
         <div class='login-wrapper'>
             <div class="title">用户登录</div>
             <div class="form-line">
@@ -45,10 +45,10 @@
         width: 510px;
         height: 237px;
         color: #FFFFFF;
-        font-size: 50px;
+        font-size: 45px;
         position: fixed;
         left: 15%;
-        top: 11%;
+        top: 58%;
         bottom: 0px;
         margin: auto;
     }

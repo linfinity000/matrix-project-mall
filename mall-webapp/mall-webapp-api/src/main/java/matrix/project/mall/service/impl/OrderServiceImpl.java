@@ -1,5 +1,6 @@
 package matrix.project.mall.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import matrix.module.based.utils.JacksonUtil;
 import matrix.module.common.exception.ServiceException;
@@ -155,5 +156,21 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         orderGoodsService.saveBatch(orderGoods);
         orderExtService.saveBatch(orderExts);
         return true;
+    }
+
+    @Override
+    public Order queryWaitPayOrderByOrderId(String orderId) {
+        QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("ORDER_ID", orderId)
+                .eq("ORDER_STATUS", OrderStatus.WAIT_PAYING.getCode());
+        return getOne(queryWrapper, false);
+    }
+
+    @Override
+    public void processPayedOrderIds(List<String> orderIds) {
+        if (CollectionUtils.isEmpty(orderIds)) {
+            return;
+        }
+        getBaseMapper().processPayedOrderIds(orderIds, OrderStatus.WAIT_PAYING.getCode(), OrderStatus.WAIT_SHIPPING.getCode());
     }
 }

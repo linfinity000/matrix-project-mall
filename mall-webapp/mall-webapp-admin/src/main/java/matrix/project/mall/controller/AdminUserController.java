@@ -10,6 +10,8 @@ import matrix.project.mall.vo.QueryAdminUserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author wangcheng
  * @date 2020-02-28
@@ -50,5 +52,11 @@ public class AdminUserController {
     @GetMapping("/removeUser")
     public Result removeUser(@RequestParam String userId) {
         return Result.success(adminUserService.removeUser(userId));
+    }
+
+    @GetMapping("/exit")
+    public Result exit(HttpServletRequest request) {
+        String accessToken = request.getHeader("Access-Token");
+        return Result.success(adminUserService.exit(accessToken));
     }
 }

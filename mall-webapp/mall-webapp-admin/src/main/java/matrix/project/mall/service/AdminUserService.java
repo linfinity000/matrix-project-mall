@@ -34,4 +34,6 @@ public interface AdminUserService extends IService<AdminUser> {
     boolean saveUser(AdminUserVo adminUserVo);
 
     boolean removeUser(String userId);
+
+    boolean exit(String accessToken);
 }
