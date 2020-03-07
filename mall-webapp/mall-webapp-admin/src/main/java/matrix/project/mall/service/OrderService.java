@@ -23,4 +23,6 @@ public interface OrderService extends IService<Order> {
 
     boolean saveOrderAddress(OrderAddressVo orderAddressVo);
 
+    Order queryByOrderId(String orderId);
+
 }

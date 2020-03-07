@@ -51,7 +51,8 @@
                         </el-row>
                     </el-tab-pane>
                     <el-tab-pane label="详情" name="detail" v-if="showDetail">
-                        <el-row v-if="selectRow.hasLogistics === 1">
+                        <el-row v-if="selectRow.hasLogistics === 1
+                                    && (selectRow.orderStatus === 11 || selectRow.orderStatus === 12)">
                             <el-col :span="5" style="margin-bottom: 20px;">
                                 <el-card class="box-card">
                                     <div class="clearfix" slot="header">

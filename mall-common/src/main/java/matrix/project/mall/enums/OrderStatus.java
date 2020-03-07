@@ -8,11 +8,11 @@ public enum OrderStatus {
 
     CANCEL_ORDER(10, "取消订单"),
     WAIT_PAYING(11, "待支付"),
-    PAYED(12, "已支付"),
-    WAIT_SHIPPING(13, "等待发货"),
-    SHIPPED(14, "已发货"),
-    RECEIPTED(15, "已收货"),
+    WAIT_SHIPPING(12, "等待发货(已支付)"),
+    SHIPPED(13, "已发货(待收货)"),
+    RECEIPTED(14, "已收货"),
     ORDER_END(100, "订单结束");
+
     private Integer code;
 
     private String name;

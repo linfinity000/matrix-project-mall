@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import matrix.module.common.exception.ServiceException;
 import matrix.module.common.helper.Assert;
 import matrix.project.mall.dto.ItemDto;
 import matrix.project.mall.dto.OrderDto;
@@ -77,6 +78,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         Assert.state(orderAddressVo.getRegions().size() == 3, "地区选择只能是3级");
         List<Region> regions = regionService.queryByCodes(orderAddressVo.getRegions());
         Map<Long, Region> regionMap = regions.stream().collect(Collectors.toMap(Region::getCode, item -> item, (o1, o2) -> o2));
+        Order order = queryByOrderId(orderAddressVo.getOrderId());
+        Assert.state(order != null, "订单不存在");
+        assert order != null;
+        //待支付和待发货可以修改收货地址
+        if (!(order.getOrderStatus().equals(OrderStatus.WAIT_PAYING.getCode()) || order.getOrderStatus().equals(OrderStatus.WAIT_SHIPPING.getCode()))) {
+            throw new ServiceException("订单状态已流转，无法修改地址");
+        }
         OrderExt orderExt = orderExtService.queryByOrderId(orderAddressVo.getOrderId());
         Assert.state(orderExt != null, "订单扩展表查询为空");
         assert orderExt != null;
@@ -92,6 +100,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 .setAddress(orderAddressVo.getAddress());
         orderExtService.updateById(orderExt);
         return true;
+    }
+
+    @Override
+    public Order queryByOrderId(String orderId) {
+        QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("ORDER_ID", orderId);
+        return getOne(queryWrapper, false);
     }
 
 }
