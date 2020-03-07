@@ -48,7 +48,7 @@
         font-size: 45px;
         position: fixed;
         left: 15%;
-        top: 58%;
+        top: 11%;
         bottom: 0px;
         margin: auto;
     }
