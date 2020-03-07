@@ -32,6 +32,12 @@ public class OrderGoods implements Serializable {
 
     private BigDecimal goodsTotalPrice;
 
+    private String logisticsCompanyId;
+
+    private String logisticsCompanyName;
+
+    private String logisticsNo;
+
     private String goodsSecret;
 
     private String mirror;

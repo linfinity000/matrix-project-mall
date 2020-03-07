@@ -21,12 +21,6 @@ public class OrderExt implements Serializable {
 
     private Integer hasLogistics;
 
-    private String logisticsCompanyId;
-
-    private String logisticsCompanyName;
-
-    private String logisticsNo;
-
     private Long provinceCode;
 
     private String provinceName;

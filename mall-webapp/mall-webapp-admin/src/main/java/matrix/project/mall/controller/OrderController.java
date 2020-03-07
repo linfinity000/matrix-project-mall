@@ -37,4 +37,9 @@ public class OrderController {
     public Result saveOrderAddress(@RequestBody OrderAddressVo orderAddressVo) {
         return Result.success(orderService.saveOrderAddress(orderAddressVo));
     }
+
+    @GetMapping("/listOrderGoods")
+    public Result listOrderGoods(@RequestParam String orderId) {
+        return Result.success(orderService.listOrderGoods(orderId));
+    }
 }

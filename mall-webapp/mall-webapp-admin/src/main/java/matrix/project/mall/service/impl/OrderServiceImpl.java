@@ -10,13 +10,11 @@ import matrix.project.mall.dto.ItemDto;
 import matrix.project.mall.dto.OrderDto;
 import matrix.project.mall.entity.Order;
 import matrix.project.mall.entity.OrderExt;
+import matrix.project.mall.entity.OrderGoods;
 import matrix.project.mall.entity.Region;
 import matrix.project.mall.enums.OrderStatus;
 import matrix.project.mall.mapper.OrderMapper;
-import matrix.project.mall.service.OrderExtService;
-import matrix.project.mall.service.OrderService;
-import matrix.project.mall.service.RegionService;
-import matrix.project.mall.service.ShopService;
+import matrix.project.mall.service.*;
 import matrix.project.mall.vo.OrderAddressVo;
 import matrix.project.mall.vo.QueryOrderVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +41,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     @Autowired
     private OrderExtService orderExtService;
+
+    @Autowired
+    private OrderGoodsService orderGoodsService;
 
     @Override
     public List<ItemDto> orderStatus() {
@@ -107,6 +108,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("ORDER_ID", orderId);
         return getOne(queryWrapper, false);
+    }
+
+    @Override
+    public List<OrderGoods> listOrderGoods(String orderId) {
+        return orderGoodsService.listOrderGoods(orderId);
     }
 
 }

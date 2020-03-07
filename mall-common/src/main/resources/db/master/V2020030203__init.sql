@@ -16,9 +16,6 @@ CREATE TABLE order_ext
     ID                     VARCHAR(255) NOT NULL COMMENT '订单扩展表ID',
     ORDER_ID               VARCHAR(255) NOT NULL COMMENT '订单ID',
     HAS_LOGISTICS          INT(1)       NOT NULL DEFAULT 1 COMMENT '1:有物流, 2:无物流',
-    LOGISTICS_COMPANY_ID   VARCHAR(255) COMMENT '物流公司ID',
-    LOGISTICS_COMPANY_NAME VARCHAR(255) COMMENT '物流公司名称',
-    LOGISTICS_NO           VARCHAR(255) COMMENT '物流单号',
     PROVINCE_CODE          INT(10) COMMENT '省份编码',
     PROVINCE_NAME          VARCHAR(20) COMMENT '省份名称',
     CITY_CODE              INT(10) COMMENT '城市编码',
@@ -32,14 +29,17 @@ CREATE TABLE order_ext
 
 CREATE TABLE order_goods
 (
-    ID                VARCHAR(255)   NOT NULL COMMENT '订单商品表ID',
-    ORDER_ID          VARCHAR(255)   NOT NULL COMMENT '订单ID',
-    HAS_LOGISTICS     INT(1)         NOT NULL DEFAULT 1 COMMENT '1:有物流, 2:无物流',
-    GOODS_ID          VARCHAR(255)   NOT NULL COMMENT '商品ID',
-    GOODS_COUNT       INT(10)        NOT NULL COMMENT '商品数量',
-    GOODS_NAME        VARCHAR(255)   NOT NULL COMMENT '商品名称',
-    GOODS_TOTAL_PRICE DECIMAL(20, 2) NOT NULL COMMENT '商品总价格',
-    GOODS_SECRET      TEXT COMMENT '商品密钥，不需要收货订单可能需要此密钥',
-    MIRROR            TEXT           NOT NULL COMMENT '商品镜像(JSON)',
+    ID                     VARCHAR(255)   NOT NULL COMMENT '订单商品表ID',
+    ORDER_ID               VARCHAR(255)   NOT NULL COMMENT '订单ID',
+    HAS_LOGISTICS          INT(1)         NOT NULL DEFAULT 1 COMMENT '1:有物流, 2:无物流',
+    GOODS_ID               VARCHAR(255)   NOT NULL COMMENT '商品ID',
+    GOODS_COUNT            INT(10)        NOT NULL COMMENT '商品数量',
+    GOODS_NAME             VARCHAR(255)   NOT NULL COMMENT '商品名称',
+    GOODS_TOTAL_PRICE      DECIMAL(20, 2) NOT NULL COMMENT '商品总价格',
+    LOGISTICS_COMPANY_ID   VARCHAR(255) COMMENT '物流公司ID',
+    LOGISTICS_COMPANY_NAME VARCHAR(255) COMMENT '物流公司名称',
+    LOGISTICS_NO           VARCHAR(255) COMMENT '物流单号',
+    GOODS_SECRET           TEXT COMMENT '商品密钥，不需要收货订单可能需要此密钥',
+    MIRROR                 TEXT           NOT NULL COMMENT '商品镜像(JSON)',
     PRIMARY KEY (ID)
 );

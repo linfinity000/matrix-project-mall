@@ -8,9 +8,7 @@
         oe.PROVINCE_CODE as provinceCode, oe.CITY_CODE as cityCode,
         oe.AREA_CODE as areaCode, oe.HAS_LOGISTICS as hasLogistics,
         oe.PROVINCE_NAME as provinceName, oe.CITY_NAME as cityName,
-        oe.AREA_NAME as areaName, oe.ADDRESS as address,
-        oe.LOGISTICS_COMPANY_NAME as logisticsCompanyName,
-        oe.LOGISTICS_NO as logisticsNo, oe.REMARK as remark,
+        oe.AREA_NAME as areaName, oe.ADDRESS as address, oe.REMARK as remark,
         o.CREATE_TIME as createTime, o.UPDATE_TIME as updateTime,
         o.ORDER_STATUS as orderStatus
         from `order` o

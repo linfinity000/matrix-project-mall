@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import matrix.project.mall.dto.ItemDto;
 import matrix.project.mall.dto.OrderDto;
 import matrix.project.mall.entity.Order;
+import matrix.project.mall.entity.OrderGoods;
 import matrix.project.mall.vo.OrderAddressVo;
 import matrix.project.mall.vo.QueryOrderVo;
 
@@ -25,4 +26,5 @@ public interface OrderService extends IService<Order> {
 
     Order queryByOrderId(String orderId);
 
+    List<OrderGoods> listOrderGoods(String orderId);
 }

@@ -41,10 +41,6 @@ public class OrderDto implements Serializable {
 
     private String address;
 
-    private String logisticsCompanyName;
-
-    private String logisticsNo;
-
     private String remark;
 
     @JsonSerialize(using = DateTimeSerializer.class)
