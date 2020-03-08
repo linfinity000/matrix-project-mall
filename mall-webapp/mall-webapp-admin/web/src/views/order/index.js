@@ -28,11 +28,11 @@ export let data = {
                     {required: true, message: '请选择地区', trigger: 'blur'},
                 ],
                 linkName: [
-                    {required: true, message: '请输入详细地址', trigger: 'blur'},
+                    {required: true, message: '请输入联系人', trigger: 'blur'},
                     {min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur'}
                 ],
                 mobile: [
-                    {required: true, message: '请输入详细地址', trigger: 'blur'},
+                    {required: true, message: '请输入手机号', trigger: 'blur'},
                     {min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur'}
                 ],
                 address: [
