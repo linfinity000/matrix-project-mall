@@ -21,6 +21,10 @@ public class AddressVo implements Serializable {
 
     private String address;
 
+    private String linkName;
+
+    private String mobile;
+
     private Integer isDefault;
 }
 

@@ -13,17 +13,19 @@ CREATE TABLE `order`
 
 CREATE TABLE order_ext
 (
-    ID                     VARCHAR(255) NOT NULL COMMENT '订单扩展表ID',
-    ORDER_ID               VARCHAR(255) NOT NULL COMMENT '订单ID',
-    HAS_LOGISTICS          INT(1)       NOT NULL DEFAULT 1 COMMENT '1:有物流, 2:无物流',
-    PROVINCE_CODE          INT(10) COMMENT '省份编码',
-    PROVINCE_NAME          VARCHAR(20) COMMENT '省份名称',
-    CITY_CODE              INT(10) COMMENT '城市编码',
-    CITY_NAME              VARCHAR(20) COMMENT '城市名称',
-    AREA_CODE              INT(10) COMMENT '地区编码',
-    AREA_NAME              VARCHAR(20) COMMENT '地区名称',
-    ADDRESS                VARCHAR(255) COMMENT '收货地址',
-    REMARK                 TEXT COMMENT '订单备注',
+    ID            VARCHAR(255) NOT NULL COMMENT '订单扩展表ID',
+    ORDER_ID      VARCHAR(255) NOT NULL COMMENT '订单ID',
+    HAS_LOGISTICS INT(1)       NOT NULL DEFAULT 1 COMMENT '1:有物流, 2:无物流',
+    PROVINCE_CODE INT(10) COMMENT '省份编码',
+    PROVINCE_NAME VARCHAR(20) COMMENT '省份名称',
+    CITY_CODE     INT(10) COMMENT '城市编码',
+    CITY_NAME     VARCHAR(20) COMMENT '城市名称',
+    AREA_CODE     INT(10) COMMENT '地区编码',
+    AREA_NAME     VARCHAR(20) COMMENT '地区名称',
+    ADDRESS       VARCHAR(255) COMMENT '收货地址',
+    LINK_NAME     VARCHAR(20)  NOT NULL COMMENT '收货人',
+    MOBILE        VARCHAR(20)  NOT NULL COMMENT '手机号',
+    REMARK        TEXT COMMENT '订单备注',
     PRIMARY KEY (ID)
 );
 

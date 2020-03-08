@@ -136,7 +136,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                         .setCityName(address.getCityName())
                         .setAreaCode(address.getAreaCode())
                         .setAreaName(address.getAreaName())
-                        .setAddress(address.getAddress());
+                        .setAddress(address.getAddress())
+                        .setLinkName(address.getLinkName())
+                        .setMobile(address.getMobile());
             }
             orderExts.add(orderExt);
             //生成订单

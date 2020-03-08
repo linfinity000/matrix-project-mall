@@ -70,6 +70,18 @@
                                                          :props="{label: 'name', value: 'code'}"
                                                          size="small" v-model="addressForm.regions"></el-cascader>
                                         </el-form-item>
+                                        <el-form-item label="联系人" prop="linkName">
+                                            <el-input
+                                                    :disabled="!(selectRow.orderStatus === 11 || selectRow.orderStatus === 12)"
+                                                    type="text"
+                                                    v-model="addressForm.linkName"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="手机号" prop="mobile">
+                                            <el-input
+                                                    :disabled="!(selectRow.orderStatus === 11 || selectRow.orderStatus === 12)"
+                                                    type="text"
+                                                    v-model="addressForm.mobile"></el-input>
+                                        </el-form-item>
                                         <el-form-item label="详细地址" prop="address">
                                             <el-input
                                                     :disabled="!(selectRow.orderStatus === 11 || selectRow.orderStatus === 12)"

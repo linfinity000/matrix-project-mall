@@ -82,6 +82,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Override
     public boolean saveOrderAddress(OrderAddressVo orderAddressVo) {
         Assert.state(!StringUtils.isEmpty(orderAddressVo.getOrderId()), "订单号不能为空");
+        Assert.state(!StringUtils.isEmpty(orderAddressVo.getLinkName()), "联系人不能为空");
+        Assert.state(!StringUtils.isEmpty(orderAddressVo.getMobile()), "手机号不能为空");
         Assert.state(!StringUtils.isEmpty(orderAddressVo.getAddress()), "详细地址不能为空");
         Assert.state(orderAddressVo.getRegions().size() == 3, "地区选择只能是3级");
         List<Region> regions = regionService.queryByCodes(orderAddressVo.getRegions());
@@ -105,7 +107,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 .setCityName(city.getName())
                 .setAreaCode(area.getCode())
                 .setAreaName(area.getName())
-                .setAddress(orderAddressVo.getAddress());
+                .setAddress(orderAddressVo.getAddress())
+                .setLinkName(orderAddressVo.getLinkName())
+                .setMobile(orderAddressVo.getMobile());
         orderExtService.updateById(orderExt);
         return true;
     }

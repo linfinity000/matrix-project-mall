@@ -18,12 +18,22 @@ export let data = {
             addressForm: {
                 orderId: '',
                 regions: [],
-                address: ''
+                address: '',
+                linkName: '',
+                mobile: '',
             },
             addressOptions: [],
             addressRules: {
                 regions: [
                     {required: true, message: '请选择地区', trigger: 'blur'},
+                ],
+                linkName: [
+                    {required: true, message: '请输入详细地址', trigger: 'blur'},
+                    {min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur'}
+                ],
+                mobile: [
+                    {required: true, message: '请输入详细地址', trigger: 'blur'},
+                    {min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur'}
                 ],
                 address: [
                     {required: true, message: '请输入详细地址', trigger: 'blur'},
@@ -102,7 +112,9 @@ export let data = {
             this.addressForm = {
                 orderId: row.orderId,
                 regions: [row.provinceCode, row.cityCode, row.areaCode],
-                address: row.address
+                address: row.address,
+                linkName: row.linkName,
+                mobile: row.mobile
             };
             this.loadOrderGoodsList();
         },

@@ -15,8 +15,9 @@
         oe.PROVINCE_CODE as provinceCode, oe.CITY_CODE as cityCode,
         oe.AREA_CODE as areaCode, oe.HAS_LOGISTICS as hasLogistics,
         oe.PROVINCE_NAME as provinceName, oe.CITY_NAME as cityName,
-        oe.AREA_NAME as areaName, oe.ADDRESS as address, oe.REMARK as remark,
-        o.CREATE_TIME as createTime, o.UPDATE_TIME as updateTime,
+        oe.AREA_NAME as areaName, oe.ADDRESS as address,
+        oe.LINK_NAME as linkName, oe.MOBILE as mobile,
+        oe.REMARK as remark, o.CREATE_TIME as createTime, o.UPDATE_TIME as updateTime,
         o.ORDER_STATUS as orderStatus
         from `order` o
         join shop s on s.SHOP_ID = o.SHOP_ID

@@ -35,5 +35,9 @@ public class OrderExt implements Serializable {
 
     private String address;
 
+    private String linkName;
+
+    private String mobile;
+
     private String remark;
 }

@@ -24,6 +24,10 @@ public class Address implements Serializable {
 
     private String address;
 
+    private String linkName;
+
+    private String mobile;
+
     private Long provinceCode;
 
     private String provinceName;

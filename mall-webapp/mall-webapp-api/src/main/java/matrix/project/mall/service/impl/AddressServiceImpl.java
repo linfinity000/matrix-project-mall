@@ -48,6 +48,8 @@ public class AddressServiceImpl extends ServiceImpl<AddressMapper, Address> impl
         Assert.state(addressVo.getProvinceCode() != null, "省份不能为空");
         Assert.state(addressVo.getCityCode() != null, "城市不能为空");
         Assert.state(addressVo.getAreaCode() != null, "地区不能为空");
+        Assert.state(!StringUtils.isEmpty(addressVo.getMobile()), "手机号不能为空");
+        Assert.state(!StringUtils.isEmpty(addressVo.getLinkName()), "联系人不能为空");
         Assert.state(!StringUtils.isEmpty(addressVo.getAddress()), "详细地址不能为空");
         List<Region> regionList = regionService.queryByCodes(Arrays.asList(addressVo.getProvinceCode(), addressVo.getCityCode(), addressVo.getAreaCode()));
         Map<Long, Region> regionMap = regionList.stream().collect(Collectors.toMap(Region::getCode, item -> item, (o1, o2) -> o2));
@@ -56,6 +58,8 @@ public class AddressServiceImpl extends ServiceImpl<AddressMapper, Address> impl
                 .setAddressId(RandomUtil.getUUID())
                 .setUserId(LoginUtil.getUser().getUserId())
                 .setAddress(addressVo.getAddress())
+                .setLinkName(addressVo.getLinkName())
+                .setMobile(addressVo.getMobile())
                 .setIsDefault(addressVo.getIsDefault())
                 .setProvinceCode(addressVo.getProvinceCode())
                 .setProvinceName(regionMap.get(addressVo.getProvinceCode()).getName())

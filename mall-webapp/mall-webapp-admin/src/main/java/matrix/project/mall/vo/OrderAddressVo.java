@@ -19,4 +19,8 @@ public class OrderAddressVo implements Serializable {
     private List<Long> regions;
 
     private String address;
+
+    private String linkName;
+
+    private String mobile;
 }
