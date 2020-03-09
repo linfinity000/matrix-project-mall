@@ -13,6 +13,7 @@ import matrix.project.mall.enums.Logistics;
 import matrix.project.mall.enums.OrderStatus;
 import matrix.project.mall.mapper.OrderMapper;
 import matrix.project.mall.service.*;
+import matrix.project.mall.utils.LoginUtil;
 import matrix.project.mall.vo.OrderVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -144,6 +145,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             //生成订单
             orders.add(new Order()
                     .setOrderId(orderId)
+                    .setUserId(LoginUtil.getUser().getUserId())
                     .setShopId(shopId)
                     .setPrice(price)
                     .setGoodsCount(goodsCount)

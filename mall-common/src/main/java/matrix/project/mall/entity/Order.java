@@ -21,6 +21,8 @@ public class Order implements Serializable {
     @TableId
     private String orderId;
 
+    private String userId;
+
     private String shopId;
 
     private BigDecimal price;
