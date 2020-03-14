@@ -1,6 +1,7 @@
 package matrix.project.mall.controller;
 
 import matrix.module.common.bean.Result;
+import matrix.module.oplog.annotation.OpLog;
 import matrix.project.mall.service.ShopService;
 import matrix.project.mall.vo.QueryShopVo;
 import matrix.project.mall.vo.ShopVo;
@@ -46,11 +47,13 @@ public class ShopController implements Serializable {
     }
 
     @PostMapping("/saveShop")
+    @OpLog("新增店铺")
     public Result saveShop(@RequestBody ShopVo shopVo) {
         return Result.success(shopService.saveShop(shopVo));
     }
 
     @GetMapping("/removeShop")
+    @OpLog("移除店铺")
     public Result removeShop(@RequestParam String shopId) {
         return Result.success(shopService.removeShop(shopId));
     }

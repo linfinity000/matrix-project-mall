@@ -64,6 +64,7 @@ public class GoodsController {
     }
 
     @GetMapping("/removeGoods")
+    @OpLog("删除商品")
     public Result removeGoods(@RequestParam String goodsId) {
         return Result.success(goodsService.removeGoods(goodsId));
     }

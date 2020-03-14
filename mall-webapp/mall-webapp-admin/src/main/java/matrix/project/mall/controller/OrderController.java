@@ -1,6 +1,7 @@
 package matrix.project.mall.controller;
 
 import matrix.module.common.bean.Result;
+import matrix.module.oplog.annotation.OpLog;
 import matrix.project.mall.service.OrderService;
 import matrix.project.mall.vo.OrderAddressVo;
 import matrix.project.mall.vo.QueryOrderVo;
@@ -35,6 +36,7 @@ public class OrderController {
     }
 
     @PostMapping("/saveOrderAddress")
+    @OpLog("保存订单地址")
     public Result saveOrderAddress(@RequestBody OrderAddressVo orderAddressVo) {
         return Result.success(orderService.saveOrderAddress(orderAddressVo));
     }
@@ -45,11 +47,13 @@ public class OrderController {
     }
 
     @GetMapping("/cancelOrder")
+    @OpLog("取消订单")
     public Result cancelOrder(@RequestParam String orderId) {
         return Result.success(orderService.cancelOrder(orderId));
     }
 
     @PostMapping("/saveShip")
+    @OpLog("订单发货")
     public Result saveShip(@RequestBody ShipVo shipVo) {
         return Result.success(orderService.saveShip(shipVo));
     }

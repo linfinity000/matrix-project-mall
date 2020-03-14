@@ -1,6 +1,7 @@
 package matrix.project.mall.controller;
 
 import matrix.module.common.bean.Result;
+import matrix.module.oplog.annotation.OpLog;
 import matrix.project.mall.service.CategoryService;
 import matrix.project.mall.vo.CategoryVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,13 @@ public class CategoryController {
     }
 
     @PostMapping("/saveTree")
+    @OpLog("保存分类树")
     public Result saveTree(@RequestBody CategoryVo categoryVo) {
         return Result.success(categoryService.saveTree(categoryVo));
     }
 
     @GetMapping("/removeTree")
+    @OpLog("移除分类树")
     public Result removeTree(@RequestParam String categoryId) {
         return Result.success(categoryService.removeTree(categoryId));
     }

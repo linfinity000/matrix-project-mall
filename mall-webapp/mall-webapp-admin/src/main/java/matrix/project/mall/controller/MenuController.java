@@ -1,6 +1,7 @@
 package matrix.project.mall.controller;
 
 import matrix.module.common.bean.Result;
+import matrix.module.oplog.annotation.OpLog;
 import matrix.project.mall.service.MenuService;
 import matrix.project.mall.vo.MenuVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,13 @@ public class MenuController {
     }
 
     @PostMapping("/saveTree")
+    @OpLog("新增菜单")
     public Result saveTree(@RequestBody MenuVo menuVo) {
         return Result.success(menuService.saveTree(menuVo));
     }
 
     @GetMapping("/removeTree")
+    @OpLog("移除菜单")
     public Result removeTree(@RequestParam String menuId) {
         return Result.success(menuService.removeTree(menuId));
     }

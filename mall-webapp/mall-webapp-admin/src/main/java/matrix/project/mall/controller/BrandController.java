@@ -1,6 +1,7 @@
 package matrix.project.mall.controller;
 
 import matrix.module.common.bean.Result;
+import matrix.module.oplog.annotation.OpLog;
 import matrix.project.mall.service.BrandService;
 import matrix.project.mall.vo.BrandVo;
 import matrix.project.mall.vo.QueryBrandVo;
@@ -29,11 +30,13 @@ public class BrandController {
     }
 
     @PostMapping("/saveBrand")
+    @OpLog("保存品牌")
     public Result saveBrand(@RequestBody BrandVo brandVo) {
         return Result.success(brandService.saveBrand(brandVo));
     }
 
     @GetMapping("/removeBrand")
+    @OpLog("移除")
     public Result removeBrand(@RequestParam String brandId) {
         return Result.success(brandService.removeBrand(brandId));
     }

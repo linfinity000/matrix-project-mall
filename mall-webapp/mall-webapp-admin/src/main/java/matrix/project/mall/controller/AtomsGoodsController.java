@@ -1,6 +1,7 @@
 package matrix.project.mall.controller;
 
 import matrix.module.common.bean.Result;
+import matrix.module.oplog.annotation.OpLog;
 import matrix.project.mall.service.AtomsGoodsService;
 import matrix.project.mall.vo.AtomsGoodsVo;
 import matrix.project.mall.vo.QueryAtomsGoodsVo;
@@ -34,11 +35,13 @@ public class AtomsGoodsController {
     }
 
     @PostMapping("/saveAtomsGoods")
+    @OpLog("保存原子商品")
     public Result saveAtomsGoods(@RequestBody AtomsGoodsVo atomsGoodsVo) {
         return Result.success(atomsGoodsService.saveAtomsGoods(atomsGoodsVo));
     }
 
     @GetMapping("/removeAtomsGoods")
+    @OpLog("删除原子商品")
     public Result removeAtomsGoods(@RequestParam String atomsGoodsId) {
         return Result.success(atomsGoodsService.removeAtomsGoods(atomsGoodsId));
     }

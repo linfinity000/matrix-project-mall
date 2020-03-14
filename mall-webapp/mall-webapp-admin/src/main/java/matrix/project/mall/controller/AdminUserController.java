@@ -1,6 +1,7 @@
 package matrix.project.mall.controller;
 
 import matrix.module.common.bean.Result;
+import matrix.module.oplog.annotation.OpLog;
 import matrix.project.mall.annotation.NotNeedUserVerify;
 import matrix.project.mall.service.AdminUserService;
 import matrix.project.mall.utils.LoginUtil;
@@ -45,11 +46,13 @@ public class AdminUserController {
     }
 
     @PostMapping("/saveUser")
+    @OpLog("新增运营用户")
     public Result saveUser(@RequestBody AdminUserVo adminUserVo) {
         return Result.success(adminUserService.saveUser(adminUserVo));
     }
 
     @GetMapping("/removeUser")
+    @OpLog("移除运营用户")
     public Result removeUser(@RequestParam String userId) {
         return Result.success(adminUserService.removeUser(userId));
     }

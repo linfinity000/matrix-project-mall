@@ -1,6 +1,7 @@
 package matrix.project.mall.controller;
 
 import matrix.module.common.bean.Result;
+import matrix.module.oplog.annotation.OpLog;
 import matrix.project.mall.service.LogisticsService;
 import matrix.project.mall.vo.LogisticsVo;
 import matrix.project.mall.vo.QueryLogisticsVo;
@@ -29,11 +30,13 @@ public class LogisticsController {
     }
 
     @PostMapping("/saveLogistics")
+    @OpLog("新增物流")
     public Result saveLogistics(@RequestBody LogisticsVo logisticsVo) {
         return Result.success(logisticsService.saveLogistics(logisticsVo));
     }
 
     @GetMapping("/removeLogistics")
+    @OpLog("移除物流")
     public Result removeLogistics(@RequestParam String logisticsId) {
         return Result.success(logisticsService.removeLogistics(logisticsId));
     }

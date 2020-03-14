@@ -1,6 +1,7 @@
 package matrix.project.mall.controller;
 
 import matrix.module.common.bean.Result;
+import matrix.module.oplog.annotation.OpLog;
 import matrix.project.mall.service.UserService;
 import matrix.project.mall.vo.QueryUserVo;
 import matrix.project.mall.vo.UserVo;
@@ -29,11 +30,13 @@ public class UserController {
     }
 
     @PostMapping("/saveUser")
+    @OpLog("新增用户")
     public Result saveUser(@RequestBody UserVo userVo) {
         return Result.success(userService.saveUser(userVo));
     }
 
     @GetMapping("/removeUser")
+    @OpLog("移除用户")
     public Result removeUser(@RequestParam String userId) {
         return Result.success(userService.removeUser(userId));
     }
