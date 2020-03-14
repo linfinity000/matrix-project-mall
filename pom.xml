@@ -53,6 +53,10 @@
             <groupId>com.vwkit</groupId>
             <artifactId>matrix-module-pay-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.vwkit</groupId>
+            <artifactId>matrix-module-oplog-starter</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -102,7 +106,7 @@
             <dependency>
                 <groupId>com.vwkit</groupId>
                 <artifactId>matrix-module-dependencies</artifactId>
-                <version>1.0.0</version>
+                <version>1.0.1-SNAPSHOT</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

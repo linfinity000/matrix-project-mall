@@ -1,6 +1,7 @@
 package matrix.project.mall.controller;
 
 import matrix.module.common.bean.Result;
+import matrix.module.oplog.annotation.OpLog;
 import matrix.project.mall.service.GoodsService;
 import matrix.project.mall.vo.GoodsVo;
 import matrix.project.mall.vo.QueryGoodsVo;
@@ -57,6 +58,7 @@ public class GoodsController {
     }
 
     @PostMapping("/saveGoods")
+    @OpLog("保存商品")
     public Result saveGoods(@RequestBody GoodsVo goodsVo) {
         return Result.success(goodsService.saveGoods(goodsVo));
     }

@@ -38,13 +38,13 @@ jdbc:
     table-name: init_sql_version
   master:
     enabled: true
-    url: jdbc:mysql://128.0.1.3:3306/new-mall?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://128.0.1.3:3306/new-mall?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT
     username: root
     password: 123456
   db-list:
     admin:
       enabled: true
-      url: jdbc:mysql://128.0.1.3:3306/new-mall-admin?useUnicode=true&characterEncoding=utf-8
+      url: jdbc:mysql://128.0.1.3:3306/new-mall-admin?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT
       username: root
       password: 123456
       init-sql-locations: classpath:db/admin
@@ -63,6 +63,10 @@ redis:
     port: 6379
     password: 123456
     database: 2
+
+op-log:
+  enabled: true
+  db: admin
 
 pay:
   enabled: false

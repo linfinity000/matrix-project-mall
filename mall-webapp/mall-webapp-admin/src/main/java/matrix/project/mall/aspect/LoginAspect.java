@@ -3,6 +3,7 @@ package matrix.project.mall.aspect;
 import matrix.module.common.bean.Result;
 import matrix.module.common.exception.GlobalControllerException;
 import matrix.module.common.helper.Assert;
+import matrix.module.oplog.utils.MatrixUserUtil;
 import matrix.project.mall.annotation.NotNeedUserVerify;
 import matrix.project.mall.dto.AdminUserDto;
 import matrix.project.mall.service.AdminUserService;
@@ -54,6 +55,7 @@ public class LoginAspect {
                     AdminUserDto adminUserDto = new AdminUserDto();
                     BeanUtils.copyProperties(adminUserService.getUser(accessToken), adminUserDto);
                     LoginUtil.setAdminUser(adminUserDto);
+                    MatrixUserUtil.setUserId(adminUserDto.getUserId());
                 } catch (Exception e) {
                     logger.error(e);
                     return Result.fail(e.getMessage()).setResultCode(-1000);
