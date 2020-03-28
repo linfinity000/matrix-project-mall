@@ -56,16 +56,16 @@ export let data = {
             this.showDetail = true;
             this.activeName = 'detail';
         },
-        edit() {
+        detail(row) {
             try {
                 this.$refs.ruleForm.resetFields();
             } catch (e) {
             }
             this.ruleForm = {
-                brandId: this.selection[0].brandId,
-                brandName: this.selection[0].brandName,
-                brandUrl: this.selection[0].brandUrl,
-                brandLogo: this.selection[0].brandLogo
+                brandId: row.brandId,
+                brandName: row.brandName,
+                brandUrl: row.brandUrl,
+                brandLogo: row.brandLogo
             };
             this.upload.images.splice(0);
             if (this.ruleForm.brandLogo != null && this.ruleForm.brandLogo.length > 0) {

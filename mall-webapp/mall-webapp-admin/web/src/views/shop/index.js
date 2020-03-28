@@ -92,19 +92,19 @@ export let data = {
             this.showDetail = true;
             this.activeName = 'detail';
         },
-        edit() {
+        detail(row) {
             try {
                 this.$refs.ruleForm.resetFields();
             } catch (e) {
             }
             this.ruleForm = {
-                shopId: this.selection[0].shopId,
-                shopName: this.selection[0].shopName,
-                shopLogo: this.selection[0].shopLogo,
-                shopDesc: this.selection[0].shopDesc,
-                isDefault: this.selection[0].isDefault,
-                shopStar: this.selection[0].shopStar,
-                status: this.selection[0].status,
+                shopId: row.shopId,
+                shopName: row.shopName,
+                shopLogo: row.shopLogo,
+                shopDesc: row.shopDesc,
+                isDefault: row.isDefault,
+                shopStar: row.shopStar,
+                status: row.status,
             };
             this.upload.images.splice(0);
             if (this.ruleForm.shopLogo != null && this.ruleForm.shopLogo.length > 0) {

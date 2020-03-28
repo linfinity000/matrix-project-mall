@@ -25,7 +25,8 @@
                         <el-row>
                             <el-col :span="24">
                                 <el-button @click="loadTable" size="small" type="primary">刷新</el-button>
-                                <el-button :disabled="selection.length !== 1" @click="edit" size="small" type="primary">
+                                <el-button :disabled="selection.length !== 1" @click="detail(selection[0])" size="small"
+                                           type="primary">
                                     编辑
                                 </el-button>
                             </el-col>
@@ -33,6 +34,7 @@
                         <el-row>
                             <el-col :span="24">
                                 <el-table :data="atomsGoodsList" @selection-change="handleSelectionChange" border
+                                          @row-dblclick="detail"
                                           style="width: 100%;margin-top: 5px;">
                                     <el-table-column type="selection" width="55"></el-table-column>
                                     <el-table-column label="原子商品ID" prop="atomsGoodsId"></el-table-column>

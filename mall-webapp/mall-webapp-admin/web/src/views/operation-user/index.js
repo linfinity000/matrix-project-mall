@@ -83,18 +83,18 @@ export let data = {
             this.showDetail = true;
             this.activeName = 'detail';
         },
-        edit() {
+        detail(row) {
             try {
                 this.$refs.ruleForm.resetFields();
             } catch (e) {
             }
             this.ruleForm = {
-                userId: this.selection[0].userId,
-                username: this.selection[0].username,
+                userId: row.userId,
+                username: row.username,
                 password: null,
-                isDefault: this.selection[0].isDefault,
-                shopId: this.selection[0].shopId,
-                status: this.selection[0].status,
+                isDefault: row.isDefault,
+                shopId: row.shopId,
+                status: row.status,
             };
             this.loadShop();
             this.showDetail = true;

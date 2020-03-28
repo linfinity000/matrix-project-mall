@@ -49,14 +49,14 @@ export let data = {
             this.showDetail = true;
             this.activeName = 'detail';
         },
-        edit() {
+        detail(row) {
             try {
                 this.$refs.ruleForm.resetFields();
             } catch (e) {
             }
             this.ruleForm = {
-                logisticsId: this.selection[0].logisticsId,
-                logisticsName: this.selection[0].logisticsName
+                logisticsId: row.logisticsId,
+                logisticsName: row.logisticsName
             };
             this.showDetail = true;
             this.activeName = 'detail';

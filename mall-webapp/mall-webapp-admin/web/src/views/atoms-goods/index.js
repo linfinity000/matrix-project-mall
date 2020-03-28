@@ -128,14 +128,14 @@ export let data = {
             this.showDetail = true;
             this.activeName = 'detail';
         },
-        edit() {
+        detail(row) {
             try {
                 this.$refs.ruleForm.resetFields();
             } catch (e) {
             }
             this.upload.images.splice(0);
             this.upload.bannerImages.splice(0);
-            this.get('/atoms-goods/getAtomsGoods?atomsGoodsId=' + this.selection[0].atomsGoodsId, function (res) {
+            this.get('/atoms-goods/getAtomsGoods?atomsGoodsId=' + row.atomsGoodsId, function (res) {
                 this.ruleForm = res.body;
                 if (this.ruleForm.atomsGoodsImage != null && this.ruleForm.atomsGoodsImage.length > 0) {
                     this.upload.images.push({

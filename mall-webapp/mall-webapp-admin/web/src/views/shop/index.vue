@@ -30,7 +30,8 @@
                                            type="primary">
                                     当前账号绑定店铺
                                 </el-button>
-                                <el-button :disabled="selection.length !== 1" @click="edit" size="small" type="primary">
+                                <el-button :disabled="selection.length !== 1" @click="detail(selection[0])" size="small"
+                                           type="primary">
                                     编辑
                                 </el-button>
                                 <el-button :disabled="selection.length !== 1" @click="remove" size="small"
@@ -41,6 +42,7 @@
                         <el-row>
                             <el-col :span="24">
                                 <el-table :data="shopList" @selection-change="handleSelectionChange" border
+                                          @row-dblclick="detail"
                                           style="width: 100%;margin-top: 5px;">
                                     <el-table-column type="selection" width="55"></el-table-column>
                                     <el-table-column label="店铺ID" prop="shopId" width="250"></el-table-column>

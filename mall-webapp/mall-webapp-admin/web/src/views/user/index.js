@@ -77,18 +77,18 @@ export let data = {
             this.showDetail = true;
             this.activeName = 'detail';
         },
-        edit() {
+        detail(row) {
             try {
                 this.$refs.ruleForm.resetFields();
             } catch (e) {
             }
             this.ruleForm = {
-                userId: this.selection[0].userId,
-                username: this.selection[0].username,
-                mobile: this.selection[0].mobile,
-                nickname: this.selection[0].nickname,
+                userId: row.userId,
+                username: row.username,
+                mobile: row.mobile,
+                nickname: row.nickname,
                 password: null,
-                status: this.selection[0].status,
+                status: row.status,
             };
             this.showDetail = true;
             this.activeName = 'detail';

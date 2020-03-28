@@ -186,8 +186,8 @@ export let data = {
             this.newValue.shows[id] = false;
             this.newValue.values[id] = '';
         },
-        edit() {
-            this.loadSkuLabel(this.selection[0].atomsGoodsId);
+        detail(row) {
+            this.loadSkuLabel(row.atomsGoodsId);
             this.showDetail = true;
             this.activeName = 'detail';
         },
