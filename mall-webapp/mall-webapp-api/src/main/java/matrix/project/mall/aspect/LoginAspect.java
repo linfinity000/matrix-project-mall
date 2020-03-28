@@ -6,7 +6,7 @@ import matrix.module.common.helper.Assert;
 import matrix.module.oplog.utils.MatrixUserUtil;
 import matrix.project.mall.annotation.NotNeedClientVerify;
 import matrix.project.mall.annotation.NotNeedUserVerify;
-import matrix.project.mall.entity.User;
+import matrix.project.mall.dto.UserDto;
 import matrix.project.mall.service.ClientService;
 import matrix.project.mall.service.UserService;
 import matrix.project.mall.utils.LoginUtil;
@@ -80,7 +80,7 @@ public class LoginAspect {
                     String accessToken = request.getHeader("Access-Token");
                     Assert.state(!StringUtils.isEmpty(accessToken), "Access-Token 不合法");
                     userService.refreshAccessToken(accessToken);
-                    User user = userService.getUser(accessToken);
+                    UserDto user = userService.getUser(accessToken);
                     LoginUtil.setUser(user);
                     MatrixUserUtil.setUserId(user.getUserId());
                 } catch (Exception e) {
