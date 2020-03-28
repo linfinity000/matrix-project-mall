@@ -7,6 +7,7 @@ import matrix.project.mall.constants.Constant;
 import matrix.project.mall.entity.OrderPayGroup;
 import matrix.project.mall.mapper.OrderPayGroupMapper;
 import matrix.project.mall.service.OrderPayGroupService;
+import matrix.project.mall.utils.LoginUtil;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -21,14 +22,16 @@ import java.util.List;
 public class OrderPayGroupServiceImpl extends ServiceImpl<OrderPayGroupMapper, OrderPayGroup> implements OrderPayGroupService {
 
     @Override
-    public String savePayGroup(List<String> orderIds, BigDecimal price, String payMode, Integer payChannel) {
+    public String savePayGroup(List<String> orderIds, List<String> shopIds, BigDecimal price, String payMode, Integer payChannel) {
         Date date = new Date();
         OrderPayGroup payGroup = new OrderPayGroup()
                 .setId(RandomUtil.getUUID())
                 .setOrderIds(String.join(",", orderIds))
+                .setShopIds(String.join(",", shopIds))
                 .setPrice(price)
                 .setPayMode(payMode)
                 .setPayChannel(payChannel)
+                .setUserId(LoginUtil.getUser().getUserId())
                 .setCreateTime(date)
                 .setUpdateTime(date)
                 .setStatus(Constant.DISABLED);

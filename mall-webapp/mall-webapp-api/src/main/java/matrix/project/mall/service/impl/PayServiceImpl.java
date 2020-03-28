@@ -8,6 +8,7 @@ import matrix.module.pay.enums.PayMode;
 import matrix.module.pay.interfaces.PayInterface;
 import matrix.module.pay.templates.AlipayTemplate;
 import matrix.module.pay.vo.PayVo;
+import matrix.project.mall.constants.Constant;
 import matrix.project.mall.entity.Order;
 import matrix.project.mall.entity.OrderPayGroup;
 import matrix.project.mall.enums.PayChannel;
@@ -59,8 +60,10 @@ public class PayServiceImpl implements PayService, PayInterface {
         if (!CollectionUtils.isEmpty(payGroups)) {
             List<String> orderIds = new ArrayList<>();
             for (OrderPayGroup payGroup : payGroups) {
+                payGroup.setStatus(Constant.ENABLED);
                 orderIds.addAll(Arrays.asList(payGroup.getOrderIds().split(",")));
             }
+            orderPayGroupService.updateBatchById(payGroups);
             orderService.processPayedOrderIds(orderIds);
         }
         return true;
@@ -81,6 +84,7 @@ public class PayServiceImpl implements PayService, PayInterface {
         List<Order> orders = orderService.queryWaitPayOrderByOrderIds(payVo.getOrderIds());
         Assert.state(!CollectionUtils.isEmpty(orders), "订单查询为空");
         List<String> orderIds = orders.stream().map(Order::getOrderId).collect(Collectors.toList());
+        List<String> shopIds = orders.stream().map(Order::getShopId).distinct().collect(Collectors.toList());
         BigDecimal price = BigDecimal.ZERO;
         for (Order order : orders) {
             price = price.add(order.getPrice());
@@ -88,7 +92,8 @@ public class PayServiceImpl implements PayService, PayInterface {
         if (price.compareTo(BigDecimal.ZERO) == 0) {
             throw new ServiceException("订单金额为0");
         }
-        String payGroupId = orderPayGroupService.savePayGroup(orderIds, price, payVo.getPayMode(), payVo.getPayChannel());
+        String payGroupId = orderPayGroupService.savePayGroup(orderIds, shopIds,
+                price, payVo.getPayMode(), payVo.getPayChannel());
         if (PayChannel.ALI.getCode().equals(payVo.getPayChannel())) {
             return alipayTemplate.doPay(PayMode.getByCode(payVo.getPayMode()), new PayVo()
                     .setTitle("支付订单号:" + payGroupId)

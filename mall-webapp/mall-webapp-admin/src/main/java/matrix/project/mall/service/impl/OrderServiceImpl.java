@@ -197,4 +197,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         throw new ServiceException("只能取消待支付订单，其他订单请走申请退款");
     }
 
+    @Override
+    public List<Order> queryByOrderIds(List<String> orderIds) {
+        QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
+        queryWrapper.in("ORDER_ID", orderIds);
+        return list(queryWrapper);
+    }
+
 }

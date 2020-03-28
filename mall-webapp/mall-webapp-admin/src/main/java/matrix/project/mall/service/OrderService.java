@@ -32,4 +32,6 @@ public interface OrderService extends IService<Order> {
     boolean saveShip(ShipVo shipVo);
 
     boolean cancelOrder(String orderId);
+
+    List<Order> queryByOrderIds(List<String> orderIds);
 }

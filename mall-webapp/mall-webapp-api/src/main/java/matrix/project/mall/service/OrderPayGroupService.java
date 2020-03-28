@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface OrderPayGroupService extends IService<OrderPayGroup> {
 
-    String savePayGroup(List<String> orderIds, BigDecimal price, String payMode, Integer payChannel);
+    String savePayGroup(List<String> orderIds, List<String> shopIds, BigDecimal price, String payMode, Integer payChannel);
 
     List<OrderPayGroup> queryByWaitPayGroupIds(List<String> payGroupIds);
 }
