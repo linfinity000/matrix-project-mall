@@ -7,7 +7,6 @@ import matrix.module.pay.entity.MatrixRefundEntity;
 import matrix.module.pay.enums.PayMode;
 import matrix.module.pay.interfaces.PayInterface;
 import matrix.module.pay.templates.AlipayTemplate;
-import matrix.module.pay.templates.WepayTemplate;
 import matrix.module.pay.vo.PayVo;
 import matrix.project.mall.entity.Order;
 import matrix.project.mall.entity.OrderPayGroup;
@@ -44,8 +43,8 @@ public class PayServiceImpl implements PayService, PayInterface {
     @Resource
     private AlipayTemplate alipayTemplate;
 
-    @Resource
-    private WepayTemplate wepayTemplate;
+//    @Resource
+//    private WepayTemplate wepayTemplate;
 
     @Override
     public boolean paySuccess(List<MatrixPayEntity> list) {
@@ -96,13 +95,14 @@ public class PayServiceImpl implements PayService, PayInterface {
                     .setDesc("订单号:" + String.join(",", orderIds))
                     .setOrderId(payGroupId)
                     .setPrice(price));
-        } else if (PayChannel.WE.getCode().equals(payVo.getPayChannel())) {
-            return wepayTemplate.doPay(PayMode.getByCode(payVo.getPayMode()), new PayVo()
-                    .setTitle("支付订单号:" + payGroupId)
-                    .setDesc("订单号:" + String.join(",", orderIds))
-                    .setOrderId(payGroupId)
-                    .setPrice(price));
         }
+//        else if (PayChannel.WE.getCode().equals(payVo.getPayChannel())) {
+//            return wepayTemplate.doPay(PayMode.getByCode(payVo.getPayMode()), new PayVo()
+//                    .setTitle("支付订单号:" + payGroupId)
+//                    .setDesc("订单号:" + String.join(",", orderIds))
+//                    .setOrderId(payGroupId)
+//                    .setPrice(price));
+//        }
         throw new ServiceException("支付渠道不存在");
     }
 }

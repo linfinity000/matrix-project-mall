@@ -70,17 +70,17 @@ op-log:
   db: admin
 
 pay:
-  enabled: false
-  notify-domain: http://vwkit.com
+  enabled: true
+  notify-domain: http://pay-test.ng.88t6.com
   db: master
   alipay:
-    enabled: false
-    test: false
-    app-id:
-    sign-type:
-    return-url: http://vwkit.com/returnUrl
-    private-key:
-    public-key:
+    enabled: true
+    test: true
+    app-id: 2016092100562788
+    sign-type: RSA2
+    return-url: http://pay-test.ng.88t6.com
+    private-key: MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCncqp66JSt8IcF0GpWqiF6D1nYX9rckV9vNHfHFFuiNUd3sMR/m200gEDWiqAtkFakinzt8DPSRZ24DSXHbCPg8t7CxwMiaMzoYIaV0cmcwvFL6dxlWJbN+Iuo2PSE07nHVJOb3x3B6qmyyrBrQcbsxlVih92EAz7RgwLF6hRJn/PqAGVOffQw9S01j+yVC655J7pp5LxgPUu9uTDVANOBDjFgNxIwal4hH+BPRk9xcBNrnjhz5RtjMvw5PrN02mK25a/WfmFW37O7ur4C/05hVU4QduwM4TaySXwRlpccaOb4/st2CcRg4ZD7ojeojYDt3BzXIuTltrxj+5Xso7iPAgMBAAECggEAAsBypsRttRIP1fuf077GABCChHjGyvskm1o8Yawm+Vpwyzm/cO1n9QXqitwKV9VYZynTdcGNyHXWarDknwta55Z2LLNCjO01+NelPo8NBiN5/aphMdUr3USpXuP52Lj2A52TM2uOPKKTmVmVXp3dHAUCYDUlYcb/4EeL4x6+qJsOfaw0NY3/4B9lzoiHeIApjyWvrUT0Sip1Ju8IRB5HRqOcY4iAiF1GLrqPuUJiyGSn3c6WJoG6vlGb6E2THN+nIWPzBCPV2iH2aIZ8wq8QJ8KTZSvTeSdzRkJU//aRi7jqq+e3SG9gNKSv9rkKkmBR2rZIV+hWgImvEOLnLyhBUQKBgQDhf6p0rzha7Em+CgNA8hyBv3AHLQMv8I8uKPuNLrbPQv2uO6PnZct1EVaqZcr0u7l16Gk/YVQ2goV20To3O3v1KlCiqccPaq2P44EQYlgAWpQy5p0MQeol3jBgf/6GSoztp1+MSZmINg9gaQzbQEuwq8rTfha/DfvFIxRSJjwKpwKBgQC+GODIgjki3a6KhY6SMh2C753VPTTY8jxrsL7HvmeikYXtmNW07OUjiNWzdXWjvEO+6vkVVhm/jDYkrzZNh2OoAyybDwoKYiNGMdyrr27FZHiST1rKZ6A0UIHe4sBab9Fr7mkBz9FNCgtUmubSNLPaeLSSRpUzqJ8/2naUVw7n2QKBgAKylEdxESuFSByN4hwUyWKD98MeNruMFSpoMxotROKV2pMLA5rxDM4Jtw+yyArFdCKE9T1c3LUKOq6BMkEW5RS5vN01SrxUel8OSaz4gDUA4GT7fUV4RGTPk6ST42eX3Le7GNmEx+FpRCXTG+RDkKQ8aeC90WfXsvtYwBV7f5xhAoGAJB/KJ5BHl06VKpGyxClt3kH2tl0JO+jcfoJ53q9aNlR9JOeUROt3p8cLBS1fC5xtK0yvxNQ11Gaqq1H4eccusvDXeyfiepKnrWEwVBfkbvJmzzbxQ+FpWkeqRlbEwurY2y/VGJkLZx5vhMZi8rM9MlkZx2pOVCDJEnNLcWkR1hECgYEAinep2xxW25EG0rKVI52ZHh0LE49tPFpnPrKsAtMzIa5ZE0noAYccbozvB9QVsd34ohlzyw6r4FGQbXKij/093n5fO3XdqVpIm34N6n4KWm0md/tfHlB07XpAoc40lQ9akQOAZz2MGUBShpwJFMCN64Lb5o/4c+2K7wIdsjWZmzM=
+    public-key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoraTLrPD7gDa5SuKqfKjeIhHEsGL7IrkpWHAEAJv+uizqqzZTz+X7vTBmMtxUmGY1D6q0L6A1U599DfDPwFayfosu9Oo6OcjqI/1Vj8xEh6pju6TcViDCZO7dM4MafY7RN3UWMOruSQ4gGYVZkRZCiUp2u4eMvY8sLEQ+Kx65+6mybZHx0bf5+suXwmZey8YavIfZl2aqAD+LN4rNsK/QOy05O2/DO6+aE2BntUViwk0QBePNozU85hrKNesyHAqZkPMUKmQMzim1jTtUR8aSox2tCHKMpmZcUFoXrB1lO9JgJVwZNi1iCTUNqCoA9JWHxWZdxwZ5zmKZsHoN9xf7wIDAQAB
   wepay:
     enabled: false
     app-id:
