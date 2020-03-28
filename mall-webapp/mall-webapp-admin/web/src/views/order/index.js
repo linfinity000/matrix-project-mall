@@ -5,6 +5,7 @@ export let data = {
             orderList: [],
             orderGoodsList: [],
             orderCount: 0,
+            selection: [],
             showDetail: false,
             queryForm: {
                 orderId: '',
@@ -170,6 +171,9 @@ export let data = {
                     });
                 }
             });
+        },
+        handleSelectionChange(val) {
+            this.selection = val;
         },
         handleSizeChange(val) {
             this.queryForm.pageSize = val;
