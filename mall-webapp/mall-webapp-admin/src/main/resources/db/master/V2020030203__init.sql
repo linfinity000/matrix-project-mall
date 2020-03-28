@@ -7,7 +7,7 @@ CREATE TABLE `order`
     GOODS_COUNT  INT(10)        NOT NULL COMMENT '商品总数量',
     CREATE_TIME  DATETIME       NOT NULL COMMENT '创建时间',
     UPDATE_TIME  DATETIME       NOT NULL COMMENT '更新时间',
-    ORDER_STATUS INT(3)         NOT NULL COMMENT '10:取消订单,11:待支付,12:等待发货(已支付),13:部分发货,14:已发货(待收货),15:已收货,100:订单结束',
+    ORDER_STATUS INT(3)         NOT NULL COMMENT '10:取消订单,11:待支付,12:等待发货(已支付),13:部分发货,14:已发货(待收货),15:已收货,100:订单结束,-10:退款中,-100:退款失败',
     STATUS       INT(1)         NOT NULL COMMENT '1:正常(前端)，-1:删除(前端)',
     PRIMARY KEY (ORDER_ID)
 );

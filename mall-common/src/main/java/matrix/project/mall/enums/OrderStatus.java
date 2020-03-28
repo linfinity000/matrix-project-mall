@@ -12,7 +12,10 @@ public enum OrderStatus {
     PART_SHIP(13, "部分发货"),
     SHIPPED(14, "已发货(待收货)"),
     RECEIPTED(15, "已收货"),
-    ORDER_END(100, "订单结束");
+    ORDER_END(100, "订单结束"),
+    REFUNDING(-10, "退款中"),
+    REFUNDED(-100, "退款成功"),
+    ;
 
     private Integer code;
 
