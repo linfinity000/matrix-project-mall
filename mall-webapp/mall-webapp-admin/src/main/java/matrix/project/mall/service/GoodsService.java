@@ -40,4 +40,6 @@ public interface GoodsService extends IService<Goods> {
     GoodsDto getGoods(List<QuerySkuLabelVo> querySkuLabelVos);
 
     GoodsDto getGoodsByAtomsGoodsId(String atomsGoodsId);
+
+    List<Goods> queryByGoodsIds(List<String> goodsIds);
 }

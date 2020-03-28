@@ -1,13 +1,17 @@
 package matrix.project.mall.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import matrix.module.based.utils.JacksonUtil;
 import matrix.module.common.exception.ServiceException;
 import matrix.module.common.helper.Assert;
 import matrix.module.common.utils.RandomUtil;
 import matrix.project.mall.constants.Constant;
+import matrix.project.mall.dto.ApiOrderDto;
 import matrix.project.mall.dto.GoodsNameDto;
+import matrix.project.mall.dto.PageDto;
 import matrix.project.mall.entity.*;
 import matrix.project.mall.enums.Logistics;
 import matrix.project.mall.enums.OrderStatus;
@@ -15,6 +19,7 @@ import matrix.project.mall.mapper.OrderMapper;
 import matrix.project.mall.service.*;
 import matrix.project.mall.utils.LoginUtil;
 import matrix.project.mall.vo.OrderVo;
+import matrix.project.mall.vo.QueryOrderListVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -176,5 +181,71 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             return;
         }
         getBaseMapper().processPayedOrderIds(orderIds, OrderStatus.WAIT_PAYING.getCode(), OrderStatus.WAIT_SHIPPING.getCode());
+    }
+
+    @Override
+    @Transactional
+    public boolean cancelOrder(String orderId) {
+        Order order = queryByOrderId(orderId);
+        Assert.state(order != null, "订单查询为空");
+        assert order != null;
+        if (!OrderStatus.WAIT_PAYING.getCode().equals(order.getOrderStatus())) {
+            throw new ServiceException("只能取消待支付的订单，其余订单请申请退款");
+        }
+        order.setOrderStatus(OrderStatus.CANCEL_ORDER.getCode())
+                .setUpdateTime(new Date());
+        List<OrderGoods> orderGoodsList = orderGoodsService.queryByOrderId(order.getOrderId());
+        Map<String, Integer> countMap = orderGoodsList.stream().collect(Collectors.toMap(OrderGoods::getGoodsId, OrderGoods::getGoodsCount, (o1, o2) -> o2));
+        List<String> goodsIds = orderGoodsList.stream().map(OrderGoods::getGoodsId).distinct().collect(Collectors.toList());
+        List<Goods> goodsList = goodsService.queryByGoodsIds(goodsIds);
+        if (!CollectionUtils.isEmpty(goodsIds)) {
+            for (Goods goods : goodsList) {
+                goods.setStock(goods.getStock() + countMap.get(goods.getGoodsId()))
+                        .setUpdateTime(new Date());
+            }
+            goodsService.updateBatchById(goodsList);
+        }
+        updateById(order);
+        return true;
+    }
+
+    @Override
+    public Order queryByOrderId(String orderId) {
+        QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("ORDER_ID", orderId);
+        return getOne(queryWrapper, false);
+    }
+
+    @Override
+    public Integer countOrder() {
+        QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("USER_ID", LoginUtil.getUser().getUserId());
+        return count(queryWrapper);
+    }
+
+    @Override
+    public PageDto<ApiOrderDto> orderList(QueryOrderListVo queryOrderListVo) {
+        PageDto<ApiOrderDto> result = new PageDto<>();
+        Integer count = countOrder();
+        result.setCount(count);
+        if (count <= 0) {
+            return result;
+        }
+        IPage<Order> page = new Page<>(queryOrderListVo.getPage(), queryOrderListVo.getPageSize());
+        //订单列表
+        List<ApiOrderDto> orderList = getBaseMapper().queryOrderList(page, LoginUtil.getUser().getUserId());
+        //订单IDS
+        List<String> orderIds = orderList.stream().map(ApiOrderDto::getOrderId).collect(Collectors.toList());
+        //订单商品列表
+        List<ApiOrderDto.OrderGoodsDto> orderGoodsList = getBaseMapper().queryOrderGoodsList(orderIds);
+        //订单号商品字典
+        Map<String, List<ApiOrderDto.OrderGoodsDto>> orderGoodsListMap = new HashMap<>();
+        orderGoodsList.forEach(orderGoods -> orderGoodsListMap.computeIfAbsent(orderGoods.getOrderId(), k -> new ArrayList<>()).add(orderGoods));
+        orderList.forEach(apiOrder -> {
+            apiOrder.setOrderStatusRemark(OrderStatus.getNameByCode(apiOrder.getOrderStatus()));
+            apiOrder.setOrderGoodsList(orderGoodsListMap.get(apiOrder.getOrderId()));
+        });
+        result.setList(orderList);
+        return result;
     }
 }

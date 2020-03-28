@@ -164,4 +164,12 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         return getGoods(goods.getGoodsId());
     }
 
+    @Override
+    public List<Goods> queryByGoodsIds(List<String> goodsIds) {
+        QueryWrapper<Goods> queryWrapper = new QueryWrapper<>();
+        queryWrapper.in("GOODS_ID", goodsIds)
+                .eq("STATUS", Constant.ENABLED);
+        return list(queryWrapper);
+    }
+
 }

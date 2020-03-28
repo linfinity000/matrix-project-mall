@@ -5,7 +5,7 @@
         update `order` set ORDER_STATUS = #{processOrderStatus}, UPDATE_TIME = NOW()
         WHERE ORDER_STATUS = #{currentOrderStatus} and ORDER_ID in
         <foreach collection="orderIds" separator="," open="(" close=")" item="orderId">
-            #{orderId}
+        #{orderId}
         </foreach>
     </update>
 
@@ -27,6 +27,33 @@
             and o.ORDER_STATUS = #{item.orderStatus}
         </if>
         order by o.CREATE_TIME desc
+    </select>
+
+    <select id="queryOrderList" resultType="matrix.project.mall.dto.ApiOrderDto">
+        select o.ORDER_ID     as orderId,
+               s.SHOP_NAME    as shopName,
+               o.PRICE        as orderPrice,
+               o.EAT_POINT    as eatPoint,
+               o.GOODS_COUNT  as orderGoodsCount,
+               o.ORDER_STATUS as orderStatus,
+               o.CREATE_TIME  as createTime
+        from `order` o
+                 join shop s on s.SHOP_ID = o.SHOP_ID
+                 join order_ext oe on oe.ORDER_ID = o.ORDER_ID
+        where o.USER_ID = #{userId}
+        order by o.CREATE_TIME desc
+    </select>
+
+    <select id="queryOrderGoodsList" resultType="matrix.project.mall.dto.ApiOrderDto$OrderGoodsDto">
+        select og.ORDER_ID as orderId, og.GOODS_NAME as goodsName,
+        og.GOODS_COUNT as goodsCount,
+        og.GOODS_TOTAL_PRICE as goodsTotalPrice, og.EAT_POINT as eatPoint
+        from order_goods og
+        where og.ORDER_ID in
+        <foreach collection="orderIds" open="(" close=")" separator="," item="orderId">
+            #{orderId}
+        </foreach>
+        order by og.GOODS_ID
     </select>
 
 </mapper>

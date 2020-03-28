@@ -56,35 +56,46 @@
                                 <el-card class="box-card">
                                     <div class="clearfix" slot="header">
                                         <span>收货地址</span>
-                                        <el-button @click="editAddress"
+                                        <el-button @click="() => {this.shipFormEdit = true}"
                                                    style="float: right; padding: 3px 0" type="text"
-                                                   v-if="(selectRow.orderStatus === 11 || selectRow.orderStatus === 12)">
+                                                   v-if="(selectRow.orderStatus === 11 || selectRow.orderStatus === 12) && !shipFormEdit">
                                             修改
                                         </el-button>
+                                        <span v-else>
+                                            <el-button @click="() => {this.shipFormEdit = false}"
+                                                       style="float: right; padding: 3px 3px" type="text">
+                                                取消
+                                            </el-button>
+                                            <el-button @click="editAddress"
+                                                       style="float: right; padding: 3px 0" type="text">
+                                                保存
+                                            </el-button>
+                                        </span>
                                     </div>
                                     <el-form :model="addressForm" :rules="addressRules" label-width="100px"
                                              ref="addressForm">
                                         <el-form-item label="地区选择" prop="regions">
-                                            <el-cascader :options="addressOptions"
-                                                         :disabled="!(selectRow.orderStatus === 11 || selectRow.orderStatus === 12)"
-                                                         :props="{label: 'name', value: 'code'}"
-                                                         size="small" v-model="addressForm.regions"></el-cascader>
+                                            <el-cascader
+                                                    :disabled="!(selectRow.orderStatus === 11 || selectRow.orderStatus === 12) || !shipFormEdit"
+                                                    :options="addressOptions"
+                                                    :props="{label: 'name', value: 'code'}"
+                                                    size="small" v-model="addressForm.regions"></el-cascader>
                                         </el-form-item>
                                         <el-form-item label="联系人" prop="linkName">
                                             <el-input
-                                                    :disabled="!(selectRow.orderStatus === 11 || selectRow.orderStatus === 12)"
+                                                    :disabled="!(selectRow.orderStatus === 11 || selectRow.orderStatus === 12) || !shipFormEdit"
                                                     type="text"
                                                     v-model="addressForm.linkName"></el-input>
                                         </el-form-item>
                                         <el-form-item label="手机号" prop="mobile">
                                             <el-input
-                                                    :disabled="!(selectRow.orderStatus === 11 || selectRow.orderStatus === 12)"
+                                                    :disabled="!(selectRow.orderStatus === 11 || selectRow.orderStatus === 12) || !shipFormEdit"
                                                     type="text"
                                                     v-model="addressForm.mobile"></el-input>
                                         </el-form-item>
                                         <el-form-item label="详细地址" prop="address">
                                             <el-input
-                                                    :disabled="!(selectRow.orderStatus === 11 || selectRow.orderStatus === 12)"
+                                                    :disabled="!(selectRow.orderStatus === 11 || selectRow.orderStatus === 12) || !shipFormEdit"
                                                     type="textarea"
                                                     v-model="addressForm.address"></el-input>
                                         </el-form-item>

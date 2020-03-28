@@ -48,6 +48,7 @@ export let data = {
                 goodsSecret: '',
                 hasLogistics: null,
             },
+            shipFormEdit: false,
             shipRules: {
                 logisticsCompanyId: [
                     {required: true, message: '请选择快递公司', trigger: 'blur'},
@@ -116,6 +117,7 @@ export let data = {
                 linkName: row.linkName,
                 mobile: row.mobile
             };
+            this.shipFormEdit = false;
             this.loadOrderGoodsList();
         },
         loadOrderGoodsList() {
@@ -134,6 +136,7 @@ export let data = {
                         cancelButtonText: '取消',
                         type: 'warning'
                     }).then(() => {
+                        this.shipFormEdit = false;
                         this.post(this.addressForm, '/order/saveOrderAddress', function (res) {
                             this.loadTable(true);
                         });

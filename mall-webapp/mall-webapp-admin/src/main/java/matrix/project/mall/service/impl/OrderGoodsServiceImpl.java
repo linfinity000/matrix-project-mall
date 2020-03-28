@@ -2,6 +2,7 @@ package matrix.project.mall.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import matrix.project.mall.constants.Constant;
 import matrix.project.mall.entity.OrderGoods;
 import matrix.project.mall.mapper.OrderGoodsMapper;
 import matrix.project.mall.service.OrderGoodsService;
@@ -29,6 +30,14 @@ public class OrderGoodsServiceImpl extends ServiceImpl<OrderGoodsMapper, OrderGo
         QueryWrapper<OrderGoods> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("ID", orderGoodsId);
         return getOne(queryWrapper, false);
+    }
+
+    @Override
+    public List<OrderGoods> queryByOrderId(String orderId) {
+        QueryWrapper<OrderGoods> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("ORDER_ID", orderId)
+                .eq("STATUS", Constant.ENABLED);
+        return list(queryWrapper);
     }
 
 }

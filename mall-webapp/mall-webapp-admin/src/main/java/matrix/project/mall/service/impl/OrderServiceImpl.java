@@ -8,10 +8,7 @@ import matrix.module.common.exception.ServiceException;
 import matrix.module.common.helper.Assert;
 import matrix.project.mall.dto.ItemDto;
 import matrix.project.mall.dto.OrderDto;
-import matrix.project.mall.entity.Order;
-import matrix.project.mall.entity.OrderExt;
-import matrix.project.mall.entity.OrderGoods;
-import matrix.project.mall.entity.Region;
+import matrix.project.mall.entity.*;
 import matrix.project.mall.enums.Logistics;
 import matrix.project.mall.enums.OrderStatus;
 import matrix.project.mall.mapper.OrderMapper;
@@ -22,6 +19,7 @@ import matrix.project.mall.vo.ShipVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -39,6 +37,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     @Autowired
     private ShopService shopService;
+
+    @Autowired
+    private GoodsService goodsService;
 
     @Autowired
     private RegionService regionService;
@@ -171,6 +172,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     }
 
     @Override
+    @Transactional
     public boolean cancelOrder(String orderId) {
         Order order = queryByOrderId(orderId);
         Assert.state(order != null, "订单未找到");
@@ -178,10 +180,21 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         if (order.getOrderStatus().equals(OrderStatus.WAIT_PAYING.getCode())) {
             order.setOrderStatus(OrderStatus.CANCEL_ORDER.getCode())
                     .setUpdateTime(new Date());
+            List<OrderGoods> orderGoodsList = orderGoodsService.queryByOrderId(order.getOrderId());
+            Map<String, Integer> countMap = orderGoodsList.stream().collect(Collectors.toMap(OrderGoods::getGoodsId, OrderGoods::getGoodsCount, (o1, o2) -> o2));
+            List<String> goodsIds = orderGoodsList.stream().map(OrderGoods::getGoodsId).distinct().collect(Collectors.toList());
+            if (!CollectionUtils.isEmpty(goodsIds)) {
+                List<Goods> goodsList = goodsService.queryByGoodsIds(goodsIds);
+                for (Goods goods : goodsList) {
+                    goods.setStock(goods.getStock() + countMap.get(goods.getGoodsId()))
+                            .setUpdateTime(new Date());
+                }
+                goodsService.updateBatchById(goodsList);
+            }
             updateById(order);
             return true;
         }
-        throw new ServiceException("只能取消待支付订单，其他订单请走申请退款逻辑");
+        throw new ServiceException("只能取消待支付订单，其他订单请走申请退款");
     }
 
 }

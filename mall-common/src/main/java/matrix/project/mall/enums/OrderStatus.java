@@ -23,6 +23,15 @@ public enum OrderStatus {
         this.setName(name);
     }
 
+    public static String getNameByCode(Integer code) {
+        for (OrderStatus orderStatus : OrderStatus.values()) {
+            if (orderStatus.code.equals(code)) {
+                return orderStatus.getName();
+            }
+        }
+        return null;
+    }
+
     public Integer getCode() {
         return code;
     }

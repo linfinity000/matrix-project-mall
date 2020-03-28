@@ -14,4 +14,6 @@ public interface OrderGoodsService extends IService<OrderGoods> {
     List<OrderGoods> listOrderGoods(String orderId);
 
     OrderGoods queryById(String orderGoodsId);
+
+    List<OrderGoods> queryByOrderId(String orderId);
 }
