@@ -19,6 +19,8 @@ public interface OrderService extends IService<Order> {
 
     Order queryWaitPayOrderByOrderId(String orderId);
 
+    List<Order> queryWaitPayOrderByOrderIds(List<String> orderIds);
+
     void processPayedOrderIds(List<String> orderIds);
 
     boolean cancelOrder(String orderId);

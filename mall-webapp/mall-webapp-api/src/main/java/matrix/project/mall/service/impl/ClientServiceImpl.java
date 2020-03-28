@@ -52,7 +52,7 @@ public class ClientServiceImpl extends ServiceImpl<ClientMapper, Client> impleme
         ValueOperations<String, String> valueOperations =  redisTemplate.opsForValue();
         String key = "clients:" + clientToken;
         String clientId = valueOperations.get(key);
-        Assert.state(!StringUtils.isEmpty(clientId), "此token已失效，请重新获取");
+        Assert.state(!StringUtils.isEmpty(clientId), "客户端token已失效，请重新获取");
         valueOperations.set(key, clientId, Constant.CLIENT_EXPIRE_TIME, TimeUnit.MINUTES);
     }
 

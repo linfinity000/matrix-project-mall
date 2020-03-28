@@ -176,6 +176,14 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     }
 
     @Override
+    public List<Order> queryWaitPayOrderByOrderIds(List<String> orderIds) {
+        QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
+        queryWrapper.in("ORDER_ID", orderIds)
+                .eq("ORDER_STATUS", OrderStatus.WAIT_PAYING.getCode());
+        return list(queryWrapper);
+    }
+
+    @Override
     public void processPayedOrderIds(List<String> orderIds) {
         if (CollectionUtils.isEmpty(orderIds)) {
             return;
