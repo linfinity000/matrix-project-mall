@@ -21,12 +21,14 @@ import java.util.List;
 public class OrderPayGroupServiceImpl extends ServiceImpl<OrderPayGroupMapper, OrderPayGroup> implements OrderPayGroupService {
 
     @Override
-    public String savePayGroup(List<String> orderIds, BigDecimal price) {
+    public String savePayGroup(List<String> orderIds, BigDecimal price, String payMode, Integer payChannel) {
         Date date = new Date();
         OrderPayGroup payGroup = new OrderPayGroup()
                 .setId(RandomUtil.getUUID())
                 .setOrderIds(String.join(",", orderIds))
                 .setPrice(price)
+                .setPayMode(payMode)
+                .setPayChannel(payChannel)
                 .setCreateTime(date)
                 .setUpdateTime(date)
                 .setStatus(Constant.DISABLED);

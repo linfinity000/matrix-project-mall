@@ -21,6 +21,10 @@ public class OrderPayGroup implements Serializable {
 
     private BigDecimal price;
 
+    private String payMode;
+
+    private Integer payChannel;
+
     private Date createTime;
 
     private Date updateTime;

@@ -89,7 +89,7 @@ public class PayServiceImpl implements PayService, PayInterface {
         if (price.compareTo(BigDecimal.ZERO) == 0) {
             throw new ServiceException("订单金额为0");
         }
-        String payGroupId = orderPayGroupService.savePayGroup(orderIds, price);
+        String payGroupId = orderPayGroupService.savePayGroup(orderIds, price, payVo.getPayMode(), payVo.getPayChannel());
         if (PayChannel.ALI.getCode().equals(payVo.getPayChannel())) {
             return alipayTemplate.doPay(PayMode.getByCode(payVo.getPayMode()), new PayVo()
                     .setTitle("支付订单号:" + payGroupId)
