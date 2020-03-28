@@ -72,6 +72,10 @@ const routes = [{
     path: '/OpLog',
     name: 'OpLog',
     component: () => import('../views/op-log/index.vue')
+}, {
+    path: '/PayGroup',
+    name: 'PayGroup',
+    component: () => import('../views/pay-group/index.vue')
 }]
 
 const router = new VueRouter({
