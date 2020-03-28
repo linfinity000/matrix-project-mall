@@ -10,6 +10,9 @@ spring:
       max-file-size: 10000MB
       max-request-size: 10000MB
 
+upload:
+  file-path: C:\Downloads
+
 jdbc:
   enabled: true
   driver-class: com.mysql.cj.jdbc.Driver

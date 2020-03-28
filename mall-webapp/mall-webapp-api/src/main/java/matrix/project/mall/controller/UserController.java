@@ -6,10 +6,9 @@ import matrix.project.mall.service.UserService;
 import matrix.project.mall.vo.LoginUserVo;
 import matrix.project.mall.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author wangcheng
@@ -32,5 +31,17 @@ public class UserController {
     @PostMapping("/login")
     public Result login(@RequestBody LoginUserVo loginUserVo) {
         return Result.success(userService.login(loginUserVo));
+    }
+
+    @GetMapping("/exit")
+    public Result exit(HttpServletRequest request) {
+        String accessToken = request.getHeader("Access-Token");
+        return Result.success(userService.exit(accessToken));
+    }
+
+    @GetMapping("/getUser")
+    public Result getUser(HttpServletRequest request) {
+        String accessToken = request.getHeader("Access-Token");
+        return Result.success(userService.getUser(accessToken));
     }
 }

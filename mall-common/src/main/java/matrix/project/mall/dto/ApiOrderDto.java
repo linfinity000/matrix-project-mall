@@ -24,8 +24,6 @@ public class ApiOrderDto implements Serializable {
 
     private BigDecimal orderPrice;
 
-    private BigDecimal eatPoint;
-
     private Integer orderGoodsCount;
 
     private Integer orderStatus;
@@ -48,7 +46,5 @@ public class ApiOrderDto implements Serializable {
         private Integer goodsCount;
 
         private BigDecimal goodsTotalPrice;
-
-        private BigDecimal eatPoint;
     }
 }

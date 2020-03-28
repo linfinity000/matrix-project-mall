@@ -3,10 +3,7 @@ package matrix.project.mall.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import matrix.module.jdbc.annotation.TargetDataSource;
-import matrix.project.mall.dto.AttrDto;
-import matrix.project.mall.dto.GoodsDto;
-import matrix.project.mall.dto.GoodsNameDto;
-import matrix.project.mall.dto.SkuDto;
+import matrix.project.mall.dto.*;
 import matrix.project.mall.entity.Goods;
 import matrix.project.mall.vo.QueryGoodsVo;
 import matrix.project.mall.vo.QuerySkuLabelVo;
@@ -36,4 +33,12 @@ public interface GoodsMapper extends BaseMapper<Goods> {
     List<AttrDto> attrLabels(@Param("atomsGoodsId") String atomsGoodsId, @Param("goodsId") String goodsId);
 
     List<GoodsNameDto> goodsNameList(@Param("goodsIds") List<String> goodsIds);
+
+    List<CategoryGoodsDto.GoodsItemDto> listGoodsItemsByUserId(@Param("shopId") String shopId, @Param("userId") String userId);
+
+    List<CategoryGoodsDto.GoodsItemDto> listGoodsItems(@Param("shopId") String shopId);
+
+    List<CategoryGoodsDto.GoodsItemDto> listGoodsItemsByUserIdAndCategoryId(@Param("shopId") String shopId, @Param("categoryId") String categoryId, @Param("userId") String userId);
+
+    List<CategoryGoodsDto.GoodsItemDto> listGoodsItemsByCategoryId(@Param("shopId") String shopId, @Param("categoryId") String categoryId);
 }

@@ -6,11 +6,13 @@ import matrix.module.common.helper.Assert;
 import matrix.module.common.helper.encrypt.MD5;
 import matrix.module.common.utils.RandomUtil;
 import matrix.project.mall.constants.Constant;
+import matrix.project.mall.dto.UserDto;
 import matrix.project.mall.entity.User;
 import matrix.project.mall.mapper.UserMapper;
 import matrix.project.mall.service.UserService;
 import matrix.project.mall.vo.LoginUserVo;
 import matrix.project.mall.vo.UserVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -93,10 +95,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public User getUser(String accessToken) {
+    public UserDto getUser(String accessToken) {
         String key = "login:" + accessToken;
         String userId = redisTemplate.opsForValue().get(key);
-        return queryByUserId(userId);
+        User user = queryByUserId(userId);
+        UserDto result = new UserDto();
+        BeanUtils.copyProperties(user, result);
+        return result;
     }
 
     @Override
@@ -105,6 +110,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         queryWrapper.eq("STATUS", Constant.ENABLED)
             .eq("USER_ID", userId);
         return getOne(queryWrapper, false);
+    }
+
+    @Override
+    public boolean exit(String accessToken) {
+        String key = "login:" + accessToken;
+        redisTemplate.delete(key);
+        return true;
     }
 
     @Override

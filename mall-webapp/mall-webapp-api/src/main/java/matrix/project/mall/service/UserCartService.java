@@ -1,6 +1,7 @@
 package matrix.project.mall.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import matrix.project.mall.dto.UserCartDto;
 import matrix.project.mall.entity.UserCart;
 import matrix.project.mall.vo.CartVo;
 
@@ -21,4 +22,10 @@ public interface UserCartService extends IService<UserCart> {
     List<UserCart> queryByIds(List<String> ids);
 
     boolean removeCart(String id);
+
+    List<UserCartDto> listCart();
+
+    Integer cartCount();
+
+    List<UserCartDto> cartsInfo(List<String> cartIds);
 }

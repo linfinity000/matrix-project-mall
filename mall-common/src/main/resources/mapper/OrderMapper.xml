@@ -33,7 +33,6 @@
         select o.ORDER_ID     as orderId,
                s.SHOP_NAME    as shopName,
                o.PRICE        as orderPrice,
-               o.EAT_POINT    as eatPoint,
                o.GOODS_COUNT  as orderGoodsCount,
                o.ORDER_STATUS as orderStatus,
                o.CREATE_TIME  as createTime
@@ -47,7 +46,7 @@
     <select id="queryOrderGoodsList" resultType="matrix.project.mall.dto.ApiOrderDto$OrderGoodsDto">
         select og.ORDER_ID as orderId, og.GOODS_NAME as goodsName,
         og.GOODS_COUNT as goodsCount,
-        og.GOODS_TOTAL_PRICE as goodsTotalPrice, og.EAT_POINT as eatPoint
+        og.GOODS_TOTAL_PRICE as goodsTotalPrice
         from order_goods og
         where og.ORDER_ID in
         <foreach collection="orderIds" open="(" close=")" separator="," item="orderId">

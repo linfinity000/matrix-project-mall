@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="matrix.project.mall.mapper.CategoryMapper">
+    <select id="listCategoryItem" resultType="matrix.project.mall.dto.CategoryItemDto">
+        select c.CATEGORY_ID as id, c.CATEGORY_NAME as name, count(c.CATEGORY_ID) as goodsCount
+        from goods g
+                 join atoms_goods ag on ag.ATOMS_GOODS_ID = g.ATOMS_GOODS_ID
+                 join category c on c.CATEGORY_ID = ag.CATEGORY_ID
+        where ag.`STATUS` = 1
+          and g.`STATUS` = 1
+          and c.`STATUS` = 1
+          and ag.SHOP_ID = #{shopId}
+        group by c.CATEGORY_ID
+    </select>
 </mapper>

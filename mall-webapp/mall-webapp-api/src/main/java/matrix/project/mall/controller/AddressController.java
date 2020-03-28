@@ -46,4 +46,14 @@ public class AddressController {
         return Result.success(addressService.saveAddress(addressVo));
     }
 
+    @GetMapping("/detail")
+    public Result detailAddress(@RequestParam("addressId") String addressId) {
+        return Result.success(addressService.queryById(addressId));
+    }
+
+    @GetMapping("/deleteAddress")
+    public Result deleteAddress(@RequestParam String addressId) {
+        return Result.success(addressService.removeByAddressId(addressId));
+    }
+
 }

@@ -1,4 +1,50 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="matrix.project.mall.mapper.UserCartMapper">
+    <select id="listCartItems" resultType="matrix.project.mall.dto.UserCartDto$UserCartItemDto">
+        select uc.ID                                                                               as cartId,
+               s.SHOP_ID                                                                           as shopId,
+               s.SHOP_NAME                                                                         as shopName,
+               CONCAT(ag.ATOMS_GOODS_NAME, ' ', GROUP_CONCAT(gs.SKU_VALUE order by agsl.ORDER_BY)) as goodsName,
+               (case when g.IMAGE_URL is not null then g.IMAGE_URL else ag.ATOMS_GOODS_IMAGE end)  as imageUrl,
+               uc.GOODS_COUNT                                                                      as goodsCount,
+               g.SALE_PRICE                                                                        as price
+        from user_cart uc
+                 join goods g on g.GOODS_ID = uc.GOODS_ID and g.STATUS = 1
+                 join atoms_goods ag on ag.ATOMS_GOODS_ID = g.ATOMS_GOODS_ID and ag.STATUS = 1
+                 join shop s on s.SHOP_ID = ag.SHOP_ID and s.`STATUS` = 1
+                 left join atoms_goods_sku_label agsl on agsl.ATOMS_GOODS_ID = ag.ATOMS_GOODS_ID
+                 left join goods_sku gs on gs.GOODS_ID = g.GOODS_ID and gs.ATOMS_GOODS_SKU_LABEL_ID = agsl.ID
+        where uc.USER_ID = #{userId}
+          and uc.`STATUS` = 1
+          and uc.GOODS_COUNT > 0
+        group by g.GOODS_ID
+        order by uc.CREATE_TIME
+    </select>
+    <select id="cartCount" resultType="java.lang.Integer">
+        select sum(GOODS_COUNT)
+        from user_cart
+        where STATUS = 1
+          and USER_ID = #{userId}
+    </select>
+    <select id="listCartItemsByCartIds" resultType="matrix.project.mall.dto.UserCartDto$UserCartItemDto">
+        select uc.ID as cartId, s.SHOP_ID as shopId, s.SHOP_NAME as shopName,
+        CONCAT(ag.ATOMS_GOODS_NAME,' ', GROUP_CONCAT(gs.SKU_VALUE order by agsl.ORDER_BY)) as goodsName,
+        (case when g.IMAGE_URL is not null then g.IMAGE_URL else ag.ATOMS_GOODS_IMAGE end) as imageUrl,
+        uc.GOODS_COUNT as goodsCount,
+        g.SALE_PRICE as price
+        from user_cart uc
+        join goods g on g.GOODS_ID = uc.GOODS_ID and g.STATUS = 1
+        join atoms_goods ag on ag.ATOMS_GOODS_ID = g.ATOMS_GOODS_ID and ag.STATUS = 1
+        join shop s on s.SHOP_ID = ag.SHOP_ID and s.`STATUS` = 1
+        left join atoms_goods_sku_label agsl on agsl.ATOMS_GOODS_ID = ag.ATOMS_GOODS_ID
+        left join goods_sku gs on gs.GOODS_ID = g.GOODS_ID and gs.ATOMS_GOODS_SKU_LABEL_ID = agsl.ID
+        where uc.USER_ID = #{userId} and uc.`STATUS` = 1 and uc.GOODS_COUNT > 0
+        and uc.ID in
+        <foreach collection="cartIds" item="cartId" open="(" close=")" separator=",">
+            #{cartId}
+        </foreach>
+        group by g.GOODS_ID
+        order by uc.CREATE_TIME
+    </select>
 </mapper>

@@ -21,4 +21,6 @@ public interface AddressService extends IService<Address> {
     boolean setDefault(String addressId);
 
     boolean removeDefault(String addressId);
+
+    boolean removeByAddressId(String addressId);
 }

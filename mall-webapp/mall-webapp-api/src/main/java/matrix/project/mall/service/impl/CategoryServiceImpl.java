@@ -6,6 +6,7 @@ import matrix.module.common.helper.Assert;
 import matrix.module.common.utils.TreeUtil;
 import matrix.project.mall.constants.Constant;
 import matrix.project.mall.dto.CategoryDto;
+import matrix.project.mall.dto.CategoryItemDto;
 import matrix.project.mall.entity.Category;
 import matrix.project.mall.mapper.CategoryMapper;
 import matrix.project.mall.service.CategoryService;
@@ -18,9 +19,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author wangcheng
@@ -79,6 +78,11 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
             return result;
         }
         return findRecursionTreeByCategoryId(queryByShopId(category.getShopId()), categoryId);
+    }
+
+    @Override
+    public List<CategoryItemDto> listCategoryItem(String shopId) {
+        return getBaseMapper().listCategoryItem(shopId);
     }
 
     private CategoryDto findRecursionTreeByCategoryId(List<CategoryDto> treeCategories, String categoryId) {

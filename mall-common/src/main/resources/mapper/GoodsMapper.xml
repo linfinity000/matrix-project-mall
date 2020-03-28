@@ -106,4 +106,96 @@
         </foreach>
         GROUP BY g.GOODS_ID
     </select>
+    <select id="listGoodsItemsByUserId" resultType="matrix.project.mall.dto.CategoryGoodsDto$GoodsItemDto">
+        select c.CATEGORY_ID                                                                      as categoryId,
+               c.CATEGORY_NAME                                                                    as categoryName,
+               g.GOODS_ID                                                                         as goodsId,
+               ag.SALE_POINTS                                                                     as salePoints,
+               CONCAT(ag.ATOMS_GOODS_NAME, ' ',
+                      GROUP_CONCAT((case when gs.SKU_VALUE is null then '' else gs.SKU_VALUE end) order by
+                                   agsl.ORDER_BY))                                                as goodsName,
+               (case when g.IMAGE_URL is not null then g.IMAGE_URL else ag.ATOMS_GOODS_IMAGE end) as imageUrl,
+               g.STOCK                                                                            as stock,
+               g.SALE_PRICE                                                                       as price,
+               (case when uc.GOODS_COUNT is not null then uc.GOODS_COUNT else 0 end)              as goodsCount
+        from goods g
+                 join atoms_goods ag on ag.ATOMS_GOODS_ID = g.ATOMS_GOODS_ID and ag.STATUS = 1
+                 join category c on c.CATEGORY_ID = ag.CATEGORY_ID and c.STATUS = 1
+                 left join atoms_goods_sku_label agsl on agsl.ATOMS_GOODS_ID = ag.ATOMS_GOODS_ID
+                 left join goods_sku gs on gs.GOODS_ID = g.GOODS_ID and gs.ATOMS_GOODS_SKU_LABEL_ID = agsl.ID
+                 left join user_cart uc on uc.GOODS_ID = g.GOODS_ID and uc.STATUS = 1 and uc.USER_ID = #{userId}
+        where ag.SHOP_ID = #{shopId}
+          and g.STATUS = 1
+        group by g.GOODS_ID
+        order by g.CREATE_TIME
+    </select>
+
+    <select id="listGoodsItems" resultType="matrix.project.mall.dto.CategoryGoodsDto$GoodsItemDto">
+        select c.CATEGORY_ID                                                                      as categoryId,
+               c.CATEGORY_NAME                                                                    as categoryName,
+               g.GOODS_ID                                                                         as goodsId,
+               ag.SALE_POINTS                                                                     as salePoints,
+               CONCAT(ag.ATOMS_GOODS_NAME, ' ',
+                      GROUP_CONCAT((case when gs.SKU_VALUE is null then '' else gs.SKU_VALUE end) order by
+                                   agsl.ORDER_BY))                                                as goodsName,
+               (case when g.IMAGE_URL is not null then g.IMAGE_URL else ag.ATOMS_GOODS_IMAGE end) as imageUrl,
+               g.STOCK                                                                            as stock,
+               g.SALE_PRICE                                                                       as price
+        from goods g
+                 join atoms_goods ag on ag.ATOMS_GOODS_ID = g.ATOMS_GOODS_ID and ag.STATUS = 1
+                 join category c on c.CATEGORY_ID = ag.CATEGORY_ID and c.STATUS = 1
+                 left join atoms_goods_sku_label agsl on agsl.ATOMS_GOODS_ID = ag.ATOMS_GOODS_ID
+                 left join goods_sku gs on gs.GOODS_ID = g.GOODS_ID and gs.ATOMS_GOODS_SKU_LABEL_ID = agsl.ID
+        where ag.SHOP_ID = #{shopId}
+          and g.STATUS = 1
+        group by g.GOODS_ID
+        order by g.CREATE_TIME
+    </select>
+    <select id="listGoodsItemsByUserIdAndCategoryId"
+            resultType="matrix.project.mall.dto.CategoryGoodsDto$GoodsItemDto">
+        select c.CATEGORY_ID                                                                      as categoryId,
+               c.CATEGORY_NAME                                                                    as categoryName,
+               g.GOODS_ID                                                                         as goodsId,
+               ag.SALE_POINTS                                                                     as salePoints,
+               CONCAT(ag.ATOMS_GOODS_NAME, ' ',
+                      GROUP_CONCAT((case when gs.SKU_VALUE is null then '' else gs.SKU_VALUE end) order by
+                                   agsl.ORDER_BY))                                                as goodsName,
+               (case when g.IMAGE_URL is not null then g.IMAGE_URL else ag.ATOMS_GOODS_IMAGE end) as imageUrl,
+               g.STOCK                                                                            as stock,
+               g.SALE_PRICE                                                                       as price,
+               (case when uc.GOODS_COUNT is not null then uc.GOODS_COUNT else 0 end)              as goodsCount
+        from goods g
+                 join atoms_goods ag on ag.ATOMS_GOODS_ID = g.ATOMS_GOODS_ID and ag.STATUS = 1
+                 join category c on c.CATEGORY_ID = ag.CATEGORY_ID and c.STATUS = 1
+                 left join atoms_goods_sku_label agsl on agsl.ATOMS_GOODS_ID = ag.ATOMS_GOODS_ID
+                 left join goods_sku gs on gs.GOODS_ID = g.GOODS_ID and gs.ATOMS_GOODS_SKU_LABEL_ID = agsl.ID
+                 left join user_cart uc on uc.GOODS_ID = g.GOODS_ID and uc.STATUS = 1 and uc.USER_ID = #{userId}
+        where ag.SHOP_ID = #{shopId}
+          and ag.CATEGORY_ID = #{categoryId}
+          and g.STATUS = 1
+        group by g.GOODS_ID
+        order by g.CREATE_TIME
+    </select>
+    <select id="listGoodsItemsByCategoryId" resultType="matrix.project.mall.dto.CategoryGoodsDto$GoodsItemDto">
+        select c.CATEGORY_ID                                                                      as categoryId,
+               c.CATEGORY_NAME                                                                    as categoryName,
+               g.GOODS_ID                                                                         as goodsId,
+               ag.SALE_POINTS                                                                     as salePoints,
+               CONCAT(ag.ATOMS_GOODS_NAME, ' ',
+                      GROUP_CONCAT((case when gs.SKU_VALUE is null then '' else gs.SKU_VALUE end) order by
+                                   agsl.ORDER_BY))                                                as goodsName,
+               (case when g.IMAGE_URL is not null then g.IMAGE_URL else ag.ATOMS_GOODS_IMAGE end) as imageUrl,
+               g.STOCK                                                                            as stock,
+               g.SALE_PRICE                                                                       as price
+        from goods g
+                 join atoms_goods ag on ag.ATOMS_GOODS_ID = g.ATOMS_GOODS_ID and ag.STATUS = 1
+                 join category c on c.CATEGORY_ID = ag.CATEGORY_ID and c.STATUS = 1
+                 left join atoms_goods_sku_label agsl on agsl.ATOMS_GOODS_ID = ag.ATOMS_GOODS_ID
+                 left join goods_sku gs on gs.GOODS_ID = g.GOODS_ID and gs.ATOMS_GOODS_SKU_LABEL_ID = agsl.ID
+        where ag.SHOP_ID = #{shopId}
+          and ag.CATEGORY_ID = #{categoryId}
+          and g.STATUS = 1
+        group by g.GOODS_ID
+        order by g.CREATE_TIME
+    </select>
 </mapper>

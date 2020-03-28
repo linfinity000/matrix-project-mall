@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import matrix.module.common.helper.Assert;
 import matrix.module.common.utils.RandomUtil;
 import matrix.project.mall.constants.Constant;
+import matrix.project.mall.dto.UserCartDto;
 import matrix.project.mall.entity.AtomsGoods;
 import matrix.project.mall.entity.Goods;
 import matrix.project.mall.entity.UserCart;
@@ -16,10 +17,11 @@ import matrix.project.mall.utils.LoginUtil;
 import matrix.project.mall.vo.CartVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author wangcheng
@@ -104,6 +106,41 @@ public class UserCartServiceImpl extends ServiceImpl<UserCartMapper, UserCart> i
         userCart.setStatus(Constant.DELETED);
         updateById(userCart);
         return true;
+    }
+
+    @Override
+    public List<UserCartDto> listCart() {
+        List<UserCartDto.UserCartItemDto> userCartItems = getBaseMapper().listCartItems(LoginUtil.getUser().getUserId());
+        return convertUserCart(userCartItems);
+    }
+
+    @Override
+    public Integer cartCount() {
+        return getBaseMapper().cartCount(LoginUtil.getUser().getUserId());
+    }
+
+    @Override
+    public List<UserCartDto> cartsInfo(List<String> cartIds) {
+        Assert.state(!CollectionUtils.isEmpty(cartIds), "购物车ID不允许为空");
+        List<UserCartDto.UserCartItemDto> userCartItems = getBaseMapper().listCartItemsByCartIds(LoginUtil.getUser().getUserId(), cartIds);
+        return convertUserCart(userCartItems);
+    }
+
+    private List<UserCartDto> convertUserCart(List<UserCartDto.UserCartItemDto> userCartItems) {
+        if (CollectionUtils.isEmpty(userCartItems)) {
+            return new ArrayList<>();
+        }
+        Map<String, String> shopNameDict = userCartItems.stream().collect(Collectors.toMap(UserCartDto.UserCartItemDto::getShopId, UserCartDto.UserCartItemDto::getShopName, (o1, o2) -> o2));
+        Map<String, List<UserCartDto.UserCartItemDto>> itemDict = new LinkedHashMap<>();
+        for (UserCartDto.UserCartItemDto item : userCartItems) {
+            itemDict.computeIfAbsent(item.getShopId(), k -> new ArrayList<>()).add(item);
+        }
+        List<UserCartDto> result = new ArrayList<>();
+        itemDict.forEach((shopId, userCartItems1) -> result.add(new UserCartDto()
+                .setShopId(shopId)
+                .setShopName(shopNameDict.get(shopId))
+                .setCartItems(userCartItems1)));
+        return result;
     }
 
 }

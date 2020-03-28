@@ -104,4 +104,14 @@ public class AddressServiceImpl extends ServiceImpl<AddressMapper, Address> impl
         updateById(address);
         return true;
     }
+
+    @Override
+    public boolean removeByAddressId(String addressId) {
+        Address address = queryById(addressId);
+        Assert.state(address != null, "地址不存在");
+        assert address != null;
+        address.setStatus(Constant.DISABLED);
+        updateById(address);
+        return true;
+    }
 }
