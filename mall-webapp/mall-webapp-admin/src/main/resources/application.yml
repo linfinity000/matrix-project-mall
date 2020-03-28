@@ -41,6 +41,7 @@ jdbc:
     url: jdbc:mysql://128.0.1.3:3306/new-mall?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT
     username: root
     password: 123456
+    init-sql-locations: classpath:db/master
   db-list:
     admin:
       enabled: true

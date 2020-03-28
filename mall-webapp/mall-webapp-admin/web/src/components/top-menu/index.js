@@ -2,12 +2,10 @@ export let data = {
     data() {
         return {
             activeIndex: '',
-            menuList: [{
-                menuId: '1000',
-                menuName: ''
-            }],
+            menuList: [],
             menuIdDict: {},
             menuUrlDict: {},
+            avatarSpan: ''
         }
     },
     created() {
@@ -20,6 +18,10 @@ export let data = {
             let menuUrl = location.hash.replace("#", "").replace("/", "");
             menuUrl = menuUrl.length === 0 ? 'index' : menuUrl;
             this.activeIndex = this.menuIdDict[menuUrl];
+        });
+        this.get('/admin-user/getUser', function (res) {
+            let username = res.body.username;
+            this.avatarSpan = username != null ? username.substring(0, 1).toUpperCase() : "";
         });
     },
     methods: {
@@ -42,6 +44,14 @@ export let data = {
                 }
                 window.location.href = '#/' + url;
             }
+        },
+        userInfo() {
+            location.href = '#/OperationUserInfo';
+        },
+        exit() {
+            this.get('/admin-user/exit', function (res) {
+                location.reload();
+            });
         }
     }
 }
