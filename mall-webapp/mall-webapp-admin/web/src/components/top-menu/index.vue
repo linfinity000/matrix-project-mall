@@ -1,7 +1,10 @@
 <template>
     <div class="top-menu">
-        <el-menu :default-active="activeIndex" @select="handleSelect" active-text-color="#409eff"
-                 mode="horizontal" text-color="#000">
+        <el-menu :default-active="activeIndex" @select="handleSelect"
+                 active-text-color="#ffd04b"
+                 background-color="#545c64"
+                 mode="horizontal"
+                 text-color="#fff">
             <div class="outDiv">
                 <el-submenu index="avatar">
                     <template slot="title">
